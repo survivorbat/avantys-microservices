@@ -12,7 +12,7 @@ install:
   - ansible-galaxy install -r ansible/requirements.yml
 
 before_script:
-  - echo $pkey > travis_key
+  - echo $pkey | base64 --decode > travis_key
   - chmod 600 travis_key
   - eval "$(ssh-agent -s)"
   - ssh-add travis_key
