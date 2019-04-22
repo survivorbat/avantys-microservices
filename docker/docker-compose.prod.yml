@@ -5,6 +5,7 @@ services:
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
       - /etc/avantysuniversity.nl/nginx:/etc/nginx/temp
+      - /var/www/letsencrypt:/var/www/letsencrypt
     environment:
       - server_name=${server_name}
       - hsts_max_time=3000m
