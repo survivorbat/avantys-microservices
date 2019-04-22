@@ -14,6 +14,7 @@ install:
 before_script:
   - echo $pkey > ~/.ssh/id_rsa
   - chmod 600 ~/.ssh/id_rsa
+  - ssh-add
 
 script:
   - ANSIBLE_HOST_KEY_CHECKING=FALSE ansible-playbook -u root -i ansible/inventories/production ansible/site.yml -e docker_password=$docker_password -e docker_tag=build-$TRAVIS_BUILD_NUMBER
