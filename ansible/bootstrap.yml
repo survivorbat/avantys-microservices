@@ -112,7 +112,15 @@
         path: "{{ nginx_host_letsencrypt_live_folder }}/{{ inventory_hostname }}/fullchain.pem"
       register: stat_fullchain
 
-    - name: "Run certbot challenge at webroot {{ nginx_host_letsencrypt_acme_folder }}"
+    - name: "Ensure {{ nginx_host_letsencrypt_acme_folder }} exists"
+      file:
+        state: directory
+        path: "{{ nginx_host_letsencrypt_acme_folder }}"
+        owner: "{{ default_user }}"
+        group: "{{ default_group }}"
+        recurse: yes
+
+    - name: "Run certbot challenge {{ nginx_host_letsencrypt_acme_folder }}"
       command: "certbot certonly
           --agree-tos
           -m {{ nginx_host_letsencrypt_email }}
