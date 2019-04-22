@@ -12,11 +12,8 @@ install:
   - ansible-galaxy install -r ansible/requirements.yml
 
 before_script:
-  - echo -e $pkey > travis_key
-  - cat travis_key
-  - chmod 600 travis_key
-  - eval "$(ssh-agent -s)"
-  - ssh-add travis_key
+  - echo -e $pkey > ~/.ssh/id_rsa
+  - chmod 600 ~/.ssh/id_rsa
 
 script:
   - ANSIBLE_HOST_KEY_CHECKING=FALSE ansible-playbook -u root -i ansible/inventories/production ansible/site.yml -e docker_password=$docker_password -e docker_tag=build-$TRAVIS_BUILD_NUMBER
