@@ -1,0 +1,5 @@
+[Unit]
+Description=Certbot Renewal
+
+[Service]
+ExecStart=/usr/bin/certbot renew --webroot -w {{ nginx_host_letsencrypt_acme_folder }} --post-hook {{ nginx_host_letsencrypt_post_hook }}

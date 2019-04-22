@@ -121,6 +121,18 @@
           -n"
       when: stat_fullchain.stat.exists == False
 
+    - name: "Copy service and timer templates for service {{ nginx_host_letsencrypt_service_name }} to {{ nginx_host_letsencrypt_system_folder }}"
+        template:
+          src: "{{ item.src }}"
+          dest: "{{ item.dest }}"
+        with_items: "{{ nginx_host_letsencrypt_system_files }}"
+
+    - name: "Start and enable service {{ nginx_host_letsencrypt_service_name }}"
+      service:
+        name: "{{ nginx_host_letsencrypt_service_name }}"
+        state: started
+        enabled: yes
+
     - name: "Ensure dhparam.pem exists for host at {{ nginx_host_letsencrypt_live_folder }} with size {{ nginx_host_letsencrypt_dhparam_size }}"
       openssl_dhparam:
         path: "{{ nginx_host_letsencrypt_live_folder }}/{{ inventory_hostname }}/dhparam.pem"

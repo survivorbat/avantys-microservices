@@ -52,6 +52,13 @@ nginx_host_letsencrypt_dhparam_size: 2048
 nginx_host_letsencrypt_acme_folder: /var/www/letsencrypt
 nginx_host_letsencrypt_email: djbatcat@gmail.com
 nginx_host_letsencrypt_post_hook: 'docker restart $(docker ps -q --filter="name=nginx")'
+nginx_host_letsencrypt_system_folder: /etc/systemd/system
+nginx_host_letsencrypt_service_name: certbot-renewal.timer
+nginx_host_letsencrypt_system_files:
+  - src: "certbot-renewal.service.j2"
+    dest: "{{ nginx_host_letsencrypt_system_folder }}/certbot-renewal.service"
+  - src: "certbot-renewal.timer.j2"
+    dest: "{{ nginx_host_letsencrypt_system_folder }}/certbot-renewal.timer"
 
 docker_username: survivorbat
 docker_email: djbatcat@gmail.com
