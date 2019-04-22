@@ -1,0 +1,129 @@
+---
+- name: Install python for Ansible on remote host(s)
+  hosts: all
+  gather_facts: no
+  become: yes
+  tags: setup_python
+  tasks:
+    - name: "Make sure python 2 is installed"
+      raw: "sudo apt update && sudo apt -y install python"
+
+- name: Bootstrap server
+  hosts: all
+  become: yes
+  tags: setup_server
+
+  vars:
+    pip_install_packages:
+      - name: docker
+      - name: docker-compose
+      - name: pyopenssl
+    docker_install_compose: true
+    docker_compose_version: 1.17.1
+    docker_edition: 'ce'
+
+  roles:
+    - geerlingguy.pip
+    - geerlingguy.docker
+    - geerlingguy.certbot
+
+  tasks:
+    - name: "Ensure default groups are set up"
+      group:
+        name: "{{ item.name }}"
+        state: present
+        system: "{{ item.system }}"
+        gid: "{{ item.gid }}"
+      with_items: "{{ default_groups }}"
+
+    - name: "Ensure default users are set up"
+      user:
+        group: "{{ item.group  }}"
+        name: "{{ item.username }}"
+        groups: "{{ item.groups }}"
+        create_home: yes
+        shell: /bin/bash
+        uid: "{{ item.uid }}"
+      with_items: "{{ default_users }}"
+
+    - name: "Ensure that sudogroups have sudo permission"
+      lineinfile:
+        path: /etc/sudoers
+        regexp: '^%{{ item }}'
+        line: '%{{ item }} ALL=(ALL:ALL) NOPASSWD:ALL'
+        validate: 'visudo -cf %s'
+      with_items: "{{ default_sudo_groups }}"
+
+    - name: "Ensure public key(s) are in authorized_keys"
+      authorized_key:
+        user: "{{ item.username }}"
+        state: present
+        key: "{{ item.authorized_key }}"
+      with_items: "{{ default_users }}"
+
+    - name: "Ensure empty password login is disabled"
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "^#?PermitEmptyPasswords"
+        line: "PermitEmptyPasswords no"
+      notify: sshd_restart
+
+    - name: "Ensure password login is disabled"
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "^(#\\s*)?PasswordAuthentication "
+        line: "PasswordAuthentication no"
+      notify: sshd_restart
+
+    - name: "Ensure Pam is enabled"
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "^#?UsePAM"
+        line: "UsePAM yes"
+      notify: sshd_restart
+
+    - name: "Ensure {{ project_dir }} exists"
+      file:
+        state: directory
+        path: "{{ project_dir }}"
+        owner: "{{ default_user }}"
+        group: "{{ default_group }}"
+        recurse: yes
+
+    - name: "Ensure nginx config directories exist"
+      file:
+        state: directory
+        path: "{{ item }}"
+        owner: "{{ default_user }}"
+        group: "{{ default_group }}"
+        recurse: yes
+      with_items:
+        - "{{ nginx_host_config_directory }}"
+        - "{{ nginx_host_config_directory }}/conf.d"
+
+    - name: "Ensure logged in to Docker registry as {{ docker_username }}"
+      docker_login:
+        username: "{{ docker_username }}"
+        email: "{{ docker_email }}"
+        password: "{{ docker_password }}"
+
+    - name: "Register whether {{ nginx_host_letsencrypt_live_folder }} certificates for host exist"
+      stat:
+        path: "{{ nginx_host_letsencrypt_live_folder }}/{{ inventory_hostname }}/fullchain.pem"
+      register: stat_fullchain
+
+    - name: "Run certbot challenge at webroot {{ nginx_host_letsencrypt_acme_folder }}"
+      command: "certbot certonly
+          --agree-tos
+          -m {{ nginx_host_letsencrypt_email }}
+          -d {{ inventory_hostname }}
+          --standalone
+          -n"
+      when: stat_fullchain.stat.exists == False
+
+    - name: "Ensure dhparam.pem exists for host at {{ nginx_host_letsencrypt_live_folder }} with size {{ nginx_host_letsencrypt_dhparam_size }}"
+      openssl_dhparam:
+        path: "{{ nginx_host_letsencrypt_live_folder }}/{{ inventory_hostname }}/dhparam.pem"
+        owner: "{{ default_user }}"
+        group: "{{ default_group }}"
+        size: "{{ nginx_host_letsencrypt_dhparam_size }}"

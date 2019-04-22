@@ -7,7 +7,6 @@ services:
   nginx:
     environment:
       - server_name=avantysuniversity.nl
-      - cache_max_time=1m
       - hsts_max_time=0m
     volumes:
       - development_ssl:/etc/letsencrypt/live/avantysuniversity.nl

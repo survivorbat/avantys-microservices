@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  nginx:
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /etc/avantysuniversity.nl/nginx:/etc/nginx/temp
+    environment:
+      - server_name=${server_name}
+      - hsts_max_time=3000m

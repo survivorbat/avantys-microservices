@@ -1,0 +1,70 @@
+docker_images: []
+
+default_groups:
+  # First group is the default group
+  - name: "rungroup"
+    system: yes
+    gid: "20000"
+  - name: "developer"
+    system: no
+    gid: "9000"
+
+default_sudo_groups:
+  - developer
+
+default_users:
+  # First group is the default group
+  - username: "runuser"
+    group: "rungroup"
+    groups: ["docker"]
+    uid: "30000"
+    authorized_key: ~
+  - username: "developer"
+    group: "developer"
+    groups: ["docker"]
+    authorized_key: |
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCtjo3fxl3gpQkywnXSZTVzJIzTiy3q8HCmPiyKVXCEQjPSwGN0s0T/sxHS3QqWvmWC0Qo3LQ/39rDhrNJOn+NGdIP6edEVdW4kfegI2n6nIQ0EyAKuMtx59S7nCSqo4hX9zaL3NhlBiKIYPAPxSmC91EiXEdQfMtn/dTHkZ5zWvbpDF7QHxaRwjxtqZhjoxWFLShijKmtijo0Tn9iiEHfUsS/cw+cJWM784k9MaCPdkzN9xewi4smpOS83rModhrZawCIqDRCa9K46T2K5XMQpac4pKvGrLbTCDwc0HzLR84IturpqF0b3ojriLZ1jP18rGEN5GP1Ij0aL0rH/iUaT survivorbat@MaartenPC
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDCTv+EKsLUqwcRX1JxlLh/GxhyDLgeZox8faFC7FcyPcSGEQyHuuhPuQNDtpZghCBSlqF2oUrRIJVOi0GvsHXzEAo9fO2/CCG/2TGmZhxfrLuDqx7qx43mj9EAaKowG6xmmdjxbladAbHQWGVKo4vG753IGWjbMejU7Tkv4ylvYZRMJMubigF/gTWjjEtyEN7Mm89sZBOUlPTAZU+klL4VU2lYxvCILSQ4KDEqvDBVoSup+nA1VjXdwfVwSH04iYkGUax0C7OFZm9zqqyhpm56J4RmalRZEPDnr+6EomxXVhuMGGVZ3YUz67T1Qw6tVJbSLd6zc3wDPxOH+N4KieD1 jomam@DESKTOP-D8UC560
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDRXbY+wcMq0zSE6lF8xiL83cQk/7/Y4uV1AQ+9LlyV4F2hCUKXzXFXhNzpWFP0xWd4rtwgQ6zK188fOwl+YZHnfE/LswbSeNsjjbYm+z2ijMbrMMCcooY+hoVJI3tAx+7EUc8RKRs07hSGmmP8NhfuRghZw04nzui+fJkAE/Wd09Y1a+s5GucLbjJJEDJzuuvy/12Vow2QrGLNtbcr3N5SquZmp5nhHfua6NFQgVZ6jO17+2MqqcXObxFQzmWte7QKa1g6UoE/v1/WcOxmYkrYyMVtts7TKMXVWF/Kj+qOLnj9VIgWNHZ38hztb2nOiIQVrwz9bLx0UDZ29dm0zS5b maarten@MaartenPC
+    uid: "9000"
+
+default_user: "{{ default_users[0].username }}"
+default_group: "{{ default_groups[0].name }}"
+
+project_dir: /srv/app
+project_name: avantys
+project_dir_files:
+  - ../docker/docker-compose.yml
+  - ../docker/docker-compose.prod.yml
+  - ../Makefile
+
+nginx_host_config_directory: /etc/avantysuniversity.nl/nginx
+nginx_config_files:
+  - { src: ../docker/nginx/nginx.conf, dest: "{{ nginx_host_config_directory }}" }
+  - { src: ../docker/nginx/conf.d/0001_ssl.conf, dest: "{{ nginx_host_config_directory }}/conf.d" }
+  - { src: ../docker/nginx/conf.d/0002_upstreams.conf, dest: "{{ nginx_host_config_directory }}/conf.d" }
+  - { src: ../docker/nginx/conf.d/0003_default_http.conf, dest: "{{ nginx_host_config_directory }}/conf.d" }
+  - { src: ../docker/nginx/conf.d/0004_avantysuniversity.nl.conf, dest: "{{ nginx_host_config_directory }}/conf.d" }
+
+nginx_host_letsencrypt_live_folder: /etc/letsencrypt/live
+nginx_host_letsencrypt_dhparam_size: 2048
+nginx_host_letsencrypt_acme_folder: /var/www/letsencrypt
+nginx_host_letsencrypt_email: djbatcat@gmail.com
+nginx_host_letsencrypt_post_hook: 'docker restart $(docker ps -q --filter="name=nginx")'
+
+docker_username: survivorbat
+docker_email: djbatcat@gmail.com
+docker_password: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  32343232376334653839323835396636626666383965363031323061316363653762353337653137
+  6464626165343935316437643265313162323865643830660a616435323138393130636134363633
+  36383533626161313561626234363530353763316664313365376436363539326536373734656461
+  3765663162353031310a626130653065663939353538306137666163616561373061666235663030
+  30336664623364646632353631313532643263313439393061616361643666633065643134303266
+  30356233646262616338663838303630653266653032393365373336323262323739646231333964
+  65616533653666353238613037356535633539663634643833376132613963633635366436333365
+  38623632656335336136353363616537653330396139616235343737363061643662353165303038
+  6239
+
+docker_tag: latest
+add_latest_tag: yes

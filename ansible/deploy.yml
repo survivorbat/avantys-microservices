@@ -1,0 +1,43 @@
+---
+- name: Deploy to server
+  hosts: all
+  become: yes
+  tags: server_deploy
+  tasks:
+    - name: "Remove old configuration in {{ nginx_host_config_directory }}"
+      file:
+        path: "{{ item }}/*.conf"
+        state: absent
+      with_items:
+        - "{{ nginx_host_config_directory }}"
+        - "{{ nginx_host_config_directory }}/conf.d"
+
+    - name: "Copy new nginx configuration to {{ nginx_host_config_directory }}"
+      copy:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: "{{ default_user }}"
+        group: "{{ default_group }}"
+        force: yes
+      with_items: "{{ nginx_config_files }}"
+
+    - name: "Copy selected project files to {{ project_dir }}"
+      copy:
+        src: "{{ item }}"
+        dest: "{{ project_dir }}/"
+        owner: "{{ default_user }}"
+        group: "{{ default_group }}"
+        force: yes
+      with_items: "{{ project_dir_files }}"
+
+    - name: "Restart Docker containers from {{ project_name }} with files in {{ project_dir }} with tag {{ docker_tag }}"
+      environment:
+        server_name: "{{ inventory_hostname }}"
+      docker_service:
+        state: present
+        restarted: yes
+        project_name: "{{ project_name }}"
+        project_src: "{{ project_dir }}"
+        files:
+          - "docker-compose.yml"
+          - "docker-compose.prod.yml"
