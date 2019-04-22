@@ -20,3 +20,6 @@ script:
 addons:
   ssh_knows_hosts:
     - 165.22.146.95
+
+services:
+  - docker
