@@ -9,9 +9,13 @@ branches:
 
 install:
   - pip install ansible
+  - ansible-galaxy install -r ansible/requirements.yml
+
+before_script:
+  - echo $pkey > ~/.ssh/id_rsa
 
 script:
-  - ansible-playbook -u root -i ansible/inventories/production --private-key $pkey ansible/site.yml -e docker_password=$docker_password
+  - ansible-playbook -u root -i ansible/inventories/production ansible/site.yml -e docker_password=$docker_password
 
 addons:
   ssh_knows_hosts:
