@@ -15,12 +15,8 @@ before_script:
   - echo $pkey > ~/.ssh/id_rsa
 
 script:
-  - ansible-playbook -u root -i ansible/inventories/production ansible/site.yml -e docker_password=$docker_password
+  - ANSIBLE_HOST_KEY_CHECKING=FALSE ansible-playbook -u root -i ansible/inventories/production ansible/site.yml -e docker_password=$docker_password -e docker_tag=build-$TRAVIS_BUILD_NUMBER
 
-addons:
-  ssh_knows_hosts:
-    - 165.22.146.95
-    - avantysuniversity.nl
 
 services:
   - docker
