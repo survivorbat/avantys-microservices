@@ -130,10 +130,10 @@
       when: stat_fullchain.stat.exists == False
 
     - name: "Copy service and timer templates for service {{ nginx_host_letsencrypt_service_name }} to {{ nginx_host_letsencrypt_system_folder }}"
-        template:
-          src: "{{ item.src }}"
-          dest: "{{ item.dest }}"
-        with_items: "{{ nginx_host_letsencrypt_system_files }}"
+      template:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+      with_items: "{{ nginx_host_letsencrypt_system_files }}"
 
     - name: "Start and enable service {{ nginx_host_letsencrypt_service_name }}"
       service:
