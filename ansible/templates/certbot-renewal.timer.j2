@@ -1,5 +1,9 @@
 [Unit]
-Description=Certbot Renewal
+Description=Timer for Certbot Renewal
 
-[Service]
-ExecStart=/usr/bin/certbot renew --webroot -w "{{ nginx_host_letsencrypt_acme_folder }}" --post-hook "{{ nginx_host_letsencrypt_post_hook }}"
+[Timer]
+OnBootSec=300
+OnUnitActiveSec=1w
+
+[Install]
+WantedBy=multi-user.target
