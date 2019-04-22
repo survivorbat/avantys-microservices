@@ -133,6 +133,9 @@
       template:
         src: "{{ item.src }}"
         dest: "{{ item.dest }}"
+        mode: 0644
+        owner: root
+        group: root
       with_items: "{{ nginx_host_letsencrypt_system_files }}"
 
     - name: "Start and enable service {{ nginx_host_letsencrypt_service_name }}"
