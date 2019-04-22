@@ -1,0 +1,19 @@
+version: '3.4'
+
+volumes:
+  development_ssl: ~
+
+services:
+  nginx:
+    environment:
+      - server_name=avantysuniversity.nl
+      - cache_max_time=1m
+      - hsts_max_time=0m
+    volumes:
+      - development_ssl:/etc/letsencrypt/live/avantysuniversity.nl
+      - ./nginx:/etc/nginx/temp
+  ssl:
+    build:
+      context: ssl-dev
+    volumes:
+      - development_ssl:/ssl
