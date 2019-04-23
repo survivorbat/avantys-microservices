@@ -44,7 +44,6 @@ namespace webapi
 
             services.AddSwaggerGen(c =>
             {
-                
                 c.SwaggerDoc("v1", new OpenApiInfo {
                     Title = "Avantys API",
                     Version = "v1",
