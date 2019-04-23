@@ -1,6 +1,14 @@
 #!/bin/sh
 
 : ${ENV_SECRETS_DIR:=/run/secrets}
+: ${ENV_SECRETS_DEBUG:=false}
+
+env_secret_debug()
+{
+    if [ ! -z "$ENV_SECRETS_DEBUG" ]; then
+        echo -e "\033[1m$@\033[0m"
+    fi
+}
 
 # usage: env_secret_expand VAR
 #    ie: env_secret_expand 'XYZ_DB_PASSWORD'
