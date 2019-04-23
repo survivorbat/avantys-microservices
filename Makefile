@@ -21,4 +21,4 @@ dev.restart: ## Restart containers in development mode
 	docker-compose -f docker/docker-compose.yml -f docker/docker-compose.dev.yml -p avantys restart
 
 dev.build: ## Build containers
-	docker-compose -f docker/docker-compose.yml -f docker/docker-compose.dev.yml -p avantys build --no-cache
+	docker-compose -f docker/docker-compose.yml -f docker/docker-compose.dev.yml -p avantys build

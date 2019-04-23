@@ -14,7 +14,7 @@ services:
   webapi:
     build:
       context: ../
-      dockerfile: docker/webapi/Dockerfile            
+      dockerfile: docker/webapi/Dockerfile
   ssl:
     build:
       context: ssl-dev
