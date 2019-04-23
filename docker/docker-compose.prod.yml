@@ -10,4 +10,4 @@ services:
       - server_name=${server_name}
       - hsts_max_time=3000000
   webapi:
-    image: "avantys/webapi:${DOCKER_TAG}"
+    image: "avantys/webapi:${docker_tag}"

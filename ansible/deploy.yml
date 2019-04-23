@@ -33,6 +33,7 @@
     - name: "Restart Docker containers from {{ project_name }} with files in {{ project_dir }} with tag {{ docker_tag }}"
       environment:
         server_name: "{{ inventory_hostname }}"
+        docker_tag: "{{ docker_tag }}"
       docker_service:
         state: present
         restarted: yes
