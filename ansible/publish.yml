@@ -9,7 +9,6 @@
         dockerfile: "{{ item.dockerfile }}"
         name: "{{ item.name }}"
         tag: "{{ docker_tag }}"
-        buildargs: "{{ item.buildargs }}"
       with_items: "{{ docker_images }}"
       tags: build_images
 

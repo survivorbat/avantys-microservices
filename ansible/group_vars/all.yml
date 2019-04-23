@@ -2,7 +2,6 @@ docker_images:
   - dockerfile: docker/webapi/Dockerfile
     path: ../
     name: avantys/webapi
-    buildargs:
 
 default_groups:
   # First group is the default group
