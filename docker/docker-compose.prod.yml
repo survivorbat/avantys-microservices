@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.5'
 
 services:
   nginx:
@@ -14,9 +14,21 @@ services:
     image: "avantys/webapi:${docker_tag}"
     environment:
       - RABBITMQ_USER=avantys
-      - RABBITMQ_PASS=${rabbit_mq_password}
+      - RABBITMQ_PASS=<<SECRET>>
+    secrets:
+      - RABBIT_MQ_PASSWORD
+    command: ["/bin/sh", "-c", "for f in $$(find /run/secrets -type f -printf \"%f\n\"); do export $$f=$$(cat /run/secrets/$$f); done
+      && dotnet webapi.dll"]
 
   main-broker:
     environment:
       - RABBITMQ_DEFAULT_USER=avantys
-      - RABBITMQ_DEFAULT_PASS=${rabbit_mq_password}
+      - RABBITMQ_DEFAULT_PASS=<<SECRET>>
+    secrets:
+      - RABBIT_MQ_PASSWORD
+    command: ["/bin/sh", "-c", "for f in $$(find /run/secrets -type f -printf \"%f\n\"); do export $$f=$$(cat /run/secrets/$$f); done
+      && rabbitmq-start"]
+
+secrets:
+  RABBIT_MQ_PASSWORD:
+    file: ${secrets_folder}/RABBIT_MQ_PASSWORD

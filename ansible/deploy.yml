@@ -30,11 +30,28 @@
         force: yes
       with_items: "{{ project_dir_files }}"
 
+    - name: "Ensure {{ docker_secrets_directory }} folder exists"
+      file:
+        state: directory
+        path: "{{ docker_secrets_directory }}"
+        owner: "{{ default_user }}"
+        group: "{{ default_group }}"
+        mode: '500'
+
+    - name: "Ensure vault secrets are in secret folder"
+      copy:
+        dest: "{{ docker_secrets_directory }}/{{ item }}"
+        content: "{{ docker_secrets[item] }}"
+        owner: "{{ default_user }}"
+        group: "{{ default_group }}"
+        mode: '500'
+      with_items: "{{ docker_secrets.keys() }}"
+
     - name: "Restart Docker containers from {{ project_name }} with files in {{ project_dir }} with tag {{ docker_tag }}"
       environment:
         server_name: "{{ inventory_hostname }}"
         docker_tag: "{{ docker_tag }}"
-        rabbit_mq_password: "{{ rabbit_mq_password }}"
+        secrets_folder: "{{ docker_secrets_directory }}"
       docker_service:
         state: present
         restarted: yes

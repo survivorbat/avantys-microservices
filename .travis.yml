@@ -14,8 +14,8 @@ before_script:
 
 script:
   - if [ $TRAVIS_BRANCH != "master" ]; then ansible-playbook -u root -i ansible/inventories/development ansible/site.yml --tags=build_images -e docker_tag=unstable-$TRAVIS_COMMIT; fi
-  - if [ $TRAVIS_BRANCH == "develop" ]; then ansible-playbook -u root -i ansible/inventories/development ansible/site.yml --tags=build_images,publish_images --vault-password-file=../.vault-password -e docker_tag=unstable-$TRAVIS_COMMIT; fi
-  - if [ $TRAVIS_BRANCH == "master" ]; then ansible-playbook -u root -i ansible/inventories/production ansible/site.yml --skip-tags=setup_python,setup_server --vault-password-file=../.vault-password -e docker_tag=unstable-$TRAVIS_BUILD_NUMBER; fi
+  - if [ $TRAVIS_BRANCH == "develop" ]; then ansible-playbook -u root -i ansible/inventories/test ansible/site.yml --vault-password-file=../.vault-password -e docker_tag=unstable-$TRAVIS_COMMIT; fi
+  - if [ $TRAVIS_BRANCH == "master" ]; then ansible-playbook -u root -i ansible/inventories/production ansible/site.yml --vault-password-file=../.vault-password -e docker_tag=unstable-$TRAVIS_BUILD_NUMBER; fi
 
 services:
   - docker
