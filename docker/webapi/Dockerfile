@@ -14,4 +14,4 @@ WORKDIR /app
 COPY --from=build /app/out ./
 COPY docker/expand-secrets.sh /
 
-CMD ["/bin/sh", "-c", "source /expand-secrets.sh && dotnet webapi.dll"]
+CMD ["/bin/sh", "-c", "/expand-secrets.sh && dotnet webapi.dll"]
