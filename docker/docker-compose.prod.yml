@@ -14,20 +14,16 @@ services:
     image: "avantys/webapi:${docker_tag}"
     environment:
       - RABBITMQ_USER=avantys
-      - RABBITMQ_PASS=<<SECRET>>
+      - RABBITMQ_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
     secrets:
       - RABBIT_MQ_PASSWORD
-    command: ["/bin/sh", "-c", "for f in $$(find /run/secrets -type f -printf \"%f\n\"); do export $$f=$$(cat /run/secrets/$$f); done
-      && dotnet webapi.dll"]
 
   main-broker:
     environment:
       - RABBITMQ_DEFAULT_USER=avantys
-      - RABBITMQ_DEFAULT_PASS=<<SECRET>>
+      - RABBITMQ_DEFAULT_PASS_FILE=/run/secrets/RABBIT_MQ_PASSWORD
     secrets:
       - RABBIT_MQ_PASSWORD
-    command: ["/bin/sh", "-c", "for f in $$(find /run/secrets -type f -printf \"%f\n\"); do export $$f=$$(cat /run/secrets/$$f); done
-      && rabbitmq-start"]
 
 secrets:
   RABBIT_MQ_PASSWORD:
