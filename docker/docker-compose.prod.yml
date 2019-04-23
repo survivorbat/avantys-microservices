@@ -8,4 +8,6 @@ services:
       - /var/www/letsencrypt:/var/www/letsencrypt
     environment:
       - server_name=${server_name}
-      - hsts_max_time=3000m
+      - hsts_max_time=3000000
+  webapi:
+    image: "avantys/webapi:${DOCKER_TAG}"

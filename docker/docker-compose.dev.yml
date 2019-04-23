@@ -11,6 +11,10 @@ services:
     volumes:
       - development_ssl:/etc/letsencrypt/live/avantysuniversity.nl
       - ./nginx:/etc/nginx/temp
+  webapi:
+    build:
+      context: ../
+      dockerfile: docker/webapi/Dockerfile            
   ssl:
     build:
       context: ssl-dev
