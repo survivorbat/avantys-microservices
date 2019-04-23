@@ -9,5 +9,14 @@ services:
     environment:
       - server_name=${server_name}
       - hsts_max_time=3000000
+
   webapi:
     image: "avantys/webapi:${docker_tag}"
+    environment:
+      - RABBITMQ_USER=avantys
+      - RABBITMQ_PASS=${rabbit_mq_password}
+
+  main-broker:
+    environment:
+      - RABBITMQ_DEFAULT_USER=avantys
+      - RABBITMQ_DEFAULT_PASS=${rabbit_mq_password}

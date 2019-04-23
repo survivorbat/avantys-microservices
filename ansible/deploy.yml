@@ -34,6 +34,7 @@
       environment:
         server_name: "{{ inventory_hostname }}"
         docker_tag: "{{ docker_tag }}"
+        rabbit_mq_password: "{{ rabbit_mq_password }}"
       docker_service:
         state: present
         restarted: yes

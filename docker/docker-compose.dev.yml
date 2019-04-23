@@ -11,10 +11,20 @@ services:
     volumes:
       - development_ssl:/etc/letsencrypt/live/avantysuniversity.nl
       - ./nginx:/etc/nginx/temp
+
   webapi:
     build:
       context: ../
       dockerfile: docker/webapi/Dockerfile
+    environment:
+      - RABBITMQ_USER=avantys
+      - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
+
+  main-broker:
+    environment:
+      - RABBITMQ_DEFAULT_USER=avantys
+      - RABBITMQ_DEFAULT_PASS=c8ggRaQUwtBBiC6nW
+
   ssl:
     build:
       context: ssl-dev

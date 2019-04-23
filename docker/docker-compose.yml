@@ -2,6 +2,7 @@ version: '3.4'
 
 networks:
   nginx: ~
+  broker: ~
 
 services:
   nginx:
@@ -16,10 +17,18 @@ services:
       && rm -rfv /etc/nginx/conf.d/*
       && for i in $$(find /etc/nginx/temp/ | grep -F .conf); do awk '{while(match($$0,\"[$$]{[^}]*}\")) {var=substr($$0,RSTART+2,RLENGTH -3);gsub(\"[$$]{\"var\"}\",ENVIRON[var])}}1' < \"$$i\" > $$(echo $${i/temp//}); done
       && nginx -g 'daemon off;'"]
+
   webapi:
     restart: always
     networks:
      - nginx
+     - broker
     expose:
      - 5000
+
+  main-broker:
+    image: rabbitmq:3.7.14-alpine
+    networks:
+      - broker
+    hostname: main-broker
 
