@@ -12,4 +12,6 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS runtime
 WORKDIR /app
 COPY --from=build /app/out ./
-CMD ["/bin/sh", "-c", "dotnet webapi.dll"]
+COPY docker/expand-secrets.sh /
+
+CMD ["/bin/sh", "-c", "source /expand-secrets.sh && dotnet webapi.dll"]
