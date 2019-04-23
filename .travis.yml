@@ -16,7 +16,7 @@ before_script:
   - chmod 600 ~/.ssh/id_rsa
 
 script:
-  - ANSIBLE_HOST_KEY_CHECKING=FALSE ansible-playbook -u root -i ansible/inventories/production ansible/site.yml -e docker_password=$docker_password -e docker_tag=build-$TRAVIS_BUILD_NUMBER
+  - ANSIBLE_HOST_KEY_CHECKING=FALSE ansible-playbook -u root -i ansible/inventories/production ansible/site.yml -e docker_password=$docker_password --skip-tags=setup_python,setup_server -e docker_tag=build-$TRAVIS_BUILD_NUMBER
 
 services:
   - docker
