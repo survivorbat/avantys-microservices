@@ -8,6 +8,7 @@ namespace webapi.Controllers
 {
     [Route("/")]
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class HomeController : ControllerBase
     {
         [HttpGet]
