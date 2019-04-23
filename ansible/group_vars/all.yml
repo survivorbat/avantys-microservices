@@ -1,4 +1,7 @@
-docker_images: []
+docker_images:
+  - dockerfile: docker/webapi/Dockerfile
+    path: ../
+    name: avantys/webapi
 
 default_groups:
   # First group is the default group
