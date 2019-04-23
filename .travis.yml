@@ -3,10 +3,6 @@ language: python
 python:
   - "2.7"
 
-branches:
-  only:
-    - master
-
 install:
   - pip install ansible docker
   - ansible-galaxy install -r ansible/requirements.yml
@@ -14,9 +10,12 @@ install:
 before_script:
   - echo -e $pkey > ~/.ssh/id_rsa
   - chmod 600 ~/.ssh/id_rsa
+  - echo -e $vault-password > ../.vault-password
 
 script:
-  - ANSIBLE_HOST_KEY_CHECKING=FALSE ansible-playbook -u root -i ansible/inventories/production ansible/site.yml -e docker_password=$docker_password --skip-tags=setup_python,setup_server -e docker_tag=build-$TRAVIS_BUILD_NUMBER
+  - if [ $TRAVIS_BRANCH != "master" ]; then ansible-playbook -u root -i ansible/inventories/development ansible/site.yml --tags=build_images -e docker_tag=unstable-$TRAVIS_COMMIT; fi
+  - if [ $TRAVIS_BRANCH == "develop" ]; then ansible-playbook -u root -i ansible/inventories/development ansible/site.yml --tags=build_images,publish_images --vault-password-file=../.vault-password -e docker_tag=unstable-$TRAVIS_COMMIT; fi
+  - if [ $TRAVIS_BRANCH == "master" ]; then ansible-playbook -u root -i ansible/inventories/production ansible/site.yml --skip-tags=setup_python,setup_server --vault-password-file=../.vault-password -e docker_tag=unstable-$TRAVIS_BUILD_NUMBER; fi
 
 services:
   - docker
