@@ -1,7 +1,6 @@
 #!/bin/sh
 
 : ${ENV_SECRETS_DIR:=/run/secrets}
-: ${ENV_SECRETS_DEBUG:=false}
 
 env_secret_debug()
 {
