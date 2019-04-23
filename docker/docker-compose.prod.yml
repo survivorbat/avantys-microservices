@@ -17,8 +17,6 @@ services:
       - RABBITMQ_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
     secrets:
       - RABBIT_MQ_PASSWORD
-    command: ["/bin/sh", "-c", "for f in $$(find /run/secrets -type f -printf \"%f\n\"); do export $$f=$$(cat /run/secrets/$$f); done
-      && dotnet webapi.dll"]
 
   main-broker:
     environment:
