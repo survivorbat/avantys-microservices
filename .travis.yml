@@ -10,7 +10,7 @@ install:
 before_script:
   - echo -e $pkey > ~/.ssh/id_rsa
   - chmod 600 ~/.ssh/id_rsa
-  - echo -e $vault-password > ../.vault-password
+  - echo -e $vaultpassword > ../.vault-password
 
 script:
   - if [ $TRAVIS_BRANCH != "master" ]; then ansible-playbook -u root -i ansible/inventories/development ansible/site.yml --tags=build_images -e docker_tag=unstable-$TRAVIS_COMMIT; fi
