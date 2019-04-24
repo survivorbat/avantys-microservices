@@ -22,3 +22,6 @@ dev.restart: ## Restart containers in development mode
 
 dev.build: ## Build containers
 	docker-compose -f docker/docker-compose.yml -f docker/docker-compose.dev.yml -p avantys build
+
+dev.expose.secrets: ## Expose secrets and export to a file in development
+	ansible-playbook ansible/expand-secrets-dev.yml --vault-password-file=../.avantys-vault-password

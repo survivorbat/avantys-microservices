@@ -30,3 +30,7 @@ services:
       context: ssl-dev
     volumes:
       - development_ssl:/ssl
+
+secrets:
+  #EXAMPLE_PRIVATE_KEY:
+  #  file: ....//.avantys-vault/EXAMPLE_PRIVATE_KEY
