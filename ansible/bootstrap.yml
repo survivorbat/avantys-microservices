@@ -19,7 +19,6 @@
       - name: docker-compose
       - name: pyopenssl
     docker_install_compose: true
-    docker_compose_version: 1.17.1
     docker_edition: 'ce'
 
     firewall_allowed_tcp_ports:
