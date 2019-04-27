@@ -22,7 +22,13 @@
     docker_compose_version: 1.17.1
     docker_edition: 'ce'
 
+    firewall_forwarded_tcp_ports:
+      - { src: "22", dest: "22" }
+      - { src: "80", dest: "80" }
+      - { src: "443", dest: "443" }
+
   roles:
+    - geerlingguy.firewall
     - geerlingguy.pip
     - geerlingguy.docker
     - geerlingguy.certbot
