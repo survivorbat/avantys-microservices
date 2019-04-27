@@ -4,13 +4,20 @@
   become: yes
   tags: server_deploy
   tasks:
+    - name: "Find old configuration in {{ nginx_host_config_directory }}"
+      find:
+        paths: "{{ nginx_host_config_directory }}/"
+        recurse: yes
+        file_type: file
+        patterns: '.*\.conf'
+        use_regex: yes
+      register: nginx_old_config
+
     - name: "Remove old configuration in {{ nginx_host_config_directory }}"
       file:
-        path: "{{ item }}/*.conf"
+        path: "{{ item }}"
         state: absent
-      with_items:
-        - "{{ nginx_host_config_directory }}"
-        - "{{ nginx_host_config_directory }}/conf.d"
+      with_items: "{{ nginx_old_config.files | map(attribute='path') | list }}"
 
     - name: "Copy new nginx configuration to {{ nginx_host_config_directory }}"
       copy:
