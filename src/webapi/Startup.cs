@@ -24,13 +24,6 @@ namespace webapi
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                DefaultValueHandling = DefaultValueHandling.Ignore,
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                NullValueHandling = NullValueHandling.Ignore
-            };
         }
 
         public IConfiguration Configuration { get; }
@@ -38,21 +31,15 @@ namespace webapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc();
             
             services.AddCors();
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {
-                    Title = "Avantys API",
-                    Version = "v1",
-                    Description = "The API of the Avantys",
-                    Contact = new OpenApiContact
-                    {
-                        Email = "contact@avantys.nl",
-                        Name = "Avantys University",
-                    },
+                    Title = "Avantys Services Interface (ASI)",
+                    Description = "This page serves as the entrypoint to the rest of our services. Feel free to navigate to the URLs in order to get in touch with a backend microservice.",
                 });
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -69,13 +56,11 @@ namespace webapi
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseStaticFiles();
-
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Avantys API");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Avantys Services Interface");
                 c.RoutePrefix = "";
             });
 
