@@ -25,6 +25,17 @@ services:
     secrets:
       - RABBIT_MQ_PASSWORD
 
+  guiding_students:
+    image: node:11.15.0-alpine # TEMPONARY
+  recruiting:
+    image: node:11.15.0-alpine # TEMPONARY
+  scheduling:
+    image: node:11.15.0-alpine # TEMPONARY
+  student_administration:
+    image: node:11.15.0-alpine # TEMPONARY
+  student_portal:
+    image: node:11.15.0-alpine # TEMPONARY
+
 secrets:
   RABBIT_MQ_PASSWORD:
     file: ${secrets_folder}/RABBIT_MQ_PASSWORD
