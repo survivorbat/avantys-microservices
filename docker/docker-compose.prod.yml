@@ -46,14 +46,14 @@ services:
       - MONGODB_USERNAME=avantys
       - MONGODB_PASSWORD=<<DOCKER-SECRET:RECRUITING_DB_PASSWORD>>
     secrets:
-      - STUDENT_RECRUITING_DB_PASSWORD
+      - RECRUITING_DB_PASSWORD
   recruiting_db:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/RECRUITING_DB_PASSWORD
       - MONGO_INITDB_DATABASE=avantys
     secrets:
-      - STUDENT_RECRUITING_DB_PASSWORD
+      - RECRUITING_DB_PASSWORD
 
   scheduling:
     image: avantys/scheduling:${docker_tag}
