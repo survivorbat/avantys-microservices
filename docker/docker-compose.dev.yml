@@ -38,9 +38,18 @@ services:
       - 3000:3000
     command: ["/bin/sh", "-c", "npm install && node index.js"]
     working_dir: /app
+    environment:
+      - MONGODB_USERNAME=avantys
+      - MONGODB_PASSWORD=avantys123
     build:
       context: ../
       dockerfile: docker/guiding_students/Dockerfile
+
+  guiding_students_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_ROOT_PASSWORD=avantys123
+      - MONGO_INITDB_DATABASE=avantys
 
   recruiting:
     volumes:
@@ -49,9 +58,18 @@ services:
       - 3001:3000
     command: ["/bin/sh", "-c", "npm install && node index.js"]
     working_dir: /app
+    environment:
+      - MONGODB_USERNAME=avantys
+      - MONGODB_PASSWORD=avantys123
     build:
       context: ../
       dockerfile: docker/recruiting/Dockerfile
+
+  recruiting_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_ROOT_PASSWORD=avantys123
+      - MONGO_INITDB_DATABASE=avantys
 
   scheduling:
     volumes:
@@ -60,9 +78,18 @@ services:
       - 3002:3000
     command: ["/bin/sh", "-c", "npm install && node index.js"]
     working_dir: /app
+    environment:
+      - MONGODB_USERNAME=avantys
+      - MONGODB_PASSWORD=avantys123
     build:
       context: ../
       dockerfile: docker/scheduling/Dockerfile
+
+  scheduling_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_ROOT_PASSWORD=avantys123
+      - MONGO_INITDB_DATABASE=avantys
 
   student_administration:
     volumes:
@@ -71,9 +98,18 @@ services:
       - 3003:3000
     command: ["/bin/sh", "-c", "npm install && node index.js"]
     working_dir: /app
+    environment:
+      - MONGODB_USERNAME=avantys
+      - MONGODB_PASSWORD=avantys123
     build:
       context: ../
       dockerfile: docker/student_administration/Dockerfile
+
+  student_administration_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_ROOT_PASSWORD=avantys123
+      - MONGO_INITDB_DATABASE=avantys
 
   student_portal:
     volumes:
@@ -82,9 +118,18 @@ services:
       - 3004:3000
     command: ["/bin/sh", "-c", "npm install && node index.js"]
     working_dir: /app
+    environment:
+      - MONGODB_USERNAME=avantys
+      - MONGODB_PASSWORD=avantys123
     build:
       context: ../
       dockerfile: docker/student_portal/Dockerfile
+
+  student_portal_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_ROOT_PASSWORD=avantys123
+      - MONGO_INITDB_DATABASE=avantys
 
   evaluating_students:
     volumes:
@@ -93,10 +138,16 @@ services:
       - 3005:3000
     command: ["/bin/sh", "-c", "npm install && node index.js"]
     working_dir: /app
+    environment:
+      - MONGODB_USERNAME=avantys
+      - MONGODB_PASSWORD=avantys123
     build:
       context: ../
       dockerfile: docker/evaluating_students/Dockerfile
+  
+  evaluating_students_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_ROOT_PASSWORD=avantys123
+      - MONGO_INITDB_DATABASE=avantys
 
-#secrets:
-  #EXAMPLE_PRIVATE_KEY:
-  #  file: ....//.avantys-vault/EXAMPLE_PRIVATE_KEY
