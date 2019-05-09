@@ -127,6 +127,6 @@ secrets:
   SCHEDULING_DB_PASSWORD:
     file: ${secrets_folder}/SCHEDULING_DB_PASSWORD
   RECRUITING_DB_PASSWORD:
-    file: ${secrets_folder|/RECRUITING_DB_PASSWORD
+    file: ${secrets_folder}/RECRUITING_DB_PASSWORD
   GUIDING_STUDENTS_DB_PASSWORD:
     FILE: ${secrets_folder}/GUIDING_STUDENTS_DB_PASSWORD
