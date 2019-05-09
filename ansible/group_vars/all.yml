@@ -54,7 +54,6 @@ default_users:
     uid: "9000"
 
 default_user: "{{ default_users[0].username }}"
-default_user_id: "{{ default_users[0].uid }}"
 default_group: "{{ default_groups[0].name }}"
 
 project_dir: /srv/app
