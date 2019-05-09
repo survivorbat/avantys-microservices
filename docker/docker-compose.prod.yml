@@ -27,17 +27,67 @@ services:
 
   guiding_students:
     image: avantys/guiding_students:${docker_tag}
+  guiding_students_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/GUIDING_STUDENTS_DB_PASSWORD
+      - MONGO_INITDB_DATABASE=avantys
+
   recruiting:
     image: avantys/recruiting:${docker_tag}
+  recruiting_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/RECRUITING_DB_PASSWORD
+      - MONGO_INITDB_DATABASE=avantys
+
   scheduling:
     image: avantys/scheduling:${docker_tag}
+  scheduling_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/SCHEDULING_DB_PASSWORD
+      - MONGO_INITDB_DATABASE=avantys
+
   student_administration:
     image: avantys/student_administration:${docker_tag}
+  student_administration_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/STUDENT_ADMINISTRATION_DB_PASSWORD
+      - MONGO_INITDB_DATABASE=avantys
+
   student_portal:
     image: avantys/student_portal:${docker_tag}
+  student_portal_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/STUDENT_PORTAL_DB_PASSWORD
+      - MONGO_INITDB_DATABASE=avantys
+
   evaluating_students:
     image: avantys/evaluating_students:${docker_tag}
+    environment:
+      - MONGODB_USERNAME=avantys
+      - MONGODB_PASSWORD=<<DOCKER-SECRET:EVALUATING_STUDENTS_DB_PASSWORD>>
+    secrets:
+      - EVALUATING_STUDENTS_DB_PASSWORD
+  evaluating_students_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/EVALUATING_STUDENTS_DB_PASSWORD
+      - MONGO_INITDB_DATABASE=avantys
 
 secrets:
   RABBIT_MQ_PASSWORD:
     file: ${secrets_folder}/RABBIT_MQ_PASSWORD
+  EVALUATING_STUDENTS_DB_PASSWORD:
+    file: ${secrets_folder}/EVALUATING_STUDENTS_DB_PASSWORD
+  STUDENT_PORTAL_DB_PASSWORD:
+    file: ${secrets_folder}/STUDENT_PORTAL_DB_PASSWORD
+  STUDENT_ADMINISTRATION_DB_PASSWORD:
+    file: ${secrets_folder}/STUDENT_ADMINISTRATION_DB_PASSWORD
+  SCHEDULING_DB_PASSWORD:
+    file: ${secrets_folder}/SCHEDULING_DB_PASSWORD
+  RECRUITING_DB_PASSWORD:
+    file: ${secrets_folder|/RECRUITING_DB_PASSWORD

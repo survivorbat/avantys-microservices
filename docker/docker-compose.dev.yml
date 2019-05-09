@@ -42,6 +42,12 @@ services:
       context: ../
       dockerfile: docker/guiding_students/Dockerfile
 
+  guiding_students_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_ROOT_PASSWORD=avantys123
+      - MONGO_INITDB_DATABASE=avantys
+
   recruiting:
     volumes:
       - ../recruiting:/app
@@ -52,6 +58,12 @@ services:
     build:
       context: ../
       dockerfile: docker/recruiting/Dockerfile
+
+  recruiting_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_ROOT_PASSWORD=avantys123
+      - MONGO_INITDB_DATABASE=avantys
 
   scheduling:
     volumes:
@@ -64,6 +76,12 @@ services:
       context: ../
       dockerfile: docker/scheduling/Dockerfile
 
+  scheduling_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_ROOT_PASSWORD=avantys123
+      - MONGO_INITDB_DATABASE=avantys
+
   student_administration:
     volumes:
       - ../student_administration:/app
@@ -74,6 +92,12 @@ services:
     build:
       context: ../
       dockerfile: docker/student_administration/Dockerfile
+
+  student_administration_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_ROOT_PASSWORD=avantys123
+      - MONGO_INITDB_DATABASE=avantys
 
   student_portal:
     volumes:
@@ -86,6 +110,12 @@ services:
       context: ../
       dockerfile: docker/student_portal/Dockerfile
 
+  student_portal_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_ROOT_PASSWORD=avantys123
+      - MONGO_INITDB_DATABASE=avantys
+
   evaluating_students:
     volumes:
       - ../evaluating_students:/app
@@ -96,6 +126,13 @@ services:
     build:
       context: ../
       dockerfile: docker/evaluating_students/Dockerfile
+  
+  evaluating_students_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_ROOT_PASSWORD=avantys123
+      - MONGO_INITDB_DATABASE=avantys
+
 
 #secrets:
   #EXAMPLE_PRIVATE_KEY:
