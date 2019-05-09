@@ -26,15 +26,17 @@ services:
       - RABBIT_MQ_PASSWORD
 
   guiding_students:
-    image: node:11.15.0-alpine # TEMPONARY
+    image: avantys/guiding_students:${docker_tag}
   recruiting:
-    image: node:11.15.0-alpine # TEMPONARY
+    image: avantys/recruiting:${docker_tag}
   scheduling:
-    image: node:11.15.0-alpine # TEMPONARY
+    image: avantys/scheduling:${docker_tag}
   student_administration:
-    image: node:11.15.0-alpine # TEMPONARY
+    image: avantys/student_administration:${docker_tag}
   student_portal:
-    image: node:11.15.0-alpine # TEMPONARY
+    image: avantys/student_portal:${docker_tag}
+  evaluating_students:
+    image: avantys/evaluating_students:${docker_tag}
 
 secrets:
   RABBIT_MQ_PASSWORD:

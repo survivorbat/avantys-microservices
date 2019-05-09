@@ -32,28 +32,46 @@ services:
       - broker
     hostname: main-broker
 
+
+  evaluating_students:
+    expose:
+      - 3000
+    restart: always
+    networks:
+      - broker
+      - nginx
   guiding_students:
     expose:
       - 3000
+    restart: always
     networks:
       - broker
+      - nginx
   recruiting:
     expose:
       - 3000
+    restart: always
     networks:
       - broker
+      - nginx
   scheduling:
     expose:
       - 3000
+    restart: always
     networks:
       - broker
+      - nginx
   student_administration:
     expose:
       - 3000
+    restart: always
     networks:
       - broker
+      - nginx
   student_portal:
     expose:
       - 3000
+    restart: always
     networks:
       - broker
+      - nginx
