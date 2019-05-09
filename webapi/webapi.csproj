@@ -9,7 +9,6 @@
         <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
         <PackageReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-        <PackageReference Include="RabbitMQ.Client" Version="6.0.0-pre3" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc2" />
         <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.0.0-rc2" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.0.0-rc2" />
