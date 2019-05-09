@@ -31,6 +31,6 @@ services:
     volumes:
       - development_ssl:/ssl
 
-secrets:
+#secrets:
   #EXAMPLE_PRIVATE_KEY:
   #  file: ....//.avantys-vault/EXAMPLE_PRIVATE_KEY
