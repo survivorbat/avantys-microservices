@@ -76,6 +76,8 @@ services:
       context: ../
       dockerfile: docker/student_portal/Dockerfile
 
+
+
 #secrets:
   #EXAMPLE_PRIVATE_KEY:
   #  file: ....//.avantys-vault/EXAMPLE_PRIVATE_KEY
