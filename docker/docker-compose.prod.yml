@@ -25,6 +25,19 @@ services:
     secrets:
       - RABBIT_MQ_PASSWORD
 
+  guiding_students:
+    image: avantys/guiding_students:${docker_tag}
+  recruiting:
+    image: avantys/recruiting:${docker_tag}
+  scheduling:
+    image: avantys/scheduling:${docker_tag}
+  student_administration:
+    image: avantys/student_administration:${docker_tag}
+  student_portal:
+    image: avantys/student_portal:${docker_tag}
+  evaluating_students:
+    image: avantys/evaluating_students:${docker_tag}
+
 secrets:
   RABBIT_MQ_PASSWORD:
     file: ${secrets_folder}/RABBIT_MQ_PASSWORD

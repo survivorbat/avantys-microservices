@@ -1,0 +1,11 @@
+.idea/
+.vscode/
+ansible/
+evaluating_students/node_modules
+guiding_students/node_modules
+scheduling/node_modules
+student_administration/node_modules
+student_portal/node_modules
+.travis.yml
+Makefile
+README.md

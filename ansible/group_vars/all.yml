@@ -2,6 +2,27 @@ docker_images:
   - dockerfile: docker/webapi/Dockerfile
     path: ../
     name: avantys/webapi
+  - dockerfile: docker/evaluating_students/Dockerfile
+    path: ../
+    name: avantys/evaluating_students
+  - dockerfile: docker/guiding_students/Dockerfile
+    path: ../
+    name: avantys/guiding_students
+  - dockerfile: docker/guiding_students/Dockerfile
+    path: ../
+    name: avantys/guiding_students
+  - dockerfile: docker/recruiting/Dockerfile
+    path: ../
+    name: avantys/recruiting
+  - dockerfile: docker/scheduling/Dockerfile
+    path: ../
+    name: avantys/scheduling
+  - dockerfile: docker/student_administration/Dockerfile
+    path: ../
+    name: avantys/student_administration
+  - dockerfile: docker/student_portal/Dockerfile
+    path: ../
+    name: avantys/student_portal
 
 default_groups:
   # First group is the default group

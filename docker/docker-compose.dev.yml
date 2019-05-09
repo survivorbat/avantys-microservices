@@ -31,6 +31,72 @@ services:
     volumes:
       - development_ssl:/ssl
 
-secrets:
+  guiding_students:
+    volumes:
+      - ../guiding_students:/app
+    ports:
+      - 3000:3000
+    command: ["/bin/sh", "-c", "npm install && node index.js"]
+    working_dir: /app
+    build:
+      context: ../
+      dockerfile: docker/guiding_students/Dockerfile
+
+  recruiting:
+    volumes:
+      - ../recruiting:/app
+    ports:
+      - 3001:3000
+    command: ["/bin/sh", "-c", "npm install && node index.js"]
+    working_dir: /app
+    build:
+      context: ../
+      dockerfile: docker/recruiting/Dockerfile
+
+  scheduling:
+    volumes:
+      - ../scheduling:/app
+    ports:
+      - 3002:3000
+    command: ["/bin/sh", "-c", "npm install && node index.js"]
+    working_dir: /app
+    build:
+      context: ../
+      dockerfile: docker/scheduling/Dockerfile
+
+  student_administration:
+    volumes:
+      - ../student_administration:/app
+    ports:
+      - 3003:3000
+    command: ["/bin/sh", "-c", "npm install && node index.js"]
+    working_dir: /app
+    build:
+      context: ../
+      dockerfile: docker/student_administration/Dockerfile
+
+  student_portal:
+    volumes:
+      - ../student_portal:/app
+    ports:
+      - 3004:3000
+    command: ["/bin/sh", "-c", "npm install && node index.js"]
+    working_dir: /app
+    build:
+      context: ../
+      dockerfile: docker/student_portal/Dockerfile
+
+  evaluating_students:
+    volumes:
+      - ../evaluating_students:/app
+    ports:
+      - 3005:3000
+    command: ["/bin/sh", "-c", "npm install && node index.js"]
+    working_dir: /app
+    build:
+      context: ../
+      dockerfile: docker/evaluating_students/Dockerfile
+
+#secrets:
   #EXAMPLE_PRIVATE_KEY:
   #  file: ....//.avantys-vault/EXAMPLE_PRIVATE_KEY
