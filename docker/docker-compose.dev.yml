@@ -46,6 +46,8 @@ services:
       dockerfile: docker/guiding_students/Dockerfile
 
   guiding_students_db:
+    ports:
+      - 27017:27017
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_ROOT_PASSWORD=avantys123
@@ -66,6 +68,8 @@ services:
       dockerfile: docker/recruiting/Dockerfile
 
   recruiting_db:
+    ports:
+      - 27018:27017
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_ROOT_PASSWORD=avantys123
@@ -86,6 +90,8 @@ services:
       dockerfile: docker/scheduling/Dockerfile
 
   scheduling_db:
+    ports:
+      - 27019:27017
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_ROOT_PASSWORD=avantys123
@@ -106,6 +112,8 @@ services:
       dockerfile: docker/student_administration/Dockerfile
 
   student_administration_db:
+    ports:
+      - 27020:27017
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_ROOT_PASSWORD=avantys123
@@ -126,6 +134,8 @@ services:
       dockerfile: docker/student_portal/Dockerfile
 
   student_portal_db:
+    ports:
+      - 27021:27017
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_ROOT_PASSWORD=avantys123
@@ -146,6 +156,8 @@ services:
       dockerfile: docker/evaluating_students/Dockerfile
   
   evaluating_students_db:
+    ports:
+      - 27022:27017
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_ROOT_PASSWORD=avantys123
