@@ -21,6 +21,11 @@ services:
       - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
 
   main-broker:
+    ports:
+      - 4369:4369
+      - 5671:5671
+      - 5672:5672
+      - 25672:25672
     environment:
       - RABBITMQ_DEFAULT_USER=avantys
       - RABBITMQ_DEFAULT_PASS=c8ggRaQUwtBBiC6nW
@@ -33,9 +38,8 @@ services:
 
   guiding_students:
     volumes:
-      - ../guiding_students:/app
-    ports:
-      - 3000:3000
+      - ../src/guiding_students:/app
+    user: "1000"
     command: ["/bin/sh", "-c", "npm install && node index.js"]
     working_dir: /app
     environment:
@@ -55,9 +59,8 @@ services:
 
   recruiting:
     volumes:
-      - ../recruiting:/app
-    ports:
-      - 3001:3000
+      - ../src/recruiting:/app
+    user: "1000"
     command: ["/bin/sh", "-c", "npm install && node index.js"]
     working_dir: /app
     environment:
@@ -77,9 +80,8 @@ services:
 
   scheduling:
     volumes:
-      - ../scheduling:/app
-    ports:
-      - 3002:3000
+      - ../src/scheduling:/app
+    user: "1000"
     command: ["/bin/sh", "-c", "npm install && node index.js"]
     working_dir: /app
     environment:
@@ -99,9 +101,8 @@ services:
 
   student_administration:
     volumes:
-      - ../student_administration:/app
-    ports:
-      - 3003:3000
+      - ../src/student_administration:/app
+    user: "1000"
     command: ["/bin/sh", "-c", "npm install && node index.js"]
     working_dir: /app
     environment:
@@ -121,9 +122,8 @@ services:
 
   student_portal:
     volumes:
-      - ../student_portal:/app
-    ports:
-      - 3004:3000
+      - ../src/student_portal:/app
+    user: "1000"
     command: ["/bin/sh", "-c", "npm install && node index.js"]
     working_dir: /app
     environment:
@@ -143,9 +143,8 @@ services:
 
   evaluating_students:
     volumes:
-      - ../evaluating_students:/app
-    ports:
-      - 3005:3000
+      - ../src/evaluating_students:/app
+    user: "1000"
     command: ["/bin/sh", "-c", "npm install && node index.js"]
     working_dir: /app
     environment:
