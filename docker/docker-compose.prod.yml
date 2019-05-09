@@ -33,6 +33,7 @@ services:
     secrets:
       - GUIDING_STUDENTS_DB_PASSWORD
   guiding_students_db:
+    user: "${mongodb_user_uid}"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/GUIDING_STUDENTS_DB_PASSWORD
@@ -48,6 +49,7 @@ services:
     secrets:
       - RECRUITING_DB_PASSWORD
   recruiting_db:
+    user: "${mongodb_user_uid}"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/RECRUITING_DB_PASSWORD
@@ -63,6 +65,7 @@ services:
     secrets:
       - SCHEDULING_DB_PASSWORD
   scheduling_db:
+    user: "${mongodb_user_uid}"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/SCHEDULING_DB_PASSWORD
@@ -78,6 +81,7 @@ services:
     secrets:
       - STUDENT_ADMINISTRATION_DB_PASSWORD
   student_administration_db:
+    user: "${mongodb_user_uid}"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/STUDENT_ADMINISTRATION_DB_PASSWORD
@@ -93,6 +97,7 @@ services:
     secrets:
       - STUDENT_PORTAL_DB_PASSWORD
   student_portal_db:
+    user: "${mongodb_user_uid}"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/STUDENT_PORTAL_DB_PASSWORD
@@ -108,6 +113,7 @@ services:
     secrets:
       - EVALUATING_STUDENTS_DB_PASSWORD
   evaluating_students_db:
+    user: "${mongodb_user_uid}"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/EVALUATING_STUDENTS_DB_PASSWORD

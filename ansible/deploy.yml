@@ -59,6 +59,7 @@
         server_name: "{{ inventory_hostname }}"
         docker_tag: "{{ docker_tag }}"
         secrets_folder: "{{ docker_secrets_directory }}"
+        mongodb_user_uid: "{{ default_user_id }}"
       docker_service:
         state: present
         restarted: yes
