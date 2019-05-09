@@ -32,3 +32,28 @@ services:
       - broker
     hostname: main-broker
 
+  guiding_students:
+    expose:
+      - 3000
+    networks:
+      - broker
+  recruiting:
+    expose:
+      - 3000
+    networks:
+      - broker
+  scheduling:
+    expose:
+      - 3000
+    networks:
+      - broker
+  student_administration:
+    expose:
+      - 3000
+    networks:
+      - broker
+  student_portal:
+    expose:
+      - 3000
+    networks:
+      - broker
