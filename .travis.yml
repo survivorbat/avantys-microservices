@@ -13,7 +13,7 @@ before_script:
   - echo -e $vaultpassword > ../.vault-password
 
 script:
-  - if [ $TRAVIS_BRANCH != "master" ]; then ansible-playbook -e docker_password=$docker_password -u root -i ansible/inventories/development ansible/site.yml --tags=build_images -e docker_tag=unstable-$TRAVIS_COMMIT; fi
+  - if [ $TRAVIS_BRANCH != "master" ] && [ $TRAVIS_BRANCH != "develop" ]; then ansible-playbook -e docker_password=$docker_password -u root -i ansible/inventories/development ansible/site.yml --tags=build_images -e docker_tag=unstable-$TRAVIS_COMMIT; fi
   - if [ $TRAVIS_BRANCH == "develop" ]; then ansible-playbook --skip-tags=setup_server,setup_python -e docker_password=$docker_password -u root -i ansible/inventories/test ansible/site.yml --vault-password-file=../.vault-password -e docker_tag=test-$TRAVIS_COMMIT; fi
   - if [ $TRAVIS_BRANCH == "master" ]; then ansible-playbook --skip-tags=setup_server,setup_python -e docker_password=$docker_password -u root -i ansible/inventories/production ansible/site.yml --vault-password-file=../.vault-password -e docker_tag=stable-$TRAVIS_BUILD_NUMBER; fi
 
