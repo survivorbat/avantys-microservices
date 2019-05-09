@@ -28,14 +28,14 @@ services:
   guiding_students:
     image: avantys/guiding_students:${docker_tag}
     secrets:
-      - STUDENT_ADMINISTRATION_DB_PASSWORD
+      - GUIDING_STUDENTS_DB_PASSWORD
   guiding_students_db:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/GUIDING_STUDENTS_DB_PASSWORD
       - MONGO_INITDB_DATABASE=avantys
     secrets:
-      - STUDENT_ADMINISTRATION_DB_PASSWORD
+      - GUIDING_STUDENTS_DB_PASSWORD
 
   recruiting:
     image: avantys/recruiting:${docker_tag}
@@ -113,3 +113,5 @@ secrets:
     file: ${secrets_folder}/SCHEDULING_DB_PASSWORD
   RECRUITING_DB_PASSWORD:
     file: ${secrets_folder|/RECRUITING_DB_PASSWORD
+  GUIDING_STUDENTS_DB_PASSWORD:
+    FILE: ${secrets_folder}/GUIDING_STUDENTS_DB_PASSWORD
