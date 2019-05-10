@@ -41,17 +41,17 @@
       file:
         state: directory
         path: "{{ docker_secrets_directory }}"
-        owner: "{{ default_user }}"
+        owner: "999" # Temponary for mongodb
         group: "{{ default_group }}"
-        mode: '500'
+        mode: '550'
 
     - name: "Ensure vault secrets are in secret folder"
       copy:
         dest: "{{ docker_secrets_directory }}/{{ item }}"
         content: "{{ docker_secrets[item] }}"
-        owner: "{{ default_user }}"
+        owner: "999"
         group: "{{ default_group }}"
-        mode: '500'
+        mode: '550'
       with_items: "{{ docker_secrets.keys() }}"
 
     - name: "Restart Docker containers from {{ project_name }} with files in {{ project_dir }} with tag {{ docker_tag }}"
