@@ -41,9 +41,9 @@
       file:
         state: directory
         path: "{{ docker_secrets_directory }}"
-        owner: "{{ default_user }}"
+        owner: "999" # Temponary for mongodb
         group: "{{ default_group }}"
-        mode: '500'
+        mode: '750'
 
     - name: "Ensure vault secrets are in secret folder"
       copy:
