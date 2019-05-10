@@ -49,7 +49,7 @@
       copy:
         dest: "{{ docker_secrets_directory }}/{{ item }}"
         content: "{{ docker_secrets[item] }}"
-        owner: "{{ default_user }}"
+        owner: "999"
         group: "{{ default_group }}"
         mode: '500'
       with_items: "{{ docker_secrets.keys() }}"
