@@ -71,7 +71,7 @@ services:
       - evaluating_students_db
 
   evaluating_students_db:
-    image: mongo:4.0.9
+    image: mongo:4.1.11
     expose:
       - 27017
     restart: always
@@ -95,7 +95,7 @@ services:
       - guiding_students_db
 
   guiding_students_db:
-    image: mongo:4.0.9
+    image: mongo:4.1.11
     expose:
       - 27017
     restart: always
@@ -119,7 +119,7 @@ services:
       - recruiting_db
   
   recruiting_db:
-    image: mongo:4.0.9
+    image: mongo:4.1.11
     expose:
       - 27017
     restart: always
@@ -143,7 +143,7 @@ services:
       - scheduling_db
   
   scheduling_db:
-    image: mongo:4.0.9
+    image: mongo:4.1.11
     expose:
       - 27017
     restart: always
@@ -167,7 +167,7 @@ services:
       - student_administration_db
 
   student_administration_db:
-    image: mongo:4.0.9
+    image: mongo:4.1.11
     expose:
       - 27017
     restart: always
@@ -191,7 +191,7 @@ services:
       - student_portal_db
 
   student_portal_db:
-    image: mongo:4.0.9
+    image: mongo:4.1.11
     expose:
       - 27017
     restart: always
