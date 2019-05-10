@@ -50,6 +50,9 @@ services:
       dockerfile: docker/guiding_students/Dockerfile
 
   guiding_students_db:
+    build:
+      context: ../
+      dockerfile: docker/mongo/Dockerfile
     ports:
       - 27017:27017
     environment:
@@ -71,6 +74,9 @@ services:
       dockerfile: docker/recruiting/Dockerfile
 
   recruiting_db:
+    build:
+      context: ../
+      dockerfile: docker/mongo/Dockerfile
     ports:
       - 27018:27017
     environment:
@@ -92,6 +98,9 @@ services:
       dockerfile: docker/scheduling/Dockerfile
 
   scheduling_db:
+    build:
+      context: ../
+      dockerfile: docker/mongo/Dockerfile
     ports:
       - 27019:27017
     environment:
@@ -113,6 +122,9 @@ services:
       dockerfile: docker/student_administration/Dockerfile
 
   student_administration_db:
+    build:
+      context: ../
+      dockerfile: docker/mongo/Dockerfile
     ports:
       - 27020:27017
     environment:
@@ -134,6 +146,9 @@ services:
       dockerfile: docker/student_portal/Dockerfile
 
   student_portal_db:
+    build:
+      context: ../
+      dockerfile: docker/mongo/Dockerfile
     ports:
       - 27021:27017
     environment:
@@ -155,6 +170,9 @@ services:
       dockerfile: docker/evaluating_students/Dockerfile
   
   evaluating_students_db:
+    build:
+      context: ../
+      dockerfile: docker/mongo/Dockerfile
     ports:
       - 27022:27017
     environment:
