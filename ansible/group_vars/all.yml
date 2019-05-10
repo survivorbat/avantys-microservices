@@ -23,9 +23,6 @@ docker_images:
   - dockerfile: docker/student_portal/Dockerfile
     path: ../
     name: avantys/student_portal
-  - dockerfile: docker/mongo/Dockerfile
-    path: ../
-    name: avantys/mongo
 
 default_groups:
   # First group is the default group

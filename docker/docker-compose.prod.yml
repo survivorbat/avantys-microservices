@@ -21,102 +21,96 @@ services:
   main-broker:
     environment:
       - RABBITMQ_DEFAULT_USER=avantys
-      - RABBITMQ_DEFAULT_PASS_FILE=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD
+      - RABBITMQ_DEFAULT_PASS_FILE=/run/secrets/RABBIT_MQ_PASSWORD
     secrets:
       - RABBIT_MQ_PASSWORD
 
   guiding_students:
-    image: "avantys/guiding_students:${docker_tag}"
+    image: avantys/guiding_students:${docker_tag}
     environment:
       - MONGODB_USERNAME=avantys
       - MONGODB_PASSWORD=<<DOCKER-SECRET:GUIDING_STUDENTS_DB_PASSWORD>>
     secrets:
       - GUIDING_STUDENTS_DB_PASSWORD
   guiding_students_db:
-    image: "avantys/mongo:${docker_tag}"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
-      - MONGO_INITDB_ROOT_PASSWORD_FILE=<<DOCKER-SECRET:GUIDING_STUDENTS_DB_PASSWORD>>
+      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/GUIDING_STUDENTS_DB_PASSWORD
       - MONGO_INITDB_DATABASE=avantys
     secrets:
       - GUIDING_STUDENTS_DB_PASSWORD
 
   recruiting:
-    image: "avantys/recruiting:${docker_tag}"
+    image: avantys/recruiting:${docker_tag}
     environment:
       - MONGODB_USERNAME=avantys
       - MONGODB_PASSWORD=<<DOCKER-SECRET:RECRUITING_DB_PASSWORD>>
     secrets:
       - RECRUITING_DB_PASSWORD
   recruiting_db:
-    image: "avantys/mongo:${docker_tag}"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
-      - MONGO_INITDB_ROOT_PASSWORD_FILE=<<DOCKER-SECRET:RECRUITING_DB_PASSWORD>>
+      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/RECRUITING_DB_PASSWORD
       - MONGO_INITDB_DATABASE=avantys
     secrets:
       - RECRUITING_DB_PASSWORD
 
   scheduling:
-    image: "avantys/scheduling:${docker_tag}"
+    image: avantys/scheduling:${docker_tag}
     environment:
       - MONGODB_USERNAME=avantys
       - MONGODB_PASSWORD=<<DOCKER-SECRET:SCHEDULING_DB_PASSWORD>>
     secrets:
       - SCHEDULING_DB_PASSWORD
   scheduling_db:
-    image: "avantys/mongo:${docker_tag}"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
-      - MONGO_INITDB_ROOT_PASSWORD_FILE=<<DOCKER-SECRET:SCHEDULING_DB_PASSWORD>>
+      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/SCHEDULING_DB_PASSWORD
       - MONGO_INITDB_DATABASE=avantys
     secrets:
       - SCHEDULING_DB_PASSWORD
 
   student_administration:
-    image: "avantys/student_administration:${docker_tag}"
+    image: avantys/student_administration:${docker_tag}
     environment:
       - MONGODB_USERNAME=avantys
       - MONGODB_PASSWORD=<<DOCKER-SECRET:STUDENT_ADMINISTRATION_DB_PASSWORD>>
     secrets:
       - STUDENT_ADMINISTRATION_DB_PASSWORD
   student_administration_db:
-    image: "avantys/mongo:${docker_tag}"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
-      - MONGO_INITDB_ROOT_PASSWORD_FILE=<<DOCKER-SECRET:STUDENT_ADMINISTRATION_DB_PASSWORD>>
+      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/STUDENT_ADMINISTRATION_DB_PASSWORD
       - MONGO_INITDB_DATABASE=avantys
     secrets:
       - STUDENT_ADMINISTRATION_DB_PASSWORD
 
   student_portal:
-    image: "avantys/student_portal:${docker_tag}"
+    image: avantys/student_portal:${docker_tag}
     environment:
       - MONGODB_USERNAME=avantys
       - MONGODB_PASSWORD=<<DOCKER-SECRET:STUDENT_PORTAL_DB_PASSWORD>>
     secrets:
       - STUDENT_PORTAL_DB_PASSWORD
   student_portal_db:
-    image: "avantys/mongo:${docker_tag}"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
-      - MONGO_INITDB_ROOT_PASSWORD_FILE=<<DOCKER-SECRET:STUDENT_PORTAL_DB_PASSWORD>>
+      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/STUDENT_PORTAL_DB_PASSWORD
       - MONGO_INITDB_DATABASE=avantys
     secrets:
       - STUDENT_PORTAL_DB_PASSWORD
 
   evaluating_students:
-    image: "avantys/evaluating_students:${docker_tag}"
+    image: avantys/evaluating_students:${docker_tag}
     environment:
       - MONGODB_USERNAME=avantys
       - MONGODB_PASSWORD=<<DOCKER-SECRET:EVALUATING_STUDENTS_DB_PASSWORD>>
     secrets:
       - EVALUATING_STUDENTS_DB_PASSWORD
   evaluating_students_db:
-    image: "avantys/mongo:${docker_tag}"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
-      - MONGO_INITDB_ROOT_PASSWORD_FILE=<<DOCKER-SECRET:EVALUATING_STUDENTS_DB_PASSWORD>>
+      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/EVALUATING_STUDENTS_DB_PASSWORD
       - MONGO_INITDB_DATABASE=avantys
     secrets:
       - EVALUATING_STUDENTS_DB_PASSWORD
