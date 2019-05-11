@@ -39,9 +39,10 @@ services:
     command: ["/bin/sh", "-c", "rm -rf /var/cache/nginx/*
       && rm -rfv /etc/nginx/conf.d/*
       && for i in $$(find /etc/nginx/temp/ | grep -F .conf); do awk '{while(match($$0,\"[$$]{[^}]*}\")) {var=substr($$0,RSTART+2,RLENGTH -3);gsub(\"[$$]{\"var\"}\",ENVIRON[var])}}1' < \"$$i\" > $$(echo $${i/temp//}); done
-      && nginx -g 'daemon off;'"]
+      && nginx"]
 
   webapi:
+    user: "1000"
     restart: always
     networks:
      - nginx
@@ -60,7 +61,10 @@ services:
     expose:
       - 3000
     environment:
+      - RABBITMQ_HOST=main-broker
+      - MONGODB_USERNAME=avantys
       - MONGODB_HOST=evaluating_students_db
+      - RABBITMQ_USER=avantys
     restart: always
     depends_on:
       - evaluating_students_db
@@ -72,6 +76,9 @@ services:
 
   evaluating_students_db:
     image: mongo:4.0.9
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_DATABASE=avantys
     expose:
       - 27017
     restart: always
@@ -84,7 +91,10 @@ services:
     expose:
       - 3000
     environment:
+      - RABBITMQ_HOST=main-broker
+      - MONGODB_USERNAME=avantys
       - MONGODB_HOST=guiding_students_db
+      - RABBITMQ_USER=avantys
     restart: always
     depends_on:
       - guiding_students_db
@@ -96,6 +106,9 @@ services:
 
   guiding_students_db:
     image: mongo:4.0.9
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_DATABASE=avantys
     expose:
       - 27017
     restart: always
@@ -108,7 +121,10 @@ services:
     expose:
       - 3000
     environment:
+      - RABBITMQ_HOST=main-broker
+      - MONGODB_USERNAME=avantys
       - MONGODB_HOST=recruiting_db
+      - RABBITMQ_USER=avantys
     restart: always
     depends_on:
       - recruiting_db
@@ -120,6 +136,9 @@ services:
   
   recruiting_db:
     image: mongo:4.0.9
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_DATABASE=avantys
     expose:
       - 27017
     restart: always
@@ -132,7 +151,10 @@ services:
     expose:
       - 3000
     environment:
+      - RABBITMQ_HOST=main-broker
+      - MONGODB_USERNAME=avantys
       - MONGODB_HOST=scheduling_db
+      - RABBITMQ_USER=avantys
     restart: always
     depends_on:
       - scheduling_db
@@ -144,6 +166,9 @@ services:
   
   scheduling_db:
     image: mongo:4.0.9
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_DATABASE=avantys
     expose:
       - 27017
     restart: always
@@ -156,7 +181,10 @@ services:
     expose:
       - 3000
     environment:
+      - RABBITMQ_HOST=main-broker
+      - MONGODB_USERNAME=avantys
       - MONGODB_HOST=student_administration_db
+      - RABBITMQ_USER=avantys
     restart: always
     depends_on:
       - student_administration_db
@@ -168,6 +196,9 @@ services:
 
   student_administration_db:
     image: mongo:4.0.9
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_DATABASE=avantys
     expose:
       - 27017
     restart: always
@@ -180,7 +211,9 @@ services:
     expose:
       - 3000
     environment:
-      - MONGODB_HOST=student_portal_db
+      - RABBITMQ_HOST=main-broker
+      - MONGODB_USERNAME=avantys
+      - MONGODB_HO=student_portal_db
     restart: always
     depends_on:
       - student_portal_db
@@ -192,6 +225,8 @@ services:
 
   student_portal_db:
     image: mongo:4.0.9
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
     expose:
       - 27017
     restart: always
