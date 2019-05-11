@@ -69,7 +69,7 @@ nginx_config_files:
   - { src: ../docker/nginx/conf.d/0001_ssl.conf, dest: "{{ nginx_host_config_directory }}/conf.d" }
   - { src: ../docker/nginx/conf.d/0002_upstreams.conf, dest: "{{ nginx_host_config_directory }}/conf.d" }
   - { src: ../docker/nginx/conf.d/0003_default_http.conf, dest: "{{ nginx_host_config_directory }}/conf.d" }
-  - { src: ../docker/nginx/conf.d/0004_avantysuniversity.nl.conf, dest: "{{ nginx_host_config_directory }}/conf.d" }
+  - { src: ../docker/nginx/conf.d/0001_index.conf, dest: "{{ nginx_host_config_directory }}/conf.d" }
 
 nginx_host_letsencrypt_live_folder: /etc/letsencrypt/live
 nginx_host_letsencrypt_dhparam_size: 2048

@@ -12,11 +12,6 @@ services:
 
   webapi:
     image: "avantys/webapi:${docker_tag}"
-    environment:
-      - RABBITMQ_USER=avantys
-      - RABBITMQ_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
-    secrets:
-      - RABBIT_MQ_PASSWORD
 
   main-broker:
     environment:
