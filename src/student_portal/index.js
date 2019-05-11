@@ -1,7 +1,23 @@
 const express = require('express');
+const swaggerJsdoc = require('swagger-jsdoc');
+const router = require('./router');
 const app = express();
-const port = 3000;
 
-app.get('/api/v1/student_portal', (req, res) => res.send('Hello World!'));
+const swaggerOptions = {
+    swaggerDefinition: {
+        info: {
+            title: 'Student Portal',
+            description: 'The API of student portal',
+        },
+    },
+    apis: ['router.js'],
+};
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+const specs = swaggerJsdoc(swaggerOptions);
+const swaggerUi = require('swagger-ui-express');
+
+app.use('/api/v1/student_portal', swaggerUi.serve, swaggerUi.setup(specs));
+
+app.use("/api/v1/student_portal", router);
+
+app.listen(process.env.PORT || 3000);

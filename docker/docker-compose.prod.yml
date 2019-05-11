@@ -24,8 +24,8 @@ services:
     image: avantys/guiding_students:${docker_tag}
     environment:
       - MONGODB_PASSWORD=<<DOCKER-SECRET:GUIDING_STUDENTS_DB_PASSWORD>>
-    - RABBITMQ_USER=avantys
-      RABBITMQ_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
+      - RABBITMQ_USER=avantys
+      - RABBITMQ_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
     secrets:
       - RABBIT_MQ_PASSWORD
       - GUIDING_STUDENTS_DB_PASSWORD
