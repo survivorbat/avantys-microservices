@@ -1,7 +1,23 @@
 const express = require('express');
+const swaggerJsdoc = require('swagger-jsdoc');
+const router = require('./router');
 const app = express();
-const port = 3000;
 
-app.get('/api/v1/scheduling', (req, res) => res.send('Hello World!'));
+const swaggerOptions = {
+    swaggerDefinition: {
+        info: {
+            title: 'Scheduling',
+            description: 'The API of scheduling',
+        },
+    },
+    apis: ['router.js'],
+};
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+const specs = swaggerJsdoc(swaggerOptions);
+const swaggerUi = require('swagger-ui-express');
+
+app.use('/api/v1/scheduling', swaggerUi.serve, swaggerUi.setup(specs));
+
+app.use("/api/v1/scheduling", router);
+
+app.listen(process.env.PORT || 3000);
