@@ -42,8 +42,8 @@ services:
     command: ["/bin/sh", "-c", "npm install && node index.js"]
     working_dir: /app
     environment:
-      - MONGODB_USERNAME=avantys
       - MONGODB_PASSWORD=avantys123
+      - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
     build:
       context: ../
       dockerfile: docker/guiding_students/Dockerfile
@@ -52,9 +52,7 @@ services:
     ports:
       - 27017:27017
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_ROOT_PASSWORD=avantys123
-      - MONGO_INITDB_DATABASE=avantys
 
   recruiting:
     volumes:
@@ -63,8 +61,8 @@ services:
     command: ["/bin/sh", "-c", "npm install && node index.js"]
     working_dir: /app
     environment:
-      - MONGODB_USERNAME=avantys
       - MONGODB_PASSWORD=avantys123
+      - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
     build:
       context: ../
       dockerfile: docker/recruiting/Dockerfile
@@ -73,9 +71,7 @@ services:
     ports:
       - 27018:27017
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_ROOT_PASSWORD=avantys123
-      - MONGO_INITDB_DATABASE=avantys
 
   scheduling:
     volumes:
@@ -84,8 +80,8 @@ services:
     command: ["/bin/sh", "-c", "npm install && node index.js"]
     working_dir: /app
     environment:
-      - MONGODB_USERNAME=avantys
       - MONGODB_PASSWORD=avantys123
+      - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
     build:
       context: ../
       dockerfile: docker/scheduling/Dockerfile
@@ -94,9 +90,7 @@ services:
     ports:
       - 27019:27017
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_ROOT_PASSWORD=avantys123
-      - MONGO_INITDB_DATABASE=avantys
 
   student_administration:
     volumes:
@@ -105,8 +99,8 @@ services:
     command: ["/bin/sh", "-c", "npm install && node index.js"]
     working_dir: /app
     environment:
-      - MONGODB_USERNAME=avantys
       - MONGODB_PASSWORD=avantys123
+      - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
     build:
       context: ../
       dockerfile: docker/student_administration/Dockerfile
@@ -115,9 +109,7 @@ services:
     ports:
       - 27020:27017
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_ROOT_PASSWORD=avantys123
-      - MONGO_INITDB_DATABASE=avantys
 
   student_portal:
     volumes:
@@ -126,8 +118,8 @@ services:
     command: ["/bin/sh", "-c", "npm install && node index.js"]
     working_dir: /app
     environment:
-      - MONGODB_USERNAME=avantys
       - MONGODB_PASSWORD=avantys123
+      - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
     build:
       context: ../
       dockerfile: docker/student_portal/Dockerfile
@@ -136,9 +128,7 @@ services:
     ports:
       - 27021:27017
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_ROOT_PASSWORD=avantys123
-      - MONGO_INITDB_DATABASE=avantys
 
   evaluating_students:
     volumes:
@@ -147,8 +137,8 @@ services:
     command: ["/bin/sh", "-c", "npm install && node index.js"]
     working_dir: /app
     environment:
-      - MONGODB_USERNAME=avantys
       - MONGODB_PASSWORD=avantys123
+      - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
     build:
       context: ../
       dockerfile: docker/evaluating_students/Dockerfile
@@ -157,7 +147,5 @@ services:
     ports:
       - 27022:27017
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_ROOT_PASSWORD=avantys123
-      - MONGO_INITDB_DATABASE=avantys
 
