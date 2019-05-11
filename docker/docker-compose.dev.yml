@@ -16,9 +16,8 @@ services:
     build:
       context: ../
       dockerfile: docker/webapi/Dockerfile
-    environment:
-      - RABBITMQ_USER=avantys
-      - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
+    volumes:
+      - ../src/webapi:/srv/html
 
   main-broker:
     ports:
