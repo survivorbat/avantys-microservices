@@ -58,6 +58,9 @@ services:
       - MONGODB_HOST=evaluating_students_db
       - RABBITMQ_USER=avantys
     restart: always
+    depends_on:
+      - evaluating_students_db
+      - main-broker
     networks:
       - broker
       - nginx
@@ -86,6 +89,9 @@ services:
       - MONGODB_HOST=guiding_students_db
       - RABBITMQ_USER=avantys
     restart: always
+    depends_on:
+      - guiding_students_db
+      - main-broker
     networks:
       - broker
       - nginx
@@ -114,6 +120,9 @@ services:
       - MONGODB_HOST=recruiting_db
       - RABBITMQ_USER=avantys
     restart: always
+    depends_on:
+      - recruiting_db
+      - main-broker
     networks:
       - broker
       - nginx
@@ -142,6 +151,9 @@ services:
       - MONGODB_HOST=scheduling_db
       - RABBITMQ_USER=avantys
     restart: always
+    depends_on:
+      - scheduling_db
+      - main-broker
     networks:
       - broker
       - nginx
@@ -170,6 +182,9 @@ services:
       - MONGODB_HOST=student_administration_db
       - RABBITMQ_USER=avantys
     restart: always
+    depends_on:
+      - student_administration_db
+      - main-broker
     networks:
       - broker
       - nginx
@@ -197,6 +212,9 @@ services:
       - PORT=3000
       - MONGODB_HO=student_portal_db
     restart: always
+    depends_on:
+      - student_portal_db
+      - main-broker
     networks:
       - broker
       - nginx
