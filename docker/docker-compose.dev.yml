@@ -20,11 +20,6 @@ services:
       - ../src/webapi:/srv/html
 
   main-broker:
-    ports:
-      - 4369:4369
-      - 5671:5671
-      - 5672:5672
-      - 25672:25672
     environment:
       - RABBITMQ_DEFAULT_USER=avantys
       - RABBITMQ_DEFAULT_PASS=c8ggRaQUwtBBiC6nW
@@ -39,7 +34,7 @@ services:
     volumes:
       - ../src/guiding_students:/app
     user: "1000"
-    command: ["/bin/sh", "-c", "npm install && node index.js"]
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
     working_dir: /app
     environment:
       - MONGODB_PASSWORD=avantys123
@@ -58,7 +53,7 @@ services:
     volumes:
       - ../src/recruiting:/app
     user: "1000"
-    command: ["/bin/sh", "-c", "npm install && node index.js"]
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
     working_dir: /app
     environment:
       - MONGODB_PASSWORD=avantys123
@@ -77,7 +72,7 @@ services:
     volumes:
       - ../src/scheduling:/app
     user: "1000"
-    command: ["/bin/sh", "-c", "npm install && node index.js"]
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
     working_dir: /app
     environment:
       - MONGODB_PASSWORD=avantys123
@@ -96,7 +91,7 @@ services:
     volumes:
       - ../src/student_administration:/app
     user: "1000"
-    command: ["/bin/sh", "-c", "npm install && node index.js"]
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
     working_dir: /app
     environment:
       - MONGODB_PASSWORD=avantys123
@@ -115,7 +110,7 @@ services:
     volumes:
       - ../src/student_portal:/app
     user: "1000"
-    command: ["/bin/sh", "-c", "npm install && node index.js"]
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
     working_dir: /app
     environment:
       - MONGODB_PASSWORD=avantys123
@@ -134,7 +129,7 @@ services:
     volumes:
       - ../src/evaluating_students:/app
     user: "1000"
-    command: ["/bin/sh", "-c", "npm install && node index.js"]
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
     working_dir: /app
     environment:
       - MONGODB_PASSWORD=avantys123
