@@ -12,6 +12,15 @@ const getStudents = async (req, res, next) => {
     .catch(next);
 };
 
+const registerStudent = async (req, res, next) => {
+  return res.status(503).end();
+};
+
+const unregisterStudent = async (req, res, next) => {
+  return res.status(503).end();
+};
+
 module.exports = {
-  getStudents
+  getStudents,
+  registerStudent
 };

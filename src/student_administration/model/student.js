@@ -1,6 +1,7 @@
 const mongoose = require("../config/db");
 const Class = require("./class").classSchema;
 const Module = require("./module").moduleSchema;
+const Study = require("./study").studySchema;
 
 const Schema = mongoose.Schema;
 const studentSchema = new Schema({
@@ -38,6 +39,10 @@ const studentSchema = new Schema({
     type: [Module],
     required: false,
     default: []
+  },
+  study: {
+    type: Study,
+    required: true
   }
 });
 

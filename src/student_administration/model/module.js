@@ -1,4 +1,5 @@
 const mongoose = require("../config/db");
+const TestResult = require("./testresult").testResultSchema;
 
 const Schema = mongoose.Schema;
 const moduleSchema = new Schema({
@@ -9,6 +10,11 @@ const moduleSchema = new Schema({
   description: {
     type: String,
     required: true
+  },
+  testResults: {
+    type: [TestResult],
+    required: false,
+    default: []
   }
 });
 
