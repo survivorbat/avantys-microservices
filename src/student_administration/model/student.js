@@ -1,7 +1,8 @@
 const mongoose = require("../config/db");
+const Class = require("./class").Class;
 
 const Schema = mongoose.Schema;
-const filmSchema = new Schema({
+const studentSchema = new Schema({
   firstName: {
     type: String,
     required: true,
@@ -26,10 +27,15 @@ const filmSchema = new Schema({
     type: Number,
     required: true,
     default: 0
+  },
+  classes: {
+    type: [Class],
+    required: false,
+    default: []
   }
 });
 
-const Student = mongoose.model("Student", filmSchema);
+const Student = mongoose.model("Student", studentSchema);
 
 module.exports = {
   Student

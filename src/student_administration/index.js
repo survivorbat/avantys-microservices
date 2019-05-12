@@ -10,7 +10,10 @@ const swaggerOptions = {
     info: {
       title: "Student Administration",
       description: "The API of the student administration"
-    }
+    },
+    basePath: "/api/v1/student_administration",
+    produces: ["application/json"],
+    schemes: ["https"]
   },
   apis: ["/app/router.js"]
 };

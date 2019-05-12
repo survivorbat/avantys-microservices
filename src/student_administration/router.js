@@ -4,9 +4,14 @@ const studentController = require("./controller/students");
 
 /**
  * @swagger
- * /api/v1/student_administration/students:
+ * /students:
  *    get:
  *      description: Return list of students
+ *      produces:
+ *        - application/json
+ *      responses:
+ *        200:
+ *          description: List of students
  */
 router.get("/students", studentController.getStudents);
 
@@ -26,7 +31,7 @@ router.get("*", (req, res) =>
   res
     .status(404)
     .send({
-      message: "404 not found" //To let the caller know his request doesn't have an endpoint
+      message: "404 not found"
     })
     .end()
 );
