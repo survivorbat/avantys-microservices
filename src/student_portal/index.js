@@ -24,7 +24,7 @@ app.use(bodyparser.urlencoded({extended:true}));
 const specs = swaggerJsdoc(swaggerOptions);
 const swaggerUi = require('swagger-ui-express');
 
-app.use('/api/v1/student_portal', swaggerUi.serve, swaggerUi.setup(specs));
+app.use('/api/v1/student_portal/swagger', swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use("/api/v1/student_portal", router);
 
