@@ -25,14 +25,6 @@ services:
     restart: always
     networks:
       - nginx
-    depends_on:
-      - webapi
-      - student_portal
-      - student_administration
-      - guiding_students
-      - evaluating_students
-      - recruiting
-      - scheduling
     ports:
       - 80:8080
       - 443:8081
