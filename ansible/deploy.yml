@@ -69,4 +69,4 @@
           - "docker-compose.prod.yml"
 
     - name: "Restart main nginx container due to a bug in DNS resolving" # TODO: Fix this bug
-      command: "docker restart $(docker -q --filter name=nginx)"
+      command: "docker restart $(docker ps -q --filter name=nginx)"
