@@ -1,5 +1,6 @@
 const mongoose = require("../config/db");
-const Class = require("./class").Class;
+const Class = require("./class").classSchema;
+const Module = require("./module").moduleSchema;
 
 const Schema = mongoose.Schema;
 const studentSchema = new Schema({
@@ -32,11 +33,17 @@ const studentSchema = new Schema({
     type: [Class],
     required: false,
     default: []
+  },
+  modules: {
+    type: [Module],
+    required: false,
+    default: []
   }
 });
 
 const Student = mongoose.model("Student", studentSchema);
 
 module.exports = {
-  Student
+  Student,
+  studentSchema
 };
