@@ -1,6 +1,6 @@
 FROM node:11.15.0 AS build
 
-COPY ./src/recruiting/package.* /app/
+COPY ./src/recruiting/package* /app/
 WORKDIR /app
 RUN npm install
 

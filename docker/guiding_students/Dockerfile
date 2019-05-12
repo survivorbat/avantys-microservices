@@ -1,6 +1,6 @@
 FROM node:11.15.0 AS build
 
-COPY ./src/guiding_students/package.* /app/
+COPY ./src/guiding_students/package* /app/
 WORKDIR /app
 RUN npm install
 

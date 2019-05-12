@@ -13,7 +13,7 @@ const swaggerOptions = {
             description: 'The API of recruiting',
         },
     },
-    apis: ['router.js'],
+    apis: ['/app/router.js'],
 };
 
 app.use(logger('dev'));
@@ -24,7 +24,7 @@ app.use(bodyparser.urlencoded({extended:true}));
 const specs = swaggerJsdoc(swaggerOptions);
 const swaggerUi = require('swagger-ui-express');
 
-app.use('/api/v1/recruiting', swaggerUi.serve, swaggerUi.setup(specs));
+app.use('/api/v1/recruiting/swagger', swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use("/api/v1/recruiting", router);
 
