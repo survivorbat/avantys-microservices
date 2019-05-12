@@ -41,7 +41,7 @@
       file:
         state: directory
         path: "{{ docker_secrets_directory }}"
-        owner: "999" # Temponary for mongodb
+        owner: "999" # Temporary for mongodb
         group: "{{ default_group }}"
         mode: '550'
 
