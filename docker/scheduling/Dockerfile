@@ -1,6 +1,6 @@
 FROM node:11.15.0 AS build
 
-COPY ./src/scheduling/package.* /app/
+COPY ./src/scheduling/package* /app/
 WORKDIR /app
 RUN npm install
 

@@ -13,7 +13,7 @@ const swaggerOptions = {
             description: 'The API of the student administration',
         },
     },
-    apis: ['router.js'],
+    apis: ['/app/router.js'],
 };
 
 app.use(logger('dev'));

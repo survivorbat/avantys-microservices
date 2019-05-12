@@ -13,7 +13,7 @@ const swaggerOptions = {
             description: 'The API of scheduling',
         },
     },
-    apis: ['router.js'],
+    apis: ['/app/router.js'],
 };
 
 app.use(logger('dev'));

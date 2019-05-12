@@ -1,6 +1,6 @@
 FROM node:11.15.0 AS build
 
-COPY ./src/student_administration/package.* /app/
+COPY ./src/student_administration/package* /app/
 WORKDIR /app
 RUN npm install
 

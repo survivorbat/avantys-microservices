@@ -1,6 +1,6 @@
 FROM node:11.15.0 AS build
 
-COPY ./src/student_portal/package.* /app/
+COPY ./src/student_portal/package* /app/
 WORKDIR /app
 RUN npm install
 
