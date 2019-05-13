@@ -17,7 +17,7 @@ services:
     image: "avantys/rabbitmq:${docker_tag}"
     environment:
       - RABBITMQ_DEFAULT_USER=avantys
-      - RABBITMQ_DEFAULT_PASS_FILE=/run/secrets/RABBIT_MQ_PASSWORD
+      - RABBITMQ_DEFAULT_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
     secrets:
       - RABBIT_MQ_PASSWORD
 
