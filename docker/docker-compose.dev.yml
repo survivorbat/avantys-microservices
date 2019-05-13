@@ -24,7 +24,6 @@ services:
       context: ../
       dockerfile: docker/rabbitmq/Dockerfile
     environment:
-      - RABBITMQ_DEFAULT_USER=avantys
       - RABBITMQ_DEFAULT_PASS=c8ggRaQUwtBBiC6nW
 
   ssl:
