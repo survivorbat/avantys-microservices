@@ -34,7 +34,7 @@ services:
     volumes:
       - ../src/guiding_students:/app
     user: "1000"
-    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"]
     working_dir: /app
     environment:
       - MONGODB_PASSWORD=avantys123
@@ -44,6 +44,9 @@ services:
       dockerfile: docker/guiding_students/Dockerfile
 
   guiding_students_db:
+    build:
+      context: ../
+      dockerfile: docker/mongo/Dockerfile
     ports:
       - 27017:27017
     environment:
@@ -53,7 +56,7 @@ services:
     volumes:
       - ../src/recruiting:/app
     user: "1000"
-    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"]
     working_dir: /app
     environment:
       - MONGODB_PASSWORD=avantys123
@@ -63,6 +66,9 @@ services:
       dockerfile: docker/recruiting/Dockerfile
 
   recruiting_db:
+    build:
+      context: ../
+      dockerfile: docker/mongo/Dockerfile
     ports:
       - 27018:27017
     environment:
@@ -72,7 +78,7 @@ services:
     volumes:
       - ../src/scheduling:/app
     user: "1000"
-    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"]
     working_dir: /app
     environment:
       - MONGODB_PASSWORD=avantys123
@@ -82,6 +88,9 @@ services:
       dockerfile: docker/scheduling/Dockerfile
 
   scheduling_db:
+    build:
+      context: ../
+      dockerfile: docker/mongo/Dockerfile
     ports:
       - 27019:27017
     environment:
@@ -91,7 +100,7 @@ services:
     volumes:
       - ../src/student_administration:/app
     user: "1000"
-    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"]
     working_dir: /app
     environment:
       - MONGODB_PASSWORD=avantys123
@@ -101,6 +110,9 @@ services:
       dockerfile: docker/student_administration/Dockerfile
 
   student_administration_db:
+    build:
+      context: ../
+      dockerfile: docker/mongo/Dockerfile
     ports:
       - 27020:27017
     environment:
@@ -110,7 +122,7 @@ services:
     volumes:
       - ../src/student_portal:/app
     user: "1000"
-    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"]
     working_dir: /app
     environment:
       - MONGODB_PASSWORD=avantys123
@@ -120,6 +132,9 @@ services:
       dockerfile: docker/student_portal/Dockerfile
 
   student_portal_db:
+    build:
+      context: ../
+      dockerfile: docker/mongo/Dockerfile
     ports:
       - 27021:27017
     environment:
@@ -129,7 +144,7 @@ services:
     volumes:
       - ../src/evaluating_students:/app
     user: "1000"
-    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"]
     working_dir: /app
     environment:
       - MONGODB_PASSWORD=avantys123
@@ -139,6 +154,9 @@ services:
       dockerfile: docker/evaluating_students/Dockerfile
   
   evaluating_students_db:
+    build:
+      context: ../
+      dockerfile: docker/mongo/Dockerfile
     ports:
       - 27022:27017
     environment:

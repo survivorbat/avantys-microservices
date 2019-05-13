@@ -10,6 +10,20 @@
     margin: 3em 0;
 }
 
+@keyframes glow-animation {
+    0% {filter: brightness(100%)}
+    50% {filter: brightness(200%)}
+    100% {filter: brightness(100%)}
+}
+
+.upstream--list-icon {
+    animation: glow-animation;
+    animation-iteration-count: infinite;
+    animation-duration: 3s;
+    animation-timing-function: ease-in-out;
+    font-size: 1.25em;
+}
+
 .footer--row {
     margin: 6em 0;
 }
