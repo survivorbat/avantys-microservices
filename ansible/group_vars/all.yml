@@ -26,6 +26,9 @@ docker_images:
   - dockerfile: docker/mongo/Dockerfile
     path: ../
     name: avantys/mongo
+  - dockerfile: docker/rabbitmq/Dockerfile
+    path: ../
+    name: avantys/rabbitmq
 
 default_groups:
   # First group is the default group

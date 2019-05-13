@@ -49,9 +49,9 @@
       copy:
         dest: "{{ docker_secrets_directory }}/{{ item }}"
         content: "{{ docker_secrets[item] }}"
-        owner: "999"
+        owner: "{{ default_user }}"
         group: "{{ default_group }}"
-        mode: '550'
+        mode: '500'
       with_items: "{{ docker_secrets.keys() }}"
 
     - name: "Restart Docker containers from {{ project_name }} with files in {{ project_dir }} with tag {{ docker_tag }}"
