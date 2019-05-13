@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const lessonController = require("./controller/lessons");
 
 /**
  * @swagger
@@ -7,9 +8,7 @@ const router = express.Router();
  *    get:
  *      description: Return list of lessons
  */
-router.get("/lessons", (req, res) => {
-    return res.send("Hello");
-});
+router.get("/lessons", lessonController.getLessons);
 
 /**
  * @swagger
@@ -17,9 +16,7 @@ router.get("/lessons", (req, res) => {
  *    post:
  *      description: Create new lesson
  */
-router.post("/lessons", (req, res) => {
-    return res.send("Hello");
-});
+router.post("/lessons", lessonController.createLesson);
 
 /**
  * @swagger
@@ -27,8 +24,6 @@ router.post("/lessons", (req, res) => {
  *    delete:
  *      description: Delete lesson
  */
-router.delete("/lessons", (req, res) => {
-    return res.send("Hello");
-});
+router.delete("/lessons", lessonController.deleteLesson);
 
 module.exports = router;
