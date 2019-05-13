@@ -76,7 +76,14 @@ services:
       context: ../
       dockerfile: docker/student_portal/Dockerfile
 
-
+  student_evaluating_students:
+    volumens:
+      - ../evaluating_students:/app
+    ports:
+      - 3005:3000
+    build:
+      context: ../
+      dockerfile: docker/evaluating_students/Dockerfile
 
 #secrets:
   #EXAMPLE_PRIVATE_KEY:
