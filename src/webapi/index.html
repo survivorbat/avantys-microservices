@@ -19,15 +19,15 @@
             <main class="col-md-7">
                 <h3><i class="fas fa-info-circle"></i> Currently running services</h3>
                 <p>
-                    Avantys currently has a total of 6 running microservices that are all used to run Avantys' infrastructure.
-                    This (currently static) page allows you to easily navigate to the different services.
+                    Avantys currently has a total of <strong id="upstream-amount">X</strong> running microservices that maintain Avantys' infrastructure.
+                    This page allows you to easily navigate to the different services and see if they're relatively healthy.
                 </p>
                 <p>
-                    Each service is responsible for its own API and documentation, if you have any issues or experience bugs
-                    please feel free to notify us through social media.
+                    Each service is responsible for its own API and documentation, if experience issues or bugs
+                    please feel free to contact us through social media.
                 </p>
                 <p>
-                    Please note that Avantys is not a real organisation and is merely a school project.
+                    Please also note that Avantys is not a real organisation and is a school project.
                 </p>
             </main>
             <sidebar class="col-md-5">
@@ -60,14 +60,15 @@
     <script>
         const requestTimeout = 4000;
         const listElement = document.querySelector('#upstream-list');
+        const upstreamCountElement = document.querySelector('#upstream-amount');
         const reloadButton = document.querySelector('#upstream-list-reload-button');
         const upstreams = [
-            "/api/v1/student_administration/swagger",
-            "/api/v1/student_portal/swagger",
-            "/api/v1/scheduling/swagger",
-            "/api/v1/recruiting/swagger",
-            "/api/v1/guiding_students/swagger",
-            "/api/v1/evaluating_students/swagger",
+            "/api/v1/student_administration",
+            "/api/v1/student_portal",
+            "/api/v1/scheduling",
+            "/api/v1/recruiting",
+            "/api/v1/guiding_students",
+            "/api/v1/evaluating_students",
         ];
         const codeColors = {
             0: "green",
@@ -84,7 +85,7 @@
         const getHtmlUpstreamTemplate = (url, statusColor) => `
             <li class="list-group-item d-flex justify-content-between py-2">
                 <span>
-                    <i class="fas fa-server"></i> <a target="_blank" href="${url}">${url}</a>
+                    <i class="fas fa-server"></i> <a target="_blank" href="${url}/swagger">${url}</a>
                 </span>
                 <span class="upstream--list-icon" style="color: ${statusColor}">
                     <i class="fas fa-satellite"></i>
@@ -96,10 +97,11 @@
          * @returns {Promise<void>}
          */
         const fetchStatuses = async () => {
+            upstreamCountElement.innerText = upstreams.length;
             listElement.innerHTML = upstreams.map(url => getHtmlUpstreamTemplate(url, 'gray')).join('');
 
             const upstreamStatuses = await Promise.all(
-                upstreams.map(async (item) => await axios.get(item, {timeout: requestTimeout}).then(() => 0).catch((err) => {
+                upstreams.map(async (item) => await axios.get(`${item}/swagger`, {timeout: requestTimeout}).then(() => 0).catch((err) => {
                     return err.response && err.response.status ? 2 : 1;
                 }))
             );
