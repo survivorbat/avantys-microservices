@@ -16,9 +16,8 @@ services:
     build:
       context: ../
       dockerfile: docker/webapi/Dockerfile
-    environment:
-      - RABBITMQ_USER=avantys
-      - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
+    volumes:
+      - ../src/webapi:/srv/html
 
   main-broker:
     environment:
@@ -33,58 +32,115 @@ services:
 
   guiding_students:
     volumes:
-      - ../guiding_students:/app
-    ports:
-      - 3000:3000
+      - ../src/guiding_students:/app
+    user: "1000"
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
+    working_dir: /app
+    environment:
+      - MONGODB_PASSWORD=avantys123
+      - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
     build:
       context: ../
       dockerfile: docker/guiding_students/Dockerfile
 
+  guiding_students_db:
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_PASSWORD=avantys123
+
   recruiting:
     volumes:
-      - ../recruiting:/app
-    ports:
-      - 3001:3000
+      - ../src/recruiting:/app
+    user: "1000"
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
+    working_dir: /app
+    environment:
+      - MONGODB_PASSWORD=avantys123
+      - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
     build:
       context: ../
       dockerfile: docker/recruiting/Dockerfile
 
+  recruiting_db:
+    ports:
+      - 27018:27017
+    environment:
+      - MONGO_INITDB_ROOT_PASSWORD=avantys123
+
   scheduling:
     volumes:
-      - ../scheduling:/app
-    ports:
-      - 3002:3000
+      - ../src/scheduling:/app
+    user: "1000"
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
+    working_dir: /app
+    environment:
+      - MONGODB_PASSWORD=avantys123
+      - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
     build:
       context: ../
       dockerfile: docker/scheduling/Dockerfile
 
+  scheduling_db:
+    ports:
+      - 27019:27017
+    environment:
+      - MONGO_INITDB_ROOT_PASSWORD=avantys123
+
   student_administration:
     volumes:
-      - ../student_administration:/app
-    ports:
-      - 3003:3000
+      - ../src/student_administration:/app
+    user: "1000"
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
+    working_dir: /app
+    environment:
+      - MONGODB_PASSWORD=avantys123
+      - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
     build:
       context: ../
       dockerfile: docker/student_administration/Dockerfile
 
+  student_administration_db:
+    ports:
+      - 27020:27017
+    environment:
+      - MONGO_INITDB_ROOT_PASSWORD=avantys123
+
   student_portal:
     volumes:
-      - ../student_portal:/app
-    ports:
-      - 3004:3000
+      - ../src/student_portal:/app
+    user: "1000"
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
+    working_dir: /app
+    environment:
+      - MONGODB_PASSWORD=avantys123
+      - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
     build:
       context: ../
       dockerfile: docker/student_portal/Dockerfile
 
-  student_evaluating_students:
-    volumens:
-      - ../evaluating_students:/app
+  student_portal_db:
     ports:
-      - 3005:3000
+      - 27021:27017
+    environment:
+      - MONGO_INITDB_ROOT_PASSWORD=avantys123
+
+  evaluating_students:
+    volumes:
+      - ../src/evaluating_students:/app
+    user: "1000"
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
+    working_dir: /app
+    environment:
+      - MONGODB_PASSWORD=avantys123
+      - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
     build:
       context: ../
       dockerfile: docker/evaluating_students/Dockerfile
+  
+  evaluating_students_db:
+    ports:
+      - 27022:27017
+    environment:
+      - MONGO_INITDB_ROOT_PASSWORD=avantys123
 
-#secrets:
-  #EXAMPLE_PRIVATE_KEY:
-  #  file: ....//.avantys-vault/EXAMPLE_PRIVATE_KEY

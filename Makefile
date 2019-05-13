@@ -25,3 +25,15 @@ dev.build: ## Build containers
 
 dev.expose.secrets: ## Expose secrets and export to a file in development
 	ansible-playbook ansible/expand-secrets-dev.yml --vault-password-file=../.avantys-vault-password
+
+prod.up:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml -p avantys up -d
+
+prod.down:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml -p avantys down
+
+prod.restart:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml -p avantys restart
+
+prod.build:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml -p avantys build

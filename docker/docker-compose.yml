@@ -3,6 +3,21 @@ version: '3.5'
 networks:
   nginx: ~
   broker: ~
+  evaluating_students_db: ~
+  guiding_students_db: ~
+  recruiting_db: ~
+  scheduling_db: ~
+  student_administration_db: ~
+  student_portal_db: ~
+
+volumes:
+  evaluating_students_data: ~
+  guiding_students_data: ~
+  recruiting_data: ~
+  scheduling_data: ~
+  student_administration_data: ~
+  student_portal_data: ~
+  rabbit_data: ~
 
 services:
   nginx:
@@ -16,44 +31,207 @@ services:
     command: ["/bin/sh", "-c", "rm -rf /var/cache/nginx/*
       && rm -rfv /etc/nginx/conf.d/*
       && for i in $$(find /etc/nginx/temp/ | grep -F .conf); do awk '{while(match($$0,\"[$$]{[^}]*}\")) {var=substr($$0,RSTART+2,RLENGTH -3);gsub(\"[$$]{\"var\"}\",ENVIRON[var])}}1' < \"$$i\" > $$(echo $${i/temp//}); done
-      && nginx -g 'daemon off;'"]
+      && nginx"]
 
   webapi:
     restart: always
     networks:
      - nginx
-     - broker
     expose:
-     - 5000
+     - 8080
 
   main-broker:
     image: rabbitmq:3.7.14-alpine
     networks:
       - broker
     hostname: main-broker
+    expose:
+      - 15672
+    ports:
+      - 8080:15672 # Firewall normally blocks this port in production, requires ssh tunnel to access
+    volumes:
+      - rabbit_data:/var/lib/rabbitmq
 
+  evaluating_students:
+    expose:
+      - 3000
+    environment:
+      - RABBITMQ_HOST=main-broker
+      - MONGODB_USERNAME=avantys
+      - PORT=3000
+      - MONGODB_HOST=evaluating_students_db
+      - RABBITMQ_USER=avantys
+    restart: always
+    depends_on:
+      - evaluating_students_db
+      - main-broker
+    networks:
+      - broker
+      - nginx
+      - evaluating_students_db
+
+  evaluating_students_db:
+    image: mongo:4.0.9
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_DATABASE=avantys
+    expose:
+      - 27017
+    restart: always
+    networks:
+      - evaluating_students_db
+    volumes:
+      - evaluating_students_data:/data/db 
+  
   guiding_students:
     expose:
       - 3000
+    environment:
+      - RABBITMQ_HOST=main-broker
+      - MONGODB_USERNAME=avantys
+      - PORT=3000
+      - MONGODB_HOST=guiding_students_db
+      - RABBITMQ_USER=avantys
+    restart: always
+    depends_on:
+      - guiding_students_db
+      - main-broker
     networks:
       - broker
+      - nginx
+      - guiding_students_db
+
+  guiding_students_db:
+    image: mongo:4.0.9
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_DATABASE=avantys
+    expose:
+      - 27017
+    restart: always
+    networks:
+      - guiding_students_db
+    volumes:
+      - guiding_students_data:/data/db 
+
   recruiting:
     expose:
       - 3000
+    environment:
+      - RABBITMQ_HOST=main-broker
+      - MONGODB_USERNAME=avantys
+      - PORT=3000
+      - MONGODB_HOST=recruiting_db
+      - RABBITMQ_USER=avantys
+    restart: always
+    depends_on:
+      - recruiting_db
+      - main-broker
     networks:
       - broker
+      - nginx
+      - recruiting_db
+  
+  recruiting_db:
+    image: mongo:4.0.9
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_DATABASE=avantys
+    expose:
+      - 27017
+    restart: always
+    networks:
+      - recruiting_db
+    volumes:
+      - recruiting_data:/data/db 
+
   scheduling:
     expose:
       - 3000
+    environment:
+      - RABBITMQ_HOST=main-broker
+      - MONGODB_USERNAME=avantys
+      - PORT=3000
+      - MONGODB_HOST=scheduling_db
+      - RABBITMQ_USER=avantys
+    restart: always
+    depends_on:
+      - scheduling_db
+      - main-broker
     networks:
       - broker
+      - nginx
+      - scheduling_db
+  
+  scheduling_db:
+    image: mongo:4.0.9
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_DATABASE=avantys
+    expose:
+      - 27017
+    restart: always
+    networks:
+      - scheduling_db
+    volumes:
+      - scheduling_data:/data/db 
+
   student_administration:
     expose:
       - 3000
+    environment:
+      - RABBITMQ_HOST=main-broker
+      - MONGODB_USERNAME=avantys
+      - PORT=3000
+      - MONGODB_HOST=student_administration_db
+      - RABBITMQ_USER=avantys
+    restart: always
+    depends_on:
+      - student_administration_db
+      - main-broker
     networks:
       - broker
+      - nginx
+      - student_administration_db
+
+  student_administration_db:
+    image: mongo:4.0.9
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+      - MONGO_INITDB_DATABASE=avantys
+    expose:
+      - 27017
+    restart: always
+    networks:
+      - student_administration_db
+    volumes:
+      - student_administration_data:/data/db 
+
   student_portal:
     expose:
       - 3000
+    environment:
+      - RABBITMQ_HOST=main-broker
+      - MONGODB_USERNAME=avantys
+      - PORT=3000
+      - MONGODB_HO=student_portal_db
+    restart: always
+    depends_on:
+      - student_portal_db
+      - main-broker
     networks:
       - broker
+      - nginx
+      - student_portal_db
+
+  student_portal_db:
+    image: mongo:4.0.9
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+    expose:
+      - 27017
+    restart: always
+    networks:
+      - student_portal_db
+    volumes:
+      - student_portal_data:/data/db 

@@ -1,0 +1,23 @@
+{
+  "name": "student_administration",
+  "version": "1.0.0",
+  "description": "Avantys Microservice",
+  "repository": "https://github.com/avantys-solutionarchitecture/avantys",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.5.7",
+    "morgan": "^1.9.1",
+    "prettier": "^1.17.0",
+    "swagger-jsdoc": "^3.2.9",
+    "swagger-ui-express": "^4.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.0"
+  }
+}

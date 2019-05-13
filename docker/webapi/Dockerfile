@@ -1,17 +1,7 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
-WORKDIR /app
+FROM nginx:1.15.12-alpine
 
-# copy csproj and restore as distinct layers
-COPY webapi/*.sln /app/
-COPY webapi/*.csproj /app/
-RUN dotnet restore
+COPY --chown=nginx:nginx docker/webapi/etc /etc
+COPY --chown=nginx:nginx src/webapi /srv/html
+RUN rm -f /etc/nginx/conf.d/default.conf
 
-COPY webapi /app/
-RUN dotnet publish -c Release -o out
-
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS runtime
-WORKDIR /app
-COPY --from=build /app/out ./
-COPY docker/expand-secrets.sh /
-
-CMD ["/bin/sh", "-c", "/expand-secrets.sh && dotnet webapi.dll"]
+CMD ["nginx"]
