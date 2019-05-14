@@ -12,9 +12,8 @@ ansible-playbook in order to
 ## Getting started
 
 1. Clone the repository by running `git clone`
-2. Follow the steps under **Exposing secrets**
-3. Run the program using `make dev.up`
-4. Open the the program at [https://localhost/](https://localhost/)
+2. Run the program using `make dev.up`
+3. Open the the program at [https://localhost/](https://localhost/)
 
 ## Encrypted secrets
 
