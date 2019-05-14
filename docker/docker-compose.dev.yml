@@ -34,7 +34,7 @@ services:
     volumes:
       - ../src/guiding_students:/app
     user: "1000"
-    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"]
     working_dir: /app
     environment:
       - MONGODB_PASSWORD=avantys123
@@ -53,7 +53,7 @@ services:
     volumes:
       - ../src/recruiting:/app
     user: "1000"
-    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"]
     working_dir: /app
     environment:
       - MONGODB_PASSWORD=avantys123
@@ -72,7 +72,7 @@ services:
     volumes:
       - ../src/scheduling:/app
     user: "1000"
-    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"]
     working_dir: /app
     environment:
       - MONGODB_PASSWORD=avantys123
@@ -91,7 +91,7 @@ services:
     volumes:
       - ../src/student_administration:/app
     user: "1000"
-    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"]
     working_dir: /app
     environment:
       - MONGODB_PASSWORD=avantys123
@@ -110,7 +110,7 @@ services:
     volumes:
       - ../src/student_portal:/app
     user: "1000"
-    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"]
     working_dir: /app
     environment:
       - MONGODB_PASSWORD=avantys123
@@ -129,7 +129,7 @@ services:
     volumes:
       - ../src/evaluating_students:/app
     user: "1000"
-    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js index.js"]
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"]
     working_dir: /app
     environment:
       - MONGODB_PASSWORD=avantys123
