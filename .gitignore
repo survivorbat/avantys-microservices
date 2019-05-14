@@ -1,8 +1,3 @@
-*.idea/
-*obj
-.vscode/
-*.retry
-
 *.swp
 *.*~
 project.lock.json
@@ -15,6 +10,9 @@ nupkg/
 
 # Rider
 .idea
+
+# retry
+*.retry
 
 # User-specific files
 *.suo

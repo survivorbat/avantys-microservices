@@ -26,6 +26,11 @@ services:
     environment:
       - RABBITMQ_DEFAULT_PASS=c8ggRaQUwtBBiC6nW
 
+  axon:
+    ports:
+      - 8024:8024
+      - 8124:8124
+
   ssl:
     build:
       context: ssl-dev

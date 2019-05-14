@@ -3,6 +3,7 @@ version: '3.5'
 networks:
   nginx: ~
   broker: ~
+  axon: ~
   evaluating_students_db: ~
   guiding_students_db: ~
   recruiting_db: ~
@@ -18,6 +19,7 @@ volumes:
   student_administration_data: ~
   student_portal_data: ~
   rabbit_data: ~
+  axon_data: ~
 
 services:
   nginx:
@@ -39,6 +41,21 @@ services:
      - nginx
     expose:
      - 8080
+
+  axon:
+    image: axoniq/axonserver:4.1.2
+    restart: always
+    networks:
+      - nginx
+      - axon
+    hostname: axon
+    volumes:
+      - axon_data:/opt/axonserver/data
+    environment:
+      - AXONSERVER_HOSTNAME=axon
+    expose:
+      - 8024
+      - 8124
 
   main-broker:
     networks:

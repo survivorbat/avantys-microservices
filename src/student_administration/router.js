@@ -16,10 +16,33 @@ const studentController = require("./controller/students");
  *          description: Something unexpected went wrong
  *        502:
  *          description: Service seems to be unavailable at this time
- *        503:
- *          description: Method has not yet been implemented yet
  */
 router.get("/students", studentController.getStudents);
+
+/**
+ * @swagger
+ * /students/{id}:
+ *    get:
+ *      description: Return student
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *       - name: id
+ *         description: The Student Number of the Student
+ *         required: true
+ *         in: path
+ *         type: string
+ *      responses:
+ *        302:
+ *          description: Redirect to GET students
+ *        500:
+ *          description: Something unexpected went wrong
+ *        502:
+ *          description: Service seems to be unavailable at this time
+ *        404:
+ *          description: No student found by that ID
+ */
+router.get("/students/:id", studentController.getStudent);
 
 /**
  * @swagger
@@ -28,6 +51,17 @@ router.get("/students", studentController.getStudents);
  *      description: Register student
  *      produces:
  *        - application/json
+ *      parameters:
+ *      - name: firstName
+ *        description: The student's first name
+ *        required: true
+ *        in: formData
+ *        type: string
+ *      - name: lastName
+ *        description: The student's last name
+ *        required: true
+ *        in: formData
+ *        type: string
  *      responses:
  *        302:
  *          description: Redirect to GET students
@@ -42,13 +76,13 @@ router.post("/students", studentController.registerStudent);
 
 /**
  * @swagger
- * /students/{studentNumber}:
+ * /students/{id}:
  *    delete:
  *      description: Unregister student
  *      produces:
  *        - application/json
  *      parameters:
- *       - name: studentNumber
+ *       - name: id
  *         description: The Student Number of the Student
  *         required: true
  *         in: path
@@ -63,9 +97,14 @@ router.post("/students", studentController.registerStudent);
  *        503:
  *          description: Method has not yet been implemented yet
  */
-router.delete("/students/:studentNumber", studentController.unregisterStudent);
+router.delete("/students/:id", studentController.unregisterStudent);
 
-router.use((error, req, res) =>
+router.use((error, req, res, next) => {
+  if (error.name === "ValidationError" || error.name === "CastError") {
+    error.status = 422;
+    error.message =
+      "Your request was either malformed or contained invalid input. Please consult the documentation.";
+  }
   res
     .status(error.status || 500)
     .send({
@@ -74,8 +113,8 @@ router.use((error, req, res) =>
       name: error.name,
       status: error.status
     })
-    .end()
-);
+    .end();
+});
 
 router.get("*", (req, res) =>
   res
