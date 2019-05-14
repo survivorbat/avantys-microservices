@@ -41,7 +41,6 @@ services:
      - 8080
 
   main-broker:
-    image: rabbitmq:3.7.14-alpine
     networks:
       - broker
     hostname: main-broker
@@ -49,6 +48,9 @@ services:
       - 15672
     ports:
       - 8080:15672 # Firewall normally blocks this port in production, requires ssh tunnel to access
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=avantys
     volumes:
       - rabbit_data:/var/lib/rabbitmq
 
@@ -71,7 +73,6 @@ services:
       - evaluating_students_db
 
   evaluating_students_db:
-    image: mongo:4.0.9
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_DATABASE=avantys
@@ -102,7 +103,6 @@ services:
       - guiding_students_db
 
   guiding_students_db:
-    image: mongo:4.0.9
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_DATABASE=avantys
@@ -133,7 +133,6 @@ services:
       - recruiting_db
   
   recruiting_db:
-    image: mongo:4.0.9
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_DATABASE=avantys
@@ -195,7 +194,6 @@ services:
       - student_administration_db
 
   student_administration_db:
-    image: mongo:4.0.9
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_DATABASE=avantys

@@ -14,9 +14,9 @@ services:
     image: "avantys/webapi:${docker_tag}"
 
   main-broker:
+    image: "avantys/rabbitmq:${docker_tag}"
     environment:
-      - RABBITMQ_DEFAULT_USER=avantys
-      - RABBITMQ_DEFAULT_PASS_FILE=/run/secrets/RABBIT_MQ_PASSWORD
+      - RABBITMQ_DEFAULT_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
     secrets:
       - RABBIT_MQ_PASSWORD
 
@@ -29,8 +29,9 @@ services:
       - RABBIT_MQ_PASSWORD
       - GUIDING_STUDENTS_DB_PASSWORD
   guiding_students_db:
+    image: avantys/mongo:${docker_tag}
     environment:
-      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/GUIDING_STUDENTS_DB_PASSWORD
+      - MONGO_INITDB_ROOT_PASSWORD=<<DOCKER-SECRET:GUIDING_STUDENTS_DB_PASSWORD>>
     secrets:
       - GUIDING_STUDENTS_DB_PASSWORD
 
@@ -43,8 +44,9 @@ services:
       - RABBIT_MQ_PASSWORD
       - RECRUITING_DB_PASSWORD
   recruiting_db:
+    image: avantys/mongo:${docker_tag}
     environment:
-      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/RECRUITING_DB_PASSWORD
+      - MONGO_INITDB_ROOT_PASSWORD=<<DOCKER-SECRET:RECRUITING_DB_PASSWORD>>
     secrets:
       - RECRUITING_DB_PASSWORD
 
@@ -57,8 +59,9 @@ services:
       - RABBIT_MQ_PASSWORD
       - SCHEDULING_DB_PASSWORD
   scheduling_db:
+    image: avantys/mongo:${docker_tag}
     environment:
-      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/SCHEDULING_DB_PASSWORD
+      - MONGO_INITDB_ROOT_PASSWORD=<<DOCKER-SECRET:SCHEDULING_DB_PASSWORD>>
     secrets:
       - SCHEDULING_DB_PASSWORD
 
@@ -71,8 +74,9 @@ services:
       - RABBIT_MQ_PASSWORD
       - STUDENT_ADMINISTRATION_DB_PASSWORD
   student_administration_db:
+    image: avantys/mongo:${docker_tag}
     environment:
-      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/STUDENT_ADMINISTRATION_DB_PASSWORD
+      - MONGO_INITDB_ROOT_PASSWORD=<<DOCKER-SECRET:STUDENT_ADMINISTRATION_DB_PASSWORD>>
     secrets:
       - STUDENT_ADMINISTRATION_DB_PASSWORD
 
@@ -85,8 +89,9 @@ services:
       - RABBIT_MQ_PASSWORD
       - STUDENT_PORTAL_DB_PASSWORD
   student_portal_db:
+    image: avantys/mongo:${docker_tag}
     environment:
-      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/STUDENT_PORTAL_DB_PASSWORD
+      - MONGO_INITDB_ROOT_PASSWORD=<<DOCKER-SECRET:STUDENT_PORTAL_DB_PASSWORD>>
     secrets:
       - STUDENT_PORTAL_DB_PASSWORD
 
@@ -99,8 +104,9 @@ services:
       - RABBIT_MQ_PASSWORD
       - EVALUATING_STUDENTS_DB_PASSWORD
   evaluating_students_db:
+    image: avantys/mongo:${docker_tag}
     environment:
-      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/EVALUATING_STUDENTS_DB_PASSWORD
+      - MONGO_INITDB_ROOT_PASSWORD=<<DOCKER-SECRET:EVALUATING_STUDENTS_DB_PASSWORD>>
     secrets:
       - EVALUATING_STUDENTS_DB_PASSWORD
 
