@@ -12,7 +12,7 @@ const swaggerOptions = {
       title: "Student Evaluation",
       description: "The API of the student evaluation"
     },
-    host: "localhost/api/v1/evaluating_students",
+    host: process.env.SWAGGER_BASE_URL
   },
   apis: ["/app/router.js"]
 };
@@ -31,5 +31,6 @@ app.use(
 );
 
 app.use("/api/v1/evaluating_students", router);
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
-
+app.listen(port, () =>
+  console.log(`Evaluating students container listening on port ${port}!`)
+);

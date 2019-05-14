@@ -100,6 +100,7 @@ services:
     environment:
       - MONGODB_PASSWORD=<<DOCKER-SECRET:EVALUATING_STUDENTS_DB_PASSWORD>>
       - RABBITMQ_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
+      - SWAGGER_BASE_URL=avantysuniversity.nl/api/v1/evaluating_students
     secrets:
       - RABBIT_MQ_PASSWORD
       - EVALUATING_STUDENTS_DB_PASSWORD

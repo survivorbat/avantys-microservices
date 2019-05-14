@@ -1,10 +1,9 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 let GradeModel = require("./model/grade").GradeModel;
 let StudentModel = require("./model/student").StudentModel;
 let TeacherModel = require("./model/teacher").TeacherModel;
 let TestModel = require("./model/test").TestModel;
-
 
 /**
  * @swagger
@@ -53,44 +52,46 @@ let TestModel = require("./model/test").TestModel;
  *              '500':
  *                  description: "Failed to delete document"
  */
-router.route('/teachers')
-    .get((req, res) => {
-        TeacherModel.find({})
-            .then((allTeachers) => res.json(allTeachers))
-            .catch(() => res.sendStatus(500))
-    })
+router
+  .route("/teachers")
+  .get((req, res) => {
+    TeacherModel.find({})
+      .then(allTeachers => res.json(allTeachers))
+      .catch(() => res.sendStatus(500));
+  })
 
-    .put((req, res) => res.sendStatus(501))
+  .put((req, res) => res.sendStatus(501))
 
-    .post((req, res) => {
-        let teacher = new TeacherModel();
+  .post((req, res) => {
+    let teacher = new TeacherModel();
 
-        const firstName = req.body.firstName;
-        const lastName = req.body.lastName;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
 
-        if (firstName === undefined || lastName === undefined) {
-            res.sendStatus(400);
-            return
-        }
+    if (firstName === undefined || lastName === undefined) {
+      res.sendStatus(400);
+      return;
+    }
 
-        teacher.firstName = req.body.firstName;
-        teacher.lastName = req.body.lastName;
-        teacher.save()
-            .then((savedTeacher) => {
-                res.status(201);
-                res.json(savedTeacher)
-            })
-            .catch((err) => res.sendStatus(500));
-    })
+    teacher.firstName = req.body.firstName;
+    teacher.lastName = req.body.lastName;
+    teacher
+      .save()
+      .then(savedTeacher => {
+        res.status(201);
+        res.json(savedTeacher);
+      })
+      .catch(err => res.sendStatus(500));
+  })
 
-    .delete((req, res) => TeacherModel.remove({})
-        .then((deleted) => {
-            res.status(200);
-            res.json(deleted)
-        })
-        .catch(() => res.sendStatus(500))
-    );
-
+  .delete((req, res) =>
+    TeacherModel.remove({})
+      .then(deleted => {
+        res.status(200);
+        res.json(deleted);
+      })
+      .catch(() => res.sendStatus(500))
+  );
 
 /**
  * @swagger
@@ -139,47 +140,49 @@ router.route('/teachers')
  *              '500':
  *                  description: "Failed to delete document"
  */
-router.route('/students')
-    .get((req, res) => {
-        StudentModel.find({})
-            .then((allStudents) => res.json(allStudents))
-            .catch(() => res.sendStatus(500))
-    })
+router
+  .route("/students")
+  .get((req, res) => {
+    StudentModel.find()
+      .then(allStudents => {
+        res.status(200);
+        res.json(allStudents);
+      })
+      .catch(() => res.sendStatus(500));
+  })
 
-    .put((req, res) => res.sendStatus(501))
+  .put((req, res) => res.sendStatus(501))
 
-    .post((req, res) => {
-        let student = new StudentModel();
+  .post((req, res) => {
+    let student = new StudentModel();
 
-        const firstName = req.body.firstName;
-        const lastName = req.body.lastName;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
 
-        if (firstName === undefined || lastName === undefined) {
-            res.sendStatus(400);
-            return
-        }
+    if (firstName === undefined || lastName === undefined) {
+      res.sendStatus(400);
+      return;
+    }
 
-        student.firstName = req.body.firstName;
-        student.lastName = req.body.lastName;
-        student.save()
-            .then((savedStudent) => {
-                res.status(201);
-                res.json(savedStudent)
-            })
-            .catch((err) => res.sendStatus(500));
-    })
+    student.firstName = req.body.firstName;
+    student.lastName = req.body.lastName;
+    student
+      .save()
+      .then(savedStudent => {
+        res.status(201);
+        res.json(savedStudent);
+      })
+      .catch(err => res.sendStatus(500));
+  })
 
-    .delete((req, res) => StudentModel.remove({})
-        .then((deleted) => {
-            res.status(200);
-            res.json(deleted)
-        })
-        .catch(() => res.sendStatus(500))
-    );
-
-
-
-
+  .delete((req, res) =>
+    StudentModel.remove({})
+      .then(deleted => {
+        res.status(200);
+        res.json(deleted);
+      })
+      .catch(() => res.sendStatus(500))
+  );
 
 /**
  * @swagger
@@ -228,109 +231,114 @@ router.route('/students')
  *              '500':
  *                  description: "Failed to delete document"
  */
-router.route('/tests')
-    .get((req, res) => {
-        TestModel.find({})
-            .then((alltests) => res.json(alltests))
-            .catch(() => res.sendStatus(500))
-    })
+router
+  .route("/tests")
+  .get((req, res) => {
+    TestModel.find({})
+      .then(alltests => res.json(alltests))
+      .catch(() => res.sendStatus(500));
+  })
 
-    .put((req, res) => res.sendStatus(501))
+  .put((req, res) => res.sendStatus(501))
 
-    .post((req, res) => {
-        let test = new TestModel();
+  .post((req, res) => {
+    let test = new TestModel();
 
-        const course = req.body.course;
-        const date = req.body.date;
+    const course = req.body.course;
+    const date = req.body.date;
 
-        if (course === undefined || date === undefined) {
-            res.sendStatus(400);
-            return
-        }
-
-        test.course = req.body.course;
-        test.testDate = req.body.date;
-        test.save()
-            .then((savedtest) => {
-                res.status(201);
-                res.json(savedtest)
-            })
-            .catch((err) => res.sendStatus(500));
-    })
-
-    .delete((req, res) => TestModel.remove({})
-        .then((deleted) => {
-            res.status(200);
-            res.json(deleted)
-        })
-        .catch(() => res.sendStatus(500))
-    );
-
-router.route('/tests/:id/enroll-student')
-    .post((req, res) => {
-    const course = req.params.id;
-    const firstName = req.body.firstName;
-    const lastName = req.body.lastName;
-
-    if (course === undefined ||
-        firstName === undefined ||
-        lastName === undefined) {
-        res.sendStatus(400);
-        return
+    if (course === undefined || date === undefined) {
+      res.sendStatus(400);
+      return;
     }
 
-    TestModel.findById(course)
-        .then((test) => {
-            test.enrolledStudents.push({firstName: firstName, lastName: lastName});
-            test.save()
-                .then((savedtest) => {
-                    res.status(201);
-                    res.json(savedtest)
-                })
-                .catch((err) => res.sendStatus(500));
-        })
+    test.course = req.body.course;
+    test.testDate = req.body.date;
+    test
+      .save()
+      .then(savedtest => {
+        res.status(201);
+        res.json(savedtest);
+      })
+      .catch(err => res.sendStatus(500));
+  })
+
+  .delete((req, res) =>
+    TestModel.remove({})
+      .then(deleted => {
+        res.status(200);
+        res.json(deleted);
+      })
+      .catch(() => res.sendStatus(500))
+  );
+
+router.route("/tests/:id/enroll-student").post((req, res) => {
+  const course = req.params.id;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+
+  if (
+    course === undefined ||
+    firstName === undefined ||
+    lastName === undefined
+  ) {
+    res.sendStatus(400);
+    return;
+  }
+
+  TestModel.findById(course).then(test => {
+    test.enrolledStudents.push({ firstName: firstName, lastName: lastName });
+    test
+      .save()
+      .then(savedtest => {
+        res.status(201);
+        res.json(savedtest);
+      })
+      .catch(err => res.sendStatus(500));
+  });
+});
+
+router.route("/tests/:testId/student/:studentId").post((req, res) => {
+  const courseId = req.params.testId;
+  const studentId = req.params.studentId;
+  const grade = req.body.grade;
+  const teacherFirstName = req.body.teacherFirstName;
+  const teacherLastName = req.body.teacherLastName;
+
+  if (
+    courseId === undefined ||
+    studentId === undefined ||
+    grade === undefined ||
+    teacherFirstName === undefined ||
+    teacherLastName === undefined
+  ) {
+    res.sendStatus(400);
+    return;
+  }
+
+  TestModel.findById(courseId).then(test => {
+    let student = test.enrolledStudents.id(studentId);
+    test.grades.push({
+      student: {
+        firstName: student.firstName,
+        lastName: student.lastName
+      },
+      teacher: {
+        firstName: teacherFirstName,
+        lastName: teacherLastName
+      },
+      grade: grade,
+      date: Date.now()
     });
-
-router.route('/tests/:testId/student/:studentId')
-    .post((req, res) => {
-        const courseId = req.params.testId;
-        const studentId = req.params.studentId;
-        const grade = req.body.grade;
-        const teacherFirstName = req.body.teacherFirstName;
-        const teacherLastName = req.body.teacherLastName;
-
-        if (courseId === undefined ||
-            studentId === undefined ||
-            grade === undefined ||
-            teacherFirstName === undefined ||
-            teacherLastName === undefined) {
-            res.sendStatus(400);
-            return
-        }
-
-        TestModel.findById(courseId)
-            .then((test) => {
-                let student = test.enrolledStudents.id(studentId);
-                test.grades.push({
-                    student: {
-                        firstName: student.firstName,
-                        lastName: student.lastName
-                    },
-                    teacher: {
-                        firstName: teacherFirstName,
-                        lastName: teacherLastName
-                    },
-                    grade: grade,
-                    date: Date.now(),
-                });
-                test.save()
-                    .then((savedtest) => {
-                        res.status(201);
-                        res.json(savedtest)
-                    })
-                    .catch((err) => res.sendStatus(500));
-            })
-    });
+    test
+      .save()
+      .then(savedtest => {
+        res.status(201);
+        res.json(savedtest);
+      })
+      .catch(err => res.sendStatus(500));
+  });
+});
 
 /**
  * @swagger
@@ -345,10 +353,11 @@ router.route('/tests/:testId/student/:studentId')
  *          delete:
  *              description: test 3
  */
-router.route('/tests/:id')
-    .get((req, res) => res.send('Hello World GET!'))
-    .put((req, res) => res.send('Hello World GET!'))
-    .post((req, res) => res.send('Hello World GET!'))
-    .delete((req, res) => res.send('Hello World GET!'));
+router
+  .route("/tests/:id")
+  .get((req, res) => res.send("Hello World GET!"))
+  .put((req, res) => res.send("Hello World GET!"))
+  .post((req, res) => res.send("Hello World GET!"))
+  .delete((req, res) => res.send("Hello World GET!"));
 
 module.exports = router;
