@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-let GradeModel = require("./model/grade").GradeModel;
-let StudentModel = require("./model/student").StudentModel;
-let TeacherModel = require("./model/teacher").TeacherModel;
-let TestModel = require("./model/test").TestModel;
+const GradeModel = require("./model/grade").GradeModel;
+const StudentModel = require("./model/student").StudentModel;
+const TeacherModel = require("./model/teacher").TeacherModel;
+const TestModel = require("./model/test").TestModel;
 
 /**
  * @swagger
@@ -62,11 +62,11 @@ router
 
   .put((req, res) => res.sendStatus(501))
 
-  .post((req, res) => {
+  .post(({body}, res) => {
     let teacher = new TeacherModel();
 
-    const firstName = req.body.firstName;
-    const lastName = req.body.lastName;
+    const firstName = body.firstName;
+    const lastName = body.lastName;
 
     if (firstName === undefined || lastName === undefined) {
       res.sendStatus(400);
@@ -78,8 +78,7 @@ router
     teacher
       .save()
       .then(savedTeacher => {
-        res.status(201);
-        res.json(savedTeacher);
+        res.status(201).json(savedTeacher);
       })
       .catch(err => res.sendStatus(500));
   })
@@ -87,8 +86,7 @@ router
   .delete((req, res) =>
     TeacherModel.remove({})
       .then(deleted => {
-        res.status(200);
-        res.json(deleted);
+        res.status(200).json(deleted);
       })
       .catch(() => res.sendStatus(500))
   );
@@ -169,8 +167,7 @@ router
     student
       .save()
       .then(savedStudent => {
-        res.status(201);
-        res.json(savedStudent);
+        res.status(201).json(savedStudent);
       })
       .catch(err => res.sendStatus(500));
   })
