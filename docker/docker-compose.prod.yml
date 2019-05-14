@@ -13,6 +13,13 @@ services:
   webapi:
     image: "avantys/webapi:${docker_tag}"
 
+  axon:
+    image: "avantys/axon:${docker_tag}"
+    environment:
+      - AXONSERVER_TOKEN=<<DOCKER-SECRET:AXON-TOKEN>>
+    secrets:
+      - AXON-TOKEN
+
   main-broker:
     image: "avantys/rabbitmq:${docker_tag}"
     environment:
@@ -24,6 +31,7 @@ services:
     image: avantys/guiding_students:${docker_tag}
     environment:
       - MONGODB_PASSWORD=<<DOCKER-SECRET:GUIDING_STUDENTS_DB_PASSWORD>>
+      - AXON_TOKEN=<<DOCKER-SECRET:AXON-TOKEN>>
       - RABBITMQ_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
     secrets:
       - RABBIT_MQ_PASSWORD
@@ -39,6 +47,7 @@ services:
     image: avantys/recruiting:${docker_tag}
     environment:
       - MONGODB_PASSWORD=<<DOCKER-SECRET:RECRUITING_DB_PASSWORD>>
+      - AXON_TOKEN=<<DOCKER-SECRET:AXON-TOKEN>>
       - RABBITMQ_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
     secrets:
       - RABBIT_MQ_PASSWORD
@@ -54,6 +63,7 @@ services:
     image: avantys/scheduling:${docker_tag}
     environment:
       - MONGODB_PASSWORD=<<DOCKER-SECRET:SCHEDULING_DB_PASSWORD>>
+      - AXON_TOKEN=<<DOCKER-SECRET:AXON-TOKEN>>
       - RABBITMQ_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
     secrets:
       - RABBIT_MQ_PASSWORD
@@ -69,6 +79,7 @@ services:
     image: avantys/student_administration:${docker_tag}
     environment:
       - MONGODB_PASSWORD=<<DOCKER-SECRET:STUDENT_ADMINISTRATION_DB_PASSWORD>>
+      - AXON_TOKEN=<<DOCKER-SECRET:AXON-TOKEN>>
       - RABBITMQ_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
     secrets:
       - RABBIT_MQ_PASSWORD
@@ -84,6 +95,7 @@ services:
     image: avantys/student_portal:${docker_tag}
     environment:
       - MONGODB_PASSWORD=<<DOCKER-SECRET:STUDENT_PORTAL_DB_PASSWORD>>
+      - AXON_TOKEN=<<DOCKER-SECRET:AXON-TOKEN>>
       - RABBITMQ_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
     secrets:
       - RABBIT_MQ_PASSWORD
@@ -99,6 +111,7 @@ services:
     image: avantys/evaluating_students:${docker_tag}
     environment:
       - MONGODB_PASSWORD=<<DOCKER-SECRET:EVALUATING_STUDENTS_DB_PASSWORD>>
+      - AXON_TOKEN=<<DOCKER-SECRET:AXON-TOKEN>>
       - RABBITMQ_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
     secrets:
       - RABBIT_MQ_PASSWORD
@@ -125,3 +138,5 @@ secrets:
     file: ${secrets_folder}/RECRUITING_DB_PASSWORD
   GUIDING_STUDENTS_DB_PASSWORD:
     file: ${secrets_folder}/GUIDING_STUDENTS_DB_PASSWORD
+  AXON-TOKEN:
+    file: ${secrets_folder}/AXON-TOKEN

@@ -26,6 +26,16 @@ services:
     environment:
       - RABBITMQ_DEFAULT_PASS=c8ggRaQUwtBBiC6nW
 
+  axon:
+    build:
+      context: ../
+      dockerfile: docker/axon/Dockerfile
+    environment:
+      - AXONSERVER_TOKEN=avantys123
+    ports:
+      - 8024:8024
+      - 8124:8124
+
   ssl:
     build:
       context: ssl-dev
@@ -41,6 +51,7 @@ services:
     environment:
       - MONGODB_PASSWORD=avantys123
       - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
+      - AXON_TOKEN=avantys123
     build:
       context: ../
       dockerfile: docker/guiding_students/Dockerfile
@@ -63,6 +74,7 @@ services:
     environment:
       - MONGODB_PASSWORD=avantys123
       - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
+      - AXON_TOKEN=avantys123
     build:
       context: ../
       dockerfile: docker/recruiting/Dockerfile
@@ -85,6 +97,7 @@ services:
     environment:
       - MONGODB_PASSWORD=avantys123
       - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
+      - AXON_TOKEN=avantys123
     build:
       context: ../
       dockerfile: docker/scheduling/Dockerfile
@@ -107,6 +120,7 @@ services:
     environment:
       - MONGODB_PASSWORD=avantys123
       - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
+      - AXON_TOKEN=avantys123
     build:
       context: ../
       dockerfile: docker/student_administration/Dockerfile
@@ -129,6 +143,7 @@ services:
     environment:
       - MONGODB_PASSWORD=avantys123
       - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
+      - AXON_TOKEN=avantys123
     build:
       context: ../
       dockerfile: docker/student_portal/Dockerfile
@@ -151,6 +166,7 @@ services:
     environment:
       - MONGODB_PASSWORD=avantys123
       - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
+      - AXON_TOKEN=avantys123
     build:
       context: ../
       dockerfile: docker/evaluating_students/Dockerfile
