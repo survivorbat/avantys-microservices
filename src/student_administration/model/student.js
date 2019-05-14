@@ -25,7 +25,7 @@ const studentSchema = new Schema({
   },
   study: {
     type: Study,
-    required: true
+    required: false
   }
 });
 

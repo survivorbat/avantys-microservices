@@ -42,7 +42,7 @@ router.get("/students", studentController.getStudents);
  *        404:
  *          description: No student found by that ID
  */
-router.get("/students/{id}", studentController.getStudent);
+router.get("/students/:id", studentController.getStudent);
 
 /**
  * @swagger
@@ -51,19 +51,17 @@ router.get("/students/{id}", studentController.getStudent);
  *      description: Register student
  *      produces:
  *        - application/json
- *      requestBody:
+ *      parameters:
+ *      - name: firstName
+ *        description: The student's first name
  *        required: true
- *        content:
- *          application/json:
- *              schema:
-     *              - name: firstName
-     *                description: First name of the student
-     *                required: true
-     *                type: string
-     *              - name: lastName
-     *                description: Last name of the student
-     *                required: true
-     *                type: string
+ *        in: formData
+ *        type: string
+ *      - name: lastName
+ *        description: The student's last name
+ *        required: true
+ *        in: formData
+ *        type: string
  *      responses:
  *        302:
  *          description: Redirect to GET students
@@ -101,7 +99,12 @@ router.post("/students", studentController.registerStudent);
  */
 router.delete("/students/:id", studentController.unregisterStudent);
 
-router.use((error, req, res) =>
+router.use((error, req, res, next) => {
+  if (error.name === "ValidationError" || error.name === "CastError") {
+    error.status = 422;
+    error.message =
+      "Your request was either malformed or contained invalid input. Please consult the documentation.";
+  }
   res
     .status(error.status || 500)
     .send({
@@ -110,8 +113,8 @@ router.use((error, req, res) =>
       name: error.name,
       status: error.status
     })
-    .end()
-);
+    .end();
+});
 
 router.get("*", (req, res) =>
   res
