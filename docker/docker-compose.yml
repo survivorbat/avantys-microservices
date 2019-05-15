@@ -30,6 +30,7 @@ services:
     ports:
       - 80:8080
       - 443:8081
+      - 8080:8082
     command: ["/bin/sh", "-c", "rm -rf /var/cache/nginx/*
       && rm -rfv /etc/nginx/conf.d/*
       && for i in $$(find /etc/nginx/temp/ | grep -F .conf); do awk '{while(match($$0,\"[$$]{[^}]*}\")) {var=substr($$0,RSTART+2,RLENGTH -3);gsub(\"[$$]{\"var\"}\",ENVIRON[var])}}1' < \"$$i\" > $$(echo $${i/temp//}); done
@@ -60,11 +61,10 @@ services:
   main-broker:
     networks:
       - broker
+      - nginx
     hostname: main-broker
     expose:
       - 15672
-    ports:
-      - 8080:15672
     restart: always
     environment:
       - RABBITMQ_DEFAULT_USER=avantys

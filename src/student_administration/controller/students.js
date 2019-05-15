@@ -1,5 +1,7 @@
 const Student = require("../model/student").Student;
-const RabbitMQ = require("../config/rabbitmq");
+const sendToQueue = require("../config/rabbitmq").connectAndSend;
+const StudentRegistered = require("../events/StudentRegistered");
+const StudentUnregistered = require("../events/StudentUnregistered");
 
 /**
  * @param {Object} req
@@ -9,7 +11,9 @@ const RabbitMQ = require("../config/rabbitmq");
  */
 const getStudents = async (req, res, next) =>
   await Student.find()
-    .then(students => (students ? res.json(200, students) : res.json(200, [])))
+    .then(students =>
+      students ? res.status(200).json(students) : res.status(200).json([])
+    )
     .catch(next);
 
 /**
@@ -20,7 +24,7 @@ const getStudents = async (req, res, next) =>
  */
 const getStudent = async ({ params: { id } }, res, next) =>
   await Student.findById(id)
-    .then(student => (student ? res.json(200, student) : res.end(404)))
+    .then(student => (student ? res.status(200).json(student) : res.end(404)))
     .catch(next);
 
 /**
@@ -33,10 +37,8 @@ const registerStudent = async ({ body }, res, next) =>
   await new Student(body, {})
     .save()
     .then(result => {
-      if (!result) {
-        next({ status: 500 });
-      }
-      RabbitMQ.res.redirect(303, "students");
+      sendToQueue(StudentRegistered({ ...body, _id: result.id }));
+      return res.redirect(303, "students");
     })
     .catch(next);
 
@@ -50,7 +52,10 @@ const registerStudent = async ({ body }, res, next) =>
  */
 const unregisterStudent = async ({ params: { id } }, res, next) =>
   await Student.findOneAndDelete(id)
-    .then(() => res.redirect(303, "/api/v1/student_administration/students"))
+    .then(result => {
+      sendToQueue(StudentUnregistered(result));
+      return res.redirect(303, "/api/v1/student_administration/students");
+    })
     .catch(next);
 
 module.exports = {
