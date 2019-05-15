@@ -26,6 +26,11 @@ services:
     environment:
       - RABBITMQ_DEFAULT_PASS=c8ggRaQUwtBBiC6nW
 
+  axon:
+    ports:
+      - 8024:8024
+      - 8124:8124
+
   ssl:
     build:
       context: ssl-dev
@@ -151,6 +156,7 @@ services:
     environment:
       - MONGODB_PASSWORD=avantys123
       - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
+      - SWAGGER_BASE_URL=localhost/api/v1/evaluating_students
     build:
       context: ../
       dockerfile: docker/evaluating_students/Dockerfile
