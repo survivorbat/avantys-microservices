@@ -19,8 +19,8 @@ const getStudents = async (req, res, next) =>
  * @param {Function} next
  * @returns {Promise<*>}
  */
-const getStudent = async ({ params }, res, next) =>
-  await Student.findById(params.id)
+const getStudent = async ({ params: { id } }, res, next) =>
+  await Student.findById(id)
     .then(student =>
       student ? res.status(200).json(student) : res.status(404).end()
     )
@@ -48,8 +48,8 @@ const registerStudent = async ({ body }, res, next) =>
  * @param {Function} next
  * @returns {Promise<*>}
  */
-const unregisterStudent = async ({ params }, res, next) =>
-  await Student.findOneAndDelete(params.id)
+const unregisterStudent = async ({ params: { id } }, res, next) =>
+  await Student.findOneAndDelete(id)
     .then(() => res.redirect(303, "/api/v1/student_administration/students"))
     .catch(next);
 
