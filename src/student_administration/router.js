@@ -1,6 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const studentController = require("./controller/students");
+const {
+  getStudent,
+  getStudents,
+  registerStudent,
+  unregisterStudent
+} = require("./controller/students");
+const { notFound, catchError } = require("./controller/_error");
 
 /**
  * @swagger
@@ -17,7 +23,7 @@ const studentController = require("./controller/students");
  *        502:
  *          description: Service seems to be unavailable at this time
  */
-router.get("/students", studentController.getStudents);
+router.get("/students", getStudents);
 
 /**
  * @swagger
@@ -42,7 +48,7 @@ router.get("/students", studentController.getStudents);
  *        404:
  *          description: No student found by that ID
  */
-router.get("/students/:id", studentController.getStudent);
+router.get("/students/:id", getStudent);
 
 /**
  * @swagger
@@ -72,7 +78,7 @@ router.get("/students/:id", studentController.getStudent);
  *        503:
  *          description: Method has not yet been implemented yet
  */
-router.post("/students", studentController.registerStudent);
+router.post("/students", registerStudent);
 
 /**
  * @swagger
@@ -97,32 +103,9 @@ router.post("/students", studentController.registerStudent);
  *        503:
  *          description: Method has not yet been implemented yet
  */
-router.delete("/students/:id", studentController.unregisterStudent);
+router.delete("/students/:id", unregisterStudent);
 
-router.use((error, req, res, next) => {
-  if (error.name === "ValidationError" || error.name === "CastError") {
-    error.status = 422;
-    error.message =
-      "Your request was either malformed or contained invalid input. Please consult the documentation.";
-  }
-  res
-    .status(error.status || 500)
-    .send({
-      message: error.message,
-      code: error.code,
-      name: error.name,
-      status: error.status
-    })
-    .end();
-});
-
-router.get("*", (req, res) =>
-  res
-    .status(404)
-    .send({
-      message: "404 not found"
-    })
-    .end()
-);
+router.use(catchError);
+router.get("*", notFound);
 
 module.exports = router;
