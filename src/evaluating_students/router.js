@@ -70,17 +70,13 @@ router
     const teacher = new TeacherModel({ firstName, lastName }, {});
     teacher
       .save()
-      .then(savedTeacher => {
-        res.json(201, savedTeacher);
-      })
+      .then(savedTeacher => res.json(201, savedTeacher))
       .catch(err => res.sendStatus(500));
   })
 
   .delete((req, res) =>
     TeacherModel.remove({})
-      .then(deleted => {
-        res.json(200, deleted);
-      })
+      .then(deleted => res.json(200, deleted))
       .catch(() => res.sendStatus(500))
   );
 
@@ -135,9 +131,7 @@ router
   .route("/students")
   .get((req, res) => {
     StudentModel.find()
-      .then(allStudents => {
-        res.json(200, allStudents);
-      })
+      .then(allStudents => res.json(200, allStudents))
       .catch(() => res.sendStatus(500));
   })
 
@@ -152,17 +146,13 @@ router
 
     student
       .save()
-      .then(savedStudent => {
-        res.json(201, savedStudent);
-      })
+      .then(savedStudent => res.json(201, savedStudent))
       .catch(err => res.sendStatus(500));
   })
 
   .delete((req, res) =>
     StudentModel.remove({})
-      .then(deleted => {
-        res.json(200, deleted);
-      })
+      .then(deleted => res.json(200, deleted))
       .catch(() => res.sendStatus(500))
   );
 
@@ -231,17 +221,13 @@ router
     const test = new TestModel({ course, date }, {});
     test
       .save()
-      .then(savedtest => {
-        res.json(201, savedtest);
-      })
+      .then(savedtest => res.json(201, savedtest))
       .catch(err => res.sendStatus(500));
   })
 
   .delete((req, res) =>
     TestModel.remove({})
-      .then(deleted => {
-        res.json(200, deleted);
-      })
+      .then(deleted => res.json(200, deleted))
       .catch(() => res.sendStatus(500))
   );
 
