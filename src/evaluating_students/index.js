@@ -4,13 +4,15 @@ const bodyparser = require("body-parser");
 const swaggerJsdoc = require("swagger-jsdoc");
 const router = require("./router");
 const app = express();
+const port = process.env.PORT || 3000;
 
 const swaggerOptions = {
   swaggerDefinition: {
     info: {
       title: "Student Evaluation",
       description: "The API of the student evaluation"
-    }
+    },
+    host: process.env.SWAGGER_BASE_URL
   },
   apis: ["/app/router.js"]
 };
@@ -29,5 +31,6 @@ app.use(
 );
 
 app.use("/api/v1/evaluating_students", router);
-
-app.listen(process.env.PORT || 3000);
+app.listen(port, () =>
+  console.log(`Evaluating students container listening on port ${port}!`)
+);
