@@ -8,9 +8,7 @@ const Student = require("../model/student").Student;
  */
 const getStudents = async (req, res, next) =>
   await Student.find()
-    .then(students =>
-      students ? res.status(200).json(students) : res.status(200).json([])
-    )
+    .then(students => (students ? res.json(200, students) : res.json(200, [])))
     .catch(next);
 
 /**
@@ -21,9 +19,7 @@ const getStudents = async (req, res, next) =>
  */
 const getStudent = async ({ params: { id } }, res, next) =>
   await Student.findById(id)
-    .then(student =>
-      student ? res.status(200).json(student) : res.status(404).end()
-    )
+    .then(student => (student ? res.json(200, student) : res.end(404)))
     .catch(next);
 
 /**
@@ -35,9 +31,7 @@ const getStudent = async ({ params: { id } }, res, next) =>
 const registerStudent = async ({ body }, res, next) =>
   await new Student(body, {})
     .save()
-    .then(result =>
-      result ? res.status(303).redirect("students") : res.status(500)
-    )
+    .then(result => (result ? res.redirect("students") : res.status(500)))
     .catch(next);
 
 /**

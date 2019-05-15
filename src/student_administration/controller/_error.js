@@ -15,7 +15,7 @@ const catchError = (
     message =
       "Your request was either malformed or contained invalid input. Please consult the documentation.";
   }
-  res.status(status).json({
+  res.json(status, {
     message,
     code,
     errorName,
@@ -29,7 +29,7 @@ const catchError = (
  * @returns {*}
  */
 const notFound = (req, res) =>
-  res.status(404).json({
+  res.json(404, {
     message: "404 not found"
   });
 

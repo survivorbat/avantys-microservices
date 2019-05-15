@@ -56,7 +56,7 @@ router
   .route("/teachers")
   .get((req, res) => {
     TeacherModel.find()
-      .then(allTeachers => res.json(allTeachers))
+      .then(allTeachers => res.json(200, allTeachers))
       .catch(() => res.sendStatus(500));
   })
 
