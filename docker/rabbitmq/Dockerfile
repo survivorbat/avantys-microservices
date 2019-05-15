@@ -1,4 +1,4 @@
-FROM rabbitmq:3.7.14-alpine
+FROM rabbitmq:3.7.14-management-alpine
 
 COPY docker/expand-secrets.sh /bin/
 

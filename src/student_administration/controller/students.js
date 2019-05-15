@@ -1,4 +1,5 @@
 const Student = require("../model/student").Student;
+const RabbitMQ = require("../config/rabbitmq");
 
 /**
  * @param {Object} req
@@ -31,7 +32,12 @@ const getStudent = async ({ params: { id } }, res, next) =>
 const registerStudent = async ({ body }, res, next) =>
   await new Student(body, {})
     .save()
-    .then(result => (result ? res.redirect("students") : res.status(500)))
+    .then(result => {
+      if (!result) {
+        next({ status: 500 });
+      }
+      RabbitMQ.res.redirect(303, "students");
+    })
     .catch(next);
 
 /**
