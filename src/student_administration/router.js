@@ -1,6 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const studentController = require("./controller/students");
+const {
+  getStudent,
+  getStudents,
+  registerStudent,
+  unregisterStudent
+} = require("./controller/students");
+const { notFound, catchError } = require("./controller/_error");
 
 /**
  * @swagger
@@ -16,10 +22,33 @@ const studentController = require("./controller/students");
  *          description: Something unexpected went wrong
  *        502:
  *          description: Service seems to be unavailable at this time
- *        503:
- *          description: Method has not yet been implemented yet
  */
-router.get("/students", studentController.getStudents);
+router.get("/students", getStudents);
+
+/**
+ * @swagger
+ * /students/{id}:
+ *    get:
+ *      description: Return student
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *       - name: id
+ *         description: The Student Number of the Student
+ *         required: true
+ *         in: path
+ *         type: string
+ *      responses:
+ *        302:
+ *          description: Redirect to GET students
+ *        500:
+ *          description: Something unexpected went wrong
+ *        502:
+ *          description: Service seems to be unavailable at this time
+ *        404:
+ *          description: No student found by that ID
+ */
+router.get("/students/:id", getStudent);
 
 /**
  * @swagger
@@ -28,6 +57,17 @@ router.get("/students", studentController.getStudents);
  *      description: Register student
  *      produces:
  *        - application/json
+ *      parameters:
+ *      - name: firstName
+ *        description: The student's first name
+ *        required: true
+ *        in: formData
+ *        type: string
+ *      - name: lastName
+ *        description: The student's last name
+ *        required: true
+ *        in: formData
+ *        type: string
  *      responses:
  *        302:
  *          description: Redirect to GET students
@@ -38,17 +78,17 @@ router.get("/students", studentController.getStudents);
  *        503:
  *          description: Method has not yet been implemented yet
  */
-router.post("/students", studentController.registerStudent);
+router.post("/students", registerStudent);
 
 /**
  * @swagger
- * /students/{studentNumber}:
+ * /students/{id}:
  *    delete:
  *      description: Unregister student
  *      produces:
  *        - application/json
  *      parameters:
- *       - name: studentNumber
+ *       - name: id
  *         description: The Student Number of the Student
  *         required: true
  *         in: path
@@ -63,27 +103,9 @@ router.post("/students", studentController.registerStudent);
  *        503:
  *          description: Method has not yet been implemented yet
  */
-router.delete("/students/:studentNumber", studentController.unregisterStudent);
+router.delete("/students/:id", unregisterStudent);
 
-router.use((error, req, res) =>
-  res
-    .status(error.status || 500)
-    .send({
-      message: error.message,
-      code: error.code,
-      name: error.name,
-      status: error.status
-    })
-    .end()
-);
-
-router.get("*", (req, res) =>
-  res
-    .status(404)
-    .send({
-      message: "404 not found"
-    })
-    .end()
-);
+router.use(catchError);
+router.get("*", notFound);
 
 module.exports = router;
