@@ -233,12 +233,12 @@ router
 
 router
   .route("/tests/:id/enroll-student")
-  .post(({ body: { firstName, lastName }, params: { course } }, res) => {
-    if (!course || !firstName || !lastName) {
+  .post(({ body: { firstName, lastName }, params: { id } }, res) => {
+    if (!id || !firstName || !lastName) {
       return res.sendStatus(400);
     }
 
-    TestModel.findById(course).then(test => {
+    TestModel.findById(id).then(test => {
       test.enrolledStudents.push({ firstName, lastName });
       test
         .save()
@@ -252,13 +252,13 @@ router
   .post(
     (
       {
-        params: { testId, studentId, courseId },
+        params: { testId, studentId },
         body: { grade, teacherFirstName, teacherLastName }
       },
       res
     ) => {
       if (
-        !courseId ||
+        !testId ||
         !studentId ||
         !grade ||
         !teacherFirstName ||
@@ -267,7 +267,7 @@ router
         return res.sendStatus(400);
       }
 
-      TestModel.findById(courseId).then(test => {
+      TestModel.findById(testId).then(test => {
         const { firstName, lastName } = test.enrolledStudents.id(studentId);
         test.grades.push({
           student: {
