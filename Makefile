@@ -11,7 +11,7 @@ help:
 ### Development commands ###
 
 dev.up: ## Up containers in development mode
-	COMPOSE_HTTP_TIMEOUT=500 docker-compose -f docker/docker-compose.yml -f docker/docker-compose.dev.yml -p avantys up -d
+	docker-compose -f docker/docker-compose.yml -f docker/docker-compose.dev.yml -p avantys up -d
 	@echo Great! The application will soon appear over at: https://localhost/
 
 dev.down: ## Down containers in development mode

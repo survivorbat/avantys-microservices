@@ -1,6 +1,6 @@
-const mongoose = require("../config/db");
-
+const mongoose = require('../db');
 const Schema = mongoose.Schema;
+
 const potentialStudentSchema = new Schema({
   firstName: {
     type: String,

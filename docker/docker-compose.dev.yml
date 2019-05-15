@@ -58,7 +58,7 @@ services:
     volumes:
       - ../src/recruiting:/app
     user: "1000"
-    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"]
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch -V index.js"]
     working_dir: /app
     environment:
       - MONGODB_PASSWORD=avantys123
