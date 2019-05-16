@@ -7,10 +7,6 @@ const moduleSchema = new Schema({
     type: String,
     required: true
   },
-  description: {
-    type: String,
-    required: true
-  },
   testResults: {
     type: [TestResult],
     required: false,
