@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const lessonController = require("./controller/lessons");
+const { notFound, catchError } = require("./controller/_error");
 
 /**
  * @swagger
@@ -79,5 +80,8 @@ router.post("/lessons", lessonController.createLesson);
  *          description: Method has not yet been implemented yet
  */
 router.delete("/lessons/:id", lessonController.deleteLesson);
+
+router.use(catchError);
+router.get("*", notFound);
 
 module.exports = router;
