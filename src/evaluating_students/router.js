@@ -151,19 +151,19 @@ router
 
   .put((req, res) => res.sendStatus(501))
 
-  .post((req, res) => {
+  .post(({body, params}, res) => {
     let student = new StudentModel();
 
-    const firstName = req.body.firstName;
-    const lastName = req.body.lastName;
+    const firstName = body.firstName;
+    const lastName = body.lastName;
 
     if (firstName === undefined || lastName === undefined) {
       res.sendStatus(400);
       return;
     }
 
-    student.firstName = req.body.firstName;
-    student.lastName = req.body.lastName;
+    student.firstName = firstName;
+    student.lastName = lastName;
     student
       .save()
       .then(savedStudent => {
@@ -238,19 +238,19 @@ router
 
   .put((req, res) => res.sendStatus(501))
 
-  .post((req, res) => {
+  .post(({body}, res) => {
     let test = new TestModel();
 
-    const course = req.body.course;
-    const date = req.body.date;
+    const course = body.course;
+    const date = body.date;
 
     if (course === undefined || date === undefined) {
       res.sendStatus(400);
       return;
     }
 
-    test.course = req.body.course;
-    test.testDate = req.body.date;
+    test.course = course;
+    test.testDate = date;
     test
       .save()
       .then(savedtest => {
@@ -269,10 +269,10 @@ router
       .catch(() => res.sendStatus(500))
   );
 
-router.route("/tests/:id/enroll-student").post((req, res) => {
-  const course = req.params.id;
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
+router.route("/tests/:id/enroll-student").post(({body, params}, res) => {
+  const course = params.id;
+  const firstName = body.firstName;
+  const lastName = body.lastName;
 
   if (
     course === undefined ||
@@ -295,12 +295,12 @@ router.route("/tests/:id/enroll-student").post((req, res) => {
   });
 });
 
-router.route("/tests/:testId/student/:studentId").post((req, res) => {
-  const courseId = req.params.testId;
-  const studentId = req.params.studentId;
-  const grade = req.body.grade;
-  const teacherFirstName = req.body.teacherFirstName;
-  const teacherLastName = req.body.teacherLastName;
+router.route("/tests/:testId/student/:studentId").post(({body, params}, res) => {
+  const courseId = params.testId;
+  const studentId = params.studentId;
+  const grade = body.grade;
+  const teacherFirstName = body.teacherFirstName;
+  const teacherLastName = body.teacherLastName;
 
   if (
     courseId === undefined ||
@@ -330,8 +330,7 @@ router.route("/tests/:testId/student/:studentId").post((req, res) => {
     test
       .save()
       .then(savedtest => {
-        res.status(201);
-        res.json(savedtest);
+        res.status(201).json(savedtest);
       })
       .catch(err => res.sendStatus(500));
   });
