@@ -9,6 +9,7 @@ networks:
   recruiting_db: ~
   scheduling_db: ~
   student_administration_db: ~
+  teacher_administration_db: ~
   student_portal_db: ~
 
 volumes:
@@ -17,6 +18,7 @@ volumes:
   recruiting_data: ~
   scheduling_data: ~
   student_administration_data: ~
+  teacher_administration_data: ~
   student_portal_data: ~
   rabbit_data: ~
   axon_data: ~
@@ -249,4 +251,33 @@ services:
     networks:
       - student_portal_db
     volumes:
-      - student_portal_data:/data/db 
+      - student_portal_data:/data/db
+
+  teacher_administration:
+    expose:
+      - 3000
+    environment:
+      - RABBITMQ_HOST=main-broker
+      - MONGODB_USERNAME=avantys
+      - PORT=3000
+      - MONGODB_HO=teacher_administration_db
+    restart: always
+    depends_on:
+      - teacher_administration_db
+      - main-broker
+    networks:
+      - broker
+      - nginx
+      - teacher_administration_db
+
+  teacher_administration_db:
+    image: mongo:4.0.9
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+    expose:
+      - 27017
+    restart: always
+    networks:
+      - teacher_administration_db
+    volumes:
+      - teacher_administration_data:/data/db
