@@ -26,7 +26,7 @@ docker_images:
   - dockerfile: docker/mongo/Dockerfile
     path: ../
     name: avantys/mongo
-  - docker: docker/teacher_administration/Dockerfile
+  - dockerfile: docker/teacher_administration/Dockerfile
     path: ../
     name: avantys/teacher_administration
   - dockerfile: docker/rabbitmq/Dockerfile

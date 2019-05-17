@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 /**
@@ -8,7 +8,7 @@ const router = express.Router();
  *      description: Return list of students
  */
 router.get("/students", (req, res) => {
-    return res.send("Hello");
+  return res.send("Hello");
 });
 
 module.exports = router;
