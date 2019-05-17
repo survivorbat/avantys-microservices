@@ -16,7 +16,6 @@ const createLesson = async ({ body }, res, next) =>
     })
     .catch(next);
 
-// const deleteLesson = async (req, res) => res.status(503).end();
 const deleteLesson = async ({ params: { id } }, res, next) =>
   await Lessons.findOneAndDelete(id)
     .then(result => {
