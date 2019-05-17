@@ -8,9 +8,7 @@ const Student = require("../model/student").Student;
  */
 const getStudents = async (req, res, next) =>
   await Student.find()
-    .then(students =>
-      students ? res.status(200).json(students) : res.status(200).json([])
-    )
+    .then(students => (students ? res.json(200, students) : res.json(200, [])))
     .catch(next);
 
 /**
@@ -19,11 +17,9 @@ const getStudents = async (req, res, next) =>
  * @param {Function} next
  * @returns {Promise<*>}
  */
-const getStudent = async ({ params }, res, next) =>
-  await Student.findById(params.id)
-    .then(student =>
-      student ? res.status(200).json(student) : res.status(404).end()
-    )
+const getStudent = async ({ params: { id } }, res, next) =>
+  await Student.findById(id)
+    .then(student => (student ? res.json(200, student) : res.end(404)))
     .catch(next);
 
 /**
@@ -35,9 +31,7 @@ const getStudent = async ({ params }, res, next) =>
 const registerStudent = async ({ body }, res, next) =>
   await new Student(body, {})
     .save()
-    .then(result =>
-      result ? res.status(303).redirect("students") : res.status(500)
-    )
+    .then(result => (result ? res.redirect("students") : res.status(500)))
     .catch(next);
 
 /**
@@ -48,8 +42,8 @@ const registerStudent = async ({ body }, res, next) =>
  * @param {Function} next
  * @returns {Promise<*>}
  */
-const unregisterStudent = async ({ params }, res, next) =>
-  await Student.findOneAndDelete(params.id)
+const unregisterStudent = async ({ params: { id } }, res, next) =>
+  await Student.findOneAndDelete(id)
     .then(() => res.redirect(303, "/api/v1/student_administration/students"))
     .catch(next);
 

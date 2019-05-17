@@ -55,39 +55,28 @@ const TestModel = require("./model/test").TestModel;
 router
   .route("/teachers")
   .get((req, res) => {
-    TeacherModel.find({})
-      .then(allTeachers => res.json(allTeachers))
+    TeacherModel.find()
+      .then(allTeachers => res.json(200, allTeachers))
       .catch(() => res.sendStatus(500));
   })
 
   .put((req, res) => res.sendStatus(501))
 
-  .post(({body}, res) => {
-    let teacher = new TeacherModel();
-
-    const firstName = body.firstName;
-    const lastName = body.lastName;
-
-    if (firstName === undefined || lastName === undefined) {
-      res.sendStatus(400);
-      return;
+  .post(({ body: { firstName, lastName } }, res) => {
+    if (!firstName || !lastName) {
+      return res.sendStatus(400);
     }
 
-    teacher.firstName = req.body.firstName;
-    teacher.lastName = req.body.lastName;
+    const teacher = new TeacherModel({ firstName, lastName }, {});
     teacher
       .save()
-      .then(savedTeacher => {
-        res.status(201).json(savedTeacher);
-      })
+      .then(savedTeacher => res.json(201, savedTeacher))
       .catch(err => res.sendStatus(500));
   })
 
   .delete((req, res) =>
     TeacherModel.remove({})
-      .then(deleted => {
-        res.status(200).json(deleted);
-      })
+      .then(deleted => res.json(200, deleted))
       .catch(() => res.sendStatus(500))
   );
 
@@ -142,42 +131,28 @@ router
   .route("/students")
   .get((req, res) => {
     StudentModel.find()
-      .then(allStudents => {
-        res.status(200);
-        res.json(allStudents);
-      })
+      .then(allStudents => res.json(200, allStudents))
       .catch(() => res.sendStatus(500));
   })
 
   .put((req, res) => res.sendStatus(501))
 
-  .post(({body, params}, res) => {
-    let student = new StudentModel();
-
-    const firstName = body.firstName;
-    const lastName = body.lastName;
-
-    if (firstName === undefined || lastName === undefined) {
-      res.sendStatus(400);
-      return;
+  .post(({ body: { firstName, lastName } }, res) => {
+    if (!firstName || !lastName) {
+      return res.sendStatus(400);
     }
 
-    student.firstName = firstName;
-    student.lastName = lastName;
+    const student = new StudentModel({ firstName, lastName }, {});
+
     student
       .save()
-      .then(savedStudent => {
-        res.status(201).json(savedStudent);
-      })
+      .then(savedStudent => res.json(201, savedStudent))
       .catch(err => res.sendStatus(500));
   })
 
   .delete((req, res) =>
     StudentModel.remove({})
-      .then(deleted => {
-        res.status(200);
-        res.json(deleted);
-      })
+      .then(deleted => res.json(200, deleted))
       .catch(() => res.sendStatus(500))
   );
 
@@ -232,109 +207,87 @@ router
   .route("/tests")
   .get((req, res) => {
     TestModel.find({})
-      .then(alltests => res.json(alltests))
+      .then(alltests => res.json(200, alltests))
       .catch(() => res.sendStatus(500));
   })
 
   .put((req, res) => res.sendStatus(501))
 
-  .post(({body}, res) => {
-    let test = new TestModel();
-
-    const course = body.course;
-    const date = body.date;
-
-    if (course === undefined || date === undefined) {
-      res.sendStatus(400);
-      return;
+  .post(({ body: { course, date } }, res) => {
+    if (!course || !date) {
+      return res.sendStatus(400);
     }
 
-    test.course = course;
-    test.testDate = date;
+    const test = new TestModel({ course, date }, {});
     test
       .save()
-      .then(savedtest => {
-        res.status(201);
-        res.json(savedtest);
-      })
+      .then(savedtest => res.json(201, savedtest))
       .catch(err => res.sendStatus(500));
   })
 
   .delete((req, res) =>
     TestModel.remove({})
-      .then(deleted => {
-        res.status(200);
-        res.json(deleted);
-      })
+      .then(deleted => res.json(200, deleted))
       .catch(() => res.sendStatus(500))
   );
 
-router.route("/tests/:id/enroll-student").post(({body, params}, res) => {
-  const course = params.id;
-  const firstName = body.firstName;
-  const lastName = body.lastName;
+router
+  .route("/tests/:id/enroll-student")
+  .post(({ body: { firstName, lastName }, params: { id } }, res) => {
+    if (!id || !firstName || !lastName) {
+      return res.sendStatus(400);
+    }
 
-  if (
-    course === undefined ||
-    firstName === undefined ||
-    lastName === undefined
-  ) {
-    res.sendStatus(400);
-    return;
-  }
-
-  TestModel.findById(course).then(test => {
-    test.enrolledStudents.push({ firstName: firstName, lastName: lastName });
-    test
-      .save()
-      .then(savedtest => {
-        res.status(201);
-        res.json(savedtest);
-      })
-      .catch(err => res.sendStatus(500));
-  });
-});
-
-router.route("/tests/:testId/student/:studentId").post(({body, params}, res) => {
-  const courseId = params.testId;
-  const studentId = params.studentId;
-  const grade = body.grade;
-  const teacherFirstName = body.teacherFirstName;
-  const teacherLastName = body.teacherLastName;
-
-  if (
-    courseId === undefined ||
-    studentId === undefined ||
-    grade === undefined ||
-    teacherFirstName === undefined ||
-    teacherLastName === undefined
-  ) {
-    res.sendStatus(400);
-    return;
-  }
-
-  TestModel.findById(courseId).then(test => {
-    let student = test.enrolledStudents.id(studentId);
-    test.grades.push({
-      student: {
-        firstName: student.firstName,
-        lastName: student.lastName
-      },
-      teacher: {
-        firstName: teacherFirstName,
-        lastName: teacherLastName
-      },
-      grade: grade,
-      date: Date.now()
+    TestModel.findById(id).then(test => {
+      test.enrolledStudents.push({ firstName, lastName });
+      test
+        .save()
+        .then(savedtest => res.json(201, savedtest))
+        .catch(err => res.sendStatus(500));
     });
-    test
-      .save()
-      .then(savedtest => {
-        res.status(201).json(savedtest);
-      })
-      .catch(err => res.sendStatus(500));
   });
-});
+
+router
+  .route("/tests/:testId/student/:studentId")
+  .post(
+    (
+      {
+        params: { testId, studentId },
+        body: { grade, teacherFirstName, teacherLastName }
+      },
+      res
+    ) => {
+      if (
+        !testId ||
+        !studentId ||
+        !grade ||
+        !teacherFirstName ||
+        !teacherLastName
+      ) {
+        return res.sendStatus(400);
+      }
+
+      TestModel.findById(testId).then(test => {
+        const { firstName, lastName } = test.enrolledStudents.id(studentId);
+        test.grades.push({
+          student: {
+            firstName,
+            lastName
+          },
+          teacher: {
+            firstName: teacherFirstName,
+            lastName: teacherLastName
+          },
+          grade,
+          date: Date.now()
+        });
+        test
+          .save()
+          .then(savedtest => res.json(201, savedtest))
+          .catch(err => res.sendStatus(500));
+      });
+    }
+  );
 
 /**
  * @swagger
