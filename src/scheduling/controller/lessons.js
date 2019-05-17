@@ -12,9 +12,24 @@ const getLessons = async (req, res, next) => {
     .catch(next);
 };
 
-const createLesson = async (req, res) => res.status(503).end();
+// const createLesson = async ({ body }, req, res) => res.status(200).json(body);
 
-const deleteLesson = async (req, res) => res.status(503).end();
+const createLesson = async ({ body }, res, next) =>
+    await new Lessons(body, {})
+        .save()
+        .then(result => {
+            return res.redirect(303, "/api/v1/scheduling/lessons");
+        })
+        .catch(next);
+
+// const deleteLesson = async (req, res) => res.status(503).end();
+const deleteLesson = async ({ params: { id } }, res, next) =>
+    await Lessons.findOneAndDelete(id)
+        .then(result => {
+            return res.redirect(303, "/api/v1/scheduling/lessons");
+        })
+        .catch(next);
+
 
 module.exports = {
     getLessons,
