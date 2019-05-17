@@ -260,7 +260,7 @@ services:
       - RABBITMQ_HOST=main-broker
       - MONGODB_USERNAME=avantys
       - PORT=3000
-      - MONGODB_HO=teacher_administration_db
+      - MONGODB_HOST=teacher_administration_db
     restart: always
     depends_on:
       - teacher_administration_db
