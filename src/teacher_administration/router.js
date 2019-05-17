@@ -1,76 +1,76 @@
 const express = require("express");
 const router = express.Router();
 const {
-  getStudent,
-  getStudents,
-  registerStudent,
-  unregisterStudent
+  getTeacher,
+  getTeachers,
+  registerTeacher,
+  unregisterTeacher
 } = require("./controller/teacher");
 const { notFound, catchError } = require("./controller/_error");
 
 /**
  * @swagger
- * /students:
+ * /teachers:
  *    get:
- *      description: Return list of students
+ *      description: Return list of teachers
  *      produces:
  *        - application/json
  *      responses:
  *        200:
- *          description: List of students
+ *          description: List of teachers
  *        500:
  *          description: Something unexpected went wrong
  *        502:
  *          description: Service seems to be unavailable at this time
  */
-router.get("/students", getStudents);
+router.get("/teachers", getTeachers);
 
 /**
  * @swagger
- * /students/{id}:
+ * /teachers/{id}:
  *    get:
- *      description: Return student
+ *      description: Return teacher
  *      produces:
  *        - application/json
  *      parameters:
  *       - name: id
- *         description: The Student Number of the Student
+ *         description: The teacher Number of the teacher
  *         required: true
  *         in: path
  *         type: string
  *      responses:
  *        302:
- *          description: Redirect to GET students
+ *          description: Redirect to GET teachers
  *        500:
  *          description: Something unexpected went wrong
  *        502:
  *          description: Service seems to be unavailable at this time
  *        404:
- *          description: No student found by that ID
+ *          description: No teacher found by that ID
  */
-router.get("/students/:id", getStudent);
+router.get("/teachers/:id", getTeacher);
 
 /**
  * @swagger
- * /students:
+ * /teachers:
  *    post:
- *      description: Register student
+ *      description: Register teacher
  *      produces:
  *        - application/json
  *      parameters:
  *      - name: firstName
- *        description: The student's first name
+ *        description: The teacher's first name
  *        required: true
  *        in: formData
  *        type: string
  *      - name: lastName
- *        description: The student's last name
+ *        description: The teacher's last name
  *        required: true
  *        in: formData
  *        type: string
  *      responses:
  *        302:
- *          description: Redirect to GET students
+ *          description: Redirect to GET teachers
  *        500:
  *          description: Something unexpected went wrong
  *        502:
@@ -78,24 +78,24 @@ router.get("/students/:id", getStudent);
  *        503:
  *          description: Method has not yet been implemented yet
  */
-router.post("/students", registerStudent);
+router.post("/teachers", registerTeacher);
 
 /**
  * @swagger
- * /students/{id}:
+ * /teachers/{id}:
  *    delete:
- *      description: Unregister student
+ *      description: Unregister teacher
  *      produces:
  *        - application/json
  *      parameters:
  *       - name: id
- *         description: The Student Number of the Student
+ *         description: The teacher Number of the teacher
  *         required: true
  *         in: path
  *         type: string
  *      responses:
  *        302:
- *          description: Redirect to GET students
+ *          description: Redirect to GET teachers
  *        500:
  *          description: Something unexpected went wrong
  *        502:
@@ -103,7 +103,7 @@ router.post("/students", registerStudent);
  *        503:
  *          description: Method has not yet been implemented yet
  */
-router.delete("/students/:id", unregisterStudent);
+router.delete("/teachers/:id", unregisterTeacher);
 
 router.use(catchError);
 router.get("*", notFound);
