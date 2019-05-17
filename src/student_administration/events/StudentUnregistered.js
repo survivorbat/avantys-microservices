@@ -1,4 +1,4 @@
-const StudentUnregistered = (student, meta) => ({
+const StudentUnregistered = (student, meta = null) => ({
   event: "StudentUnregistered",
   data: student,
   meta
