@@ -1,7 +1,7 @@
 const mongoose = require('../db');
 const Schema = mongoose.Schema;
 
-const potentialStudentSchema = new Schema({
+const teacherSchema = new Schema({
   firstName: {
     type: String,
     required: true,
@@ -13,16 +13,12 @@ const potentialStudentSchema = new Schema({
     required: true,
     minlength: 2,
     maxLength: 128
-  },
-  email: {
-      type: String,
-      required: true
   }
 });
 
-const PotentialStudent = mongoose.model("PotentialStudent", potentialStudentSchema);
+const Teacher = mongoose.model("Teacher", teacherSchema);
 
 module.exports = {
-    PotentialStudent,
-    potentialStudentSchema
+    Teacher,
+    teacherSchema
 };
