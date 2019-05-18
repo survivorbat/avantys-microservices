@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-var Student = require("./models/potential-student").PotentialStudent;
-var Teacher = require("./models/teacher").Teacher;
-var Meeting = require("./models/meeting").Meeting;
+let Student = require("./models/potential-student").PotentialStudent;
+let Teacher = require("./models/teacher").Teacher;
+let Meeting = require("./models/meeting").Meeting;
 /**
  * @swagger
  * /students:
@@ -19,8 +19,11 @@ var Meeting = require("./models/meeting").Meeting;
  */
 
 router.get("/students", (req, res) => {
-  Student.find({})
+  Student.find()
     .then(students => {
+      if(students == null || students == []) {
+        res.status(200).json({"message" : "no students found"})
+      }
       res.status(200).json(students);
     })
     .catch(error => res.status(401).json(error));
@@ -50,6 +53,9 @@ router.get("/student/:_id", ({ params: { _id } }, res) => {
   res.contentType("application/json");
   Student.findOne({ _id })
     .then(student => {
+      if(student == null) {
+        res.status(200).json({"message" : "student not found"})
+      }
       res.status(200).json(student);
     })
     .catch(error => res.status(401).json(error));
@@ -87,8 +93,7 @@ router.get("/student/:_id", ({ params: { _id } }, res) => {
 
 router.post("/student", ({ body }, res) => {
   res.contentType("application/json");
-  var student = new Student(body);
-  student
+  new Student(body)
     .save()
     .then(function(student) {
       res.status(201).json(student);
@@ -158,13 +163,12 @@ router.put("/student/:_id", ({ body }, { params: { _id } }, res) => {
  *          description: Something unexpected went wrong
  */
 
-router.delete("/student/:id", (req, res) => {
+router.delete("/student/:_id", ({ params: { _id } }, res) => {
   res.contentType("application/json");
-  var studentId = req.params.id;
 
-  Student.findOneAndRemove({ _id: studentId })
+  Student.findOneAndRemove({ _id })
     .then(student => {
-      res.status(200).json("Album Deleted: " + student);
+      res.status(200).json({"Album Deleted" : student});
     })
     .catch(function(error) {
       res.status(400).json(error);
@@ -186,8 +190,11 @@ router.delete("/student/:id", (req, res) => {
  */
 
 router.get("/teachers", (req, res) => {
-  Teacher.find({})
+  Teacher.find()
     .then(teachers => {
+      if(teachers == null || teachers == []) {
+        res.status(200).json({"message" : "no teachers found"})
+      }
       res.status(200).json(teachers);
     })
     .catch(error => res.status(401).json(error));
@@ -216,6 +223,9 @@ router.get("/teachers", (req, res) => {
 router.get("/teacher/:_id", ({ params: { _id } }, res) => {
   Teacher.findOne({ _id })
     .then(teacher => {
+      if(teacher == null) {
+        res.status(200).json({"message" : "teacher not found"})
+      }
       res.status(200).json(teacher);
     })
     .catch(error => res.status(401).json(error));
@@ -326,7 +336,7 @@ router.put("/teacher/:_id", ({ body }, { params: { _id } }, res) => {
 router.delete("/teacher/:_id", ({ params: { _id } }, res) => {
   Teacher.findOneAndRemove({ _id })
     .then(function(teacher) {
-      res.status(200).json("Album Deleted: " + teacher);
+      res.status(200).json({"Album Deleted" : teacher});
     })
     .catch(function(error) {
       res.status(400).json(error);
@@ -401,6 +411,9 @@ router.post("/meeting", async ({ body }, res) => {
 router.get("/meetings", (req, res) => {
   Meeting.find({})
     .then(meetings => {
+      if(meetings == null || meetings == []) {
+        res.status(200).json({"message" : "no meetings found"})
+      }
       res.status(200).json(meetings);
     })
     .catch(error => res.status(401).json(error));
@@ -429,6 +442,9 @@ router.get("/meetings", (req, res) => {
 router.get("/meeting/:_id", ({ params: { _id } }, res) => {
   Meeting.findOne({ _id })
     .then(meeting => {
+      if(meeting == null) {
+        res.status(200).json({"message":"meeting not found"})
+      }
       res.status(200).json(meeting);
     })
     .catch(error => res.status(401).json(error));
