@@ -288,6 +288,7 @@ services:
       - RABBITMQ_HOST=main-broker
       - MONGODB_USERNAME=avantys
       - PORT=3000
+      - AXON_HOST=axon
       - MONGODB_HOST=accounting_db
     restart: always
     depends_on:
@@ -295,6 +296,7 @@ services:
       - main-broker
     networks:
       - broker
+      - axon
       - nginx
       - accounting_db
 
