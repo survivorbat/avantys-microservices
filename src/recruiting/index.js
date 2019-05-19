@@ -9,7 +9,10 @@ const swaggerOptions = {
   swaggerDefinition: {
     info: {
       title: "Recruiting",
-      description: "The API of recruiting"
+      description: "The API of recruiting",
+      basePath: "/api/v1/recruiting",
+      produces: ["application/json"],
+      schemes: ["https"]
     }
   },
   apis: ["/app/router.js"]
