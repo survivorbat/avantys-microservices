@@ -11,6 +11,7 @@ networks:
   student_administration_db: ~
   teacher_administration_db: ~
   student_portal_db: ~
+  accounting_db: ~
 
 volumes:
   evaluating_students_data: ~
@@ -20,6 +21,7 @@ volumes:
   student_administration_data: ~
   teacher_administration_data: ~
   student_portal_data: ~
+  accounting_data: ~
   rabbit_data: ~
   axon_data: ~
 
@@ -182,7 +184,6 @@ services:
       - scheduling_db
   
   scheduling_db:
-    image: mongo:4.0.9
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_DATABASE=avantys
@@ -242,7 +243,6 @@ services:
       - student_portal_db
 
   student_portal_db:
-    image: mongo:4.0.9
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
     expose:
@@ -271,7 +271,6 @@ services:
       - teacher_administration_db
 
   teacher_administration_db:
-    image: mongo:4.0.9
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
     expose:
@@ -281,3 +280,31 @@ services:
       - teacher_administration_db
     volumes:
       - teacher_administration_data:/data/db
+
+  accounting:
+    expose:
+      - 3000
+    environment:
+      - RABBITMQ_HOST=main-broker
+      - MONGODB_USERNAME=avantys
+      - PORT=3000
+      - MONGODB_HOST=accounting_db
+    restart: always
+    depends_on:
+      - accounting_db
+      - main-broker
+    networks:
+      - broker
+      - nginx
+      - accounting_db
+
+  accounting_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+    expose:
+      - 27017
+    restart: always
+    networks:
+      - accounting_db
+    volumes:
+      - accounting_data:/data/db

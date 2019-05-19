@@ -127,6 +127,22 @@ services:
     secrets:
       - TEACHER_ADMINISTRATION_DB_PASSWORD
 
+  accounting:
+    image: avantys/accounting:${docker_tag}
+    environment:
+      - MONGODB_PASSWORD=<<DOCKER-SECRET:ACCOUNTING_DB_PASSWORD>>
+      - RABBITMQ_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
+      - SWAGGER_BASE_URL=${server_name}/api/v1/accounting
+    secrets:
+      - RABBIT_MQ_PASSWORD
+      - ACCOUNTING_DB_PASSWORD
+  accounting_db:
+    image: avantys/mongo:${docker_tag}
+    environment:
+      - MONGO_INITDB_ROOT_PASSWORD=<<DOCKER-SECRET:ACCOUNTING_DB_PASSWORD>>
+    secrets:
+      - ACCOUNTING_DB_PASSWORD
+
 secrets:
   RABBIT_MQ_PASSWORD:
     file: ${secrets_folder}/RABBIT_MQ_PASSWORD
@@ -144,3 +160,5 @@ secrets:
     file: ${secrets_folder}/GUIDING_STUDENTS_DB_PASSWORD
   TEACHER_ADMINISTRATION_DB_PASSWORD:
     file: ${secrets_folder}/TEACHER_ADMINISTRATION_DB_PASSWORD
+  ACCOUNTING_DB_PASSWORD:
+    file: ${secrets_folder}/ACCOUNTING_DB_PASSWORD
