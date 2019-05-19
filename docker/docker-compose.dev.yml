@@ -63,7 +63,7 @@ services:
     volumes:
       - ../src/recruiting:/app
     user: "1000"
-    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"]
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch -V index.js"]
     working_dir: /app
     environment:
       - MONGODB_PASSWORD=avantys123
@@ -170,3 +170,48 @@ services:
     environment:
       - MONGO_INITDB_ROOT_PASSWORD=avantys123
 
+  teacher_administration:
+    volumes:
+      - ../src/teacher_administration:/app
+    user: "1000"
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"]
+    working_dir: /app
+    environment:
+      - MONGODB_PASSWORD=avantys123
+      - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
+      - SWAGGER_BASE_URL=localhost/api/v1/teacher_administration
+    build:
+      context: ../
+      dockerfile: docker/teacher_administration/Dockerfile
+
+  teacher_administration_db:
+    build:
+      context: ../
+      dockerfile: docker/mongo/Dockerfile
+    ports:
+      - 27023:27017
+    environment:
+      - MONGO_INITDB_ROOT_PASSWORD=avantys123
+
+  accounting:
+    volumes:
+      - ../src/accounting:/app
+    user: "1000"
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"]
+    working_dir: /app
+    environment:
+      - MONGODB_PASSWORD=avantys123
+      - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
+      - SWAGGER_BASE_URL=localhost/api/v1/accounting
+    build:
+      context: ../
+      dockerfile: docker/accounting/Dockerfile
+
+  accounting_db:
+    build:
+      context: ../
+      dockerfile: docker/mongo/Dockerfile
+    ports:
+      - 27024:27017
+    environment:
+      - MONGO_INITDB_ROOT_PASSWORD=avantys123

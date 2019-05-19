@@ -9,7 +9,9 @@ networks:
   recruiting_db: ~
   scheduling_db: ~
   student_administration_db: ~
+  teacher_administration_db: ~
   student_portal_db: ~
+  accounting_db: ~
 
 volumes:
   evaluating_students_data: ~
@@ -17,7 +19,9 @@ volumes:
   recruiting_data: ~
   scheduling_data: ~
   student_administration_data: ~
+  teacher_administration_data: ~
   student_portal_data: ~
+  accounting_data: ~
   rabbit_data: ~
   axon_data: ~
 
@@ -30,6 +34,7 @@ services:
     ports:
       - 80:8080
       - 443:8081
+      - 8080:8082
     command: ["/bin/sh", "-c", "rm -rf /var/cache/nginx/*
       && rm -rfv /etc/nginx/conf.d/*
       && for i in $$(find /etc/nginx/temp/ | grep -F .conf); do awk '{while(match($$0,\"[$$]{[^}]*}\")) {var=substr($$0,RSTART+2,RLENGTH -3);gsub(\"[$$]{\"var\"}\",ENVIRON[var])}}1' < \"$$i\" > $$(echo $${i/temp//}); done
@@ -60,11 +65,10 @@ services:
   main-broker:
     networks:
       - broker
+      - nginx
     hostname: main-broker
     expose:
       - 15672
-    ports:
-      - 8080:15672 # Firewall normally blocks this port in production, requires ssh tunnel to access
     restart: always
     environment:
       - RABBITMQ_DEFAULT_USER=avantys
@@ -180,7 +184,6 @@ services:
       - scheduling_db
   
   scheduling_db:
-    image: mongo:4.0.9
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
       - MONGO_INITDB_DATABASE=avantys
@@ -240,7 +243,6 @@ services:
       - student_portal_db
 
   student_portal_db:
-    image: mongo:4.0.9
     environment:
       - MONGO_INITDB_ROOT_USERNAME=avantys
     expose:
@@ -249,4 +251,60 @@ services:
     networks:
       - student_portal_db
     volumes:
-      - student_portal_data:/data/db 
+      - student_portal_data:/data/db
+
+  teacher_administration:
+    expose:
+      - 3000
+    environment:
+      - RABBITMQ_HOST=main-broker
+      - MONGODB_USERNAME=avantys
+      - PORT=3000
+      - MONGODB_HOST=teacher_administration_db
+    restart: always
+    depends_on:
+      - teacher_administration_db
+      - main-broker
+    networks:
+      - broker
+      - nginx
+      - teacher_administration_db
+
+  teacher_administration_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+    expose:
+      - 27017
+    restart: always
+    networks:
+      - teacher_administration_db
+    volumes:
+      - teacher_administration_data:/data/db
+
+  accounting:
+    expose:
+      - 3000
+    environment:
+      - RABBITMQ_HOST=main-broker
+      - MONGODB_USERNAME=avantys
+      - PORT=3000
+      - MONGODB_HOST=accounting_db
+    restart: always
+    depends_on:
+      - accounting_db
+      - main-broker
+    networks:
+      - broker
+      - nginx
+      - accounting_db
+
+  accounting_db:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avantys
+    expose:
+      - 27017
+    restart: always
+    networks:
+      - accounting_db
+    volumes:
+      - accounting_data:/data/db
