@@ -8,9 +8,6 @@ docker_images:
   - dockerfile: docker/guiding_students/Dockerfile
     path: ../
     name: avantys/guiding_students
-  - dockerfile: docker/guiding_students/Dockerfile
-    path: ../
-    name: avantys/guiding_students
   - dockerfile: docker/recruiting/Dockerfile
     path: ../
     name: avantys/recruiting
@@ -32,9 +29,9 @@ docker_images:
   - dockerfile: docker/rabbitmq/Dockerfile
     path: ../
     name: avantys/rabbitmq
-  - dockerfile: docker/recruiting/Dockerfile
+  - dockerfile: docker/accounting/Dockerfile
     path: ../
-    name: avantys/recruiting
+    name: avantys/accounting
 
 default_groups:
   # First group is the default group
