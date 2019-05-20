@@ -22,11 +22,7 @@ app.use(bodyparser.urlencoded({ extended: true }));
 const specs = swaggerJsdoc(swaggerOptions);
 const swaggerUi = require("swagger-ui-express");
 
-app.use(
-  "/api/v1/accounting/swagger",
-  swaggerUi.serve,
-  swaggerUi.setup(specs)
-);
+app.use("/api/v1/accounting/swagger", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use("/api/v1/accounting", router);
 
