@@ -335,7 +335,7 @@ router.put("/teacher/:_id", ({ body }, { params: { _id } }, res) => {
 
 router.delete("/teacher/:_id", ({ params: { _id } }, res) => {
   Teacher.findOneAndRemove({ _id })
-    .then(function(teacher) {
+    .then(teacher => {
       res.status(200).json({"Album Deleted" : teacher});
     })
     .catch(function(error) {
@@ -448,6 +448,67 @@ router.get("/meeting/:_id", ({ params: { _id } }, res) => {
       res.status(200).json(meeting);
     })
     .catch(error => res.status(401).json(error));
+});
+
+/**
+ * @swagger
+ * /meeting/{id}:
+ *    delete:
+ *      description: Unregister meeting
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *       - name: id
+ *         description: The id of the meeting
+ *         required: true
+ *         in: path
+ *         type: string
+ *      responses:
+ *        201:
+ *          description: Return deleted meeting
+ *        400:
+ *          description: Something unexpected went wrong
+ */
+
+router.delete("/meeting/:_id", ({ params: { _id } }, res) => {
+  Meeting.findOneAndRemove({ _id })
+    .then(meeting => {
+      res.status(200).json({"Meeting Deleted" : meeting});
+    })
+    .catch(function(error) {
+      res.status(400).json(error);
+    });
+});
+
+/**
+ * @swagger
+ * /approve/{id}:
+ *    post:
+ *      description: Approve student
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *       - name: id
+ *         description: The Student Number of the Student
+ *         required: true
+ *         in: path
+ *         type: string
+ *      responses:
+ *        201:
+ *          description: Return approved student
+ *        400:
+ *          description: Something unexpected went wrong
+ */
+
+router.delete("/approve/:_id", ({ params: { _id } }, res) => {
+  Student.findOneAndRemove({ _id })
+    .then(meeting => {
+      //TODO: Send student to administration via RabbitMQ
+      res.status(200).json({"Student Deleted" : meeting});
+    })
+    .catch(function(error) {
+      res.status(400).json(error);
+    });
 });
 
 module.exports = router;
