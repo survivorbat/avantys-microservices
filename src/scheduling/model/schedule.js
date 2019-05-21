@@ -1,3 +1,7 @@
+const Module = require("./module").moduleSchema;
+const Test = require("./test").TestSchema;
+const Teacher = require("./teacher").TeacherSchema;
+
 const mongoose = require("../config/db");
 
 const Schema = mongoose.Schema;
@@ -11,6 +15,21 @@ const scheduleSchema = new Schema({
   moduleId: {
     type: Number,
     required: true
+  },
+  teacher: {
+    type: Teacher,
+    required: false,
+    default: null
+  },
+  test: {
+    type: Test,
+    required: false,
+    default: null
+  },
+  module: {
+    type: Module,
+    required: false,
+    default: null
   },
   class: {
     type: String,

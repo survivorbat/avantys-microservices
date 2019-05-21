@@ -17,7 +17,7 @@ rabbit
     exchanges: [{ name: "ex.1", type: "direct", autoDelete: false }],
     queues: [
       {
-        name: "student_administration_queue",
+        name: "scheduling_queue",
         autoDelete: false,
         durable: true,
         subscribe: true
@@ -39,19 +39,20 @@ rabbit
   .catch(error => console.log("Rabbot connect error: " + error));
 
 rabbit.handle("moduleCreated", msg => {
-  new Module(msg)
+  new Module(msg.body)
     .save()
     .then(() => msg.ack())
     .catch(err => msg.nack());
 });
 rabbit.handle("teacherRegistered", msg => {
-  new Teacher(msg)
+  console.log(msg.body);
+  new Teacher(msg.body)
     .save()
     .then(() => msg.ack())
     .catch(err => msg.nack());
 });
 rabbit.handle("testCreated", msg => {
-  new Test(msg)
+  new Test(msg.body)
     .save()
     .then(() => msg.ack())
     .catch(err => msg.nack());
