@@ -9,10 +9,10 @@ const app = express();
 const swaggerOptions = {
   swaggerDefinition: {
     info: {
-      title: "Guiding students",
-      description: "The API of the Guiding students"
+      title: "Teacher Administration",
+      description: "The API of the teacher administration"
     },
-    basePath: "/api/v1/guiding_students",
+    basePath: "/api/v1/teacher_administration",
     produces: ["application/json"],
     schemes: ["https"]
   },
@@ -27,11 +27,11 @@ const specs = swaggerJsdoc(swaggerOptions);
 const swaggerUi = require("swagger-ui-express");
 
 app.use(
-  "/api/v1/guiding_students/swagger",
+  "/api/v1/teacher_administration/swagger",
   swaggerUi.serve,
   swaggerUi.setup(specs)
 );
 
-app.use("/api/v1/guiding_students", router);
+app.use("/api/v1/teacher_administration", router);
 
 app.listen(process.env.PORT || 3000);
