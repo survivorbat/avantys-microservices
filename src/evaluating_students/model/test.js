@@ -1,7 +1,7 @@
 const mongoose = require("../db");
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
-const StudentSchema = require("./student").StudentSchema;
+const StudentSchema = require("./student").studentSchema;
 const GradeSchema = require("./grade").GradeSchema;
 
 const TestSchema = new Schema({

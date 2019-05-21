@@ -1,8 +1,5 @@
 const Student = require("../model/student").Student;
 const rabbit = require("../rabbit/rabbot");
-const sendToQueue = require("../config/rabbitmq").connectAndSend;
-const StudentRegistered = require("../events/StudentRegistered");
-const StudentUnregistered = require("../events/StudentUnregistered");
 
 /**
  * @param {Object} req
