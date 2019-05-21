@@ -1,17 +1,19 @@
 const mongoose = require("../config/db");
 
 const Schema = mongoose.Schema;
-const lessonSchema = new Schema({
-  studentId: {
-    type: Number,
-    required: true
+const scheduleSchema = new Schema({
+  teacherId: {
+    type: Number
   },
-  classId: {
-    type: Number,
-    required: true
+  testId: {
+    type: Number
   },
   moduleId: {
     type: Number,
+    required: true
+  },
+  class: {
+    type: String,
     required: true
   },
   startDatetime: {
@@ -24,9 +26,9 @@ const lessonSchema = new Schema({
   }
 });
 
-const Lesson = mongoose.model("Lesson", lessonSchema);
+const Schedule = mongoose.model("Lesson", scheduleSchema);
 
 module.exports = {
-  Lesson,
-  lessonSchema
+  Schedule,
+  scheduleSchema
 };

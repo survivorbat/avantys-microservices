@@ -1,22 +1,22 @@
 const express = require("express");
 const router = express.Router();
-const lessonController = require("./controller/lessons");
+const scheduleController = require("./controller/schedules");
 const { notFound, catchError } = require("./controller/_error");
 
 /**
  * @swagger
- * /lessons:
+ * /schedules:
  *    get:
  *      description: Return list of lessons
  *      responses:
  *              '200':
  *                  description: "List of all teachers"
  */
-router.get("/lessons", lessonController.getLessons);
+router.get("/schedules", scheduleController.getSchedules);
 
 /**
  * @swagger
- * /lessons:
+ * /schedules:
  *    post:
  *      description: Create new lesson
  *      parameters:
@@ -26,18 +26,21 @@ router.get("/lessons", lessonController.getLessons);
  *            schema:
  *              type: object
  *              required:
- *                -   studentId
- *                -   classId
+ *                -   teacherId
+ *                -   testId
  *                -   moduleId
+ *                -   class
  *                -   startDatetime
  *                -   endDatetime
  *              properties:
- *                studentId:
+ *                teacherId:
  *                  type: number
- *                classId:
+ *                testId:
  *                  type: number
  *                moduleId:
  *                  type: number
+ *                class:
+ *                  type: string
  *                startDatetime:
  *                  type: string
  *                  format: date-time
@@ -54,11 +57,11 @@ router.get("/lessons", lessonController.getLessons);
  *        503:
  *          description: Method has not yet been implemented yet`
  */
-router.post("/lessons", lessonController.createLesson);
+router.post("/schedules", scheduleController.createSchedule);
 
 /**
  * @swagger
- * /lessons/:id:
+ * /schedules/:id:
  *    delete:
  *      description: Delete lesson
  *      produces:
@@ -79,7 +82,7 @@ router.post("/lessons", lessonController.createLesson);
  *        503:
  *          description: Method has not yet been implemented yet
  */
-router.delete("/lessons/:id", lessonController.deleteLesson);
+router.delete("/schedules/:id", scheduleController.deleteSchedule);
 
 router.use(catchError);
 router.get("*", notFound);
