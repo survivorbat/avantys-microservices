@@ -1,4 +1,7 @@
 const rabbit = require("rabbot");
+const Module = require("../model/module").Module;
+const Test = require("../model/test").TestModel;
+const Teacher = require("../model/teacher").Teacher;
 
 rabbit
   .configure({
@@ -24,7 +27,7 @@ rabbit
       {
         exchange: "ex.1",
         target: "scheduling_queue",
-        keys: ["potentialStudentCreated"]
+        keys: ["moduleCreated", "teacherRegistered", "testCreated"]
       }
     ]
   })
@@ -35,9 +38,20 @@ rabbit
   })
   .catch(error => console.log("Rabbot connect error: " + error));
 
-rabbit.handle("potentialStudentCreated", msg => {
-  new student(msg);
-  student
+rabbit.handle("moduleCreated", msg => {
+  new Module(msg)
+    .save()
+    .then(() => msg.ack())
+    .catch(err => msg.nack());
+});
+rabbit.handle("teacherRegistered", msg => {
+  new Test(msg)
+    .save()
+    .then(() => msg.ack())
+    .catch(err => msg.nack());
+});
+rabbit.handle("testCreated", msg => {
+  new Teacher(msg)
     .save()
     .then(() => msg.ack())
     .catch(err => msg.nack());
