@@ -1,4 +1,5 @@
 const rabbit = require("rabbot");
+const teacher = require("../model/teacher").Teacher;
 
 rabbit
   .configure({
@@ -35,8 +36,8 @@ rabbit
   })
   .catch(error => console.log("Rabbot connect error: " + error));
 
-rabbit.handle("studentRegistered", msg => {
-  new StudentModel(msg).student
+rabbit.handle("teacherRegistered", msg => {
+  new Teacher(msg).teacher
     .save()
     .then(() => msg.ack())
     .catch(err => msg.nack());
