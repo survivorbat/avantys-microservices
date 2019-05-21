@@ -9,9 +9,9 @@ const rabbit = require("../rabbit/rabbot");
 /**
  * @swagger
  *  paths:
- *      /tests:
+ *      /events:
  *         get:
- *           summary: Return list of all tests
+ *           summary: Return list of all events
  *           responses:
  *              '200':
  *                  description: "List of all tests"

@@ -3,10 +3,7 @@ const logger = require("morgan");
 const bodyparser = require("body-parser");
 const swaggerJsdoc = require("swagger-jsdoc");
 
-const studentsRoute = require("./routes/students");
-const teachersRoute = require("./routes/teachers");
-const rabbitRoute = require("./routes/rabbit");
-const testsRoute = require("./routes/tests");
+const eventsRoute = require("./routes/events");
 
 const rabbit = require("./rabbit/rabbot");
 // const rabbitHandler = require("./rabbit/messageHandler");
@@ -38,10 +35,8 @@ app.use(
   swaggerUi.setup(specs)
 );
 
-app.use("/api/v1/evaluating_students/tests", testsRoute);
-// app.use("/api/v1/evaluating_students/teachers", teachersRoute);
-// app.use("/api/v1/evaluating_students/students", studentsRoute);
-app.use("/api/v1/evaluating_students/rabbit", rabbitRoute);
+app.use("/api/v1/evaluating_students/events", eventsRoute);
+
 
 app.listen(port, () =>
   console.log(`Evaluating students container listening on port ${port}!`)

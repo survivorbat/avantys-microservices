@@ -1,5 +1,5 @@
 const rabbit = require("rabbot");
-const student = require("../model/student").Student;
+const event = require("../model/event");
 
 rabbit
   .configure({
@@ -15,7 +15,7 @@ rabbit
     exchanges: [{ name: "ex.1", type: "direct", autoDelete: false }],
     queues: [
       {
-        name: "evaluating_students_queue",
+        name: "audit_write_queue",
         autoDelete: false,
         durable: true,
         subscribe: true
@@ -24,23 +24,67 @@ rabbit
     bindings: [
       {
         exchange: "ex.1",
-        target: "evaluating_students_queue",
-        keys: ["studentRegistered"]
+        target: "audit_write_queue",
+        keys: ["studentRegistered",
+            "studentExamined",
+            "studentGraded",
+            "moduleCreated",
+            "teacherRegistered",
+            "testCreated",
+            "studentApproved",
+        ]
       }
     ]
   })
   .then(() => {
     console.log("Rabbot succesfully connected.");
-    rabbit.startSubscription("evaluating_students_queue");
+    rabbit.startSubscription("audit_write_queue");
     console.log("Rabbot subscribed.");
   })
   .catch(error => console.log("Rabbot connect error: " + error));
 
 rabbit.handle("studentRegistered", msg => {
-  new student(msg).student
+  new event(msg).event
     .save()
     .then(() => msg.ack())
     .catch(err => msg.nack());
+});
+
+rabbit.handle("studentExamined", msg => {
+    new event(msg).event
+        .save()
+        .then(() => msg.ack())
+        .catch(err => msg.nack());
+});
+rabbit.handle("studentGraded", msg => {
+    new event(msg).event
+        .save()
+        .then(() => msg.ack())
+        .catch(err => msg.nack());
+});
+rabbit.handle("moduleCreated", msg => {
+    new event(msg).event
+        .save()
+        .then(() => msg.ack())
+        .catch(err => msg.nack());
+});
+rabbit.handle("teacherRegistered", msg => {
+    new event(msg).event
+        .save()
+        .then(() => msg.ack())
+        .catch(err => msg.nack());
+});
+rabbit.handle("testCreated", msg => {
+    new event(msg).event
+        .save()
+        .then(() => msg.ack())
+        .catch(err => msg.nack());
+});
+rabbit.handle("studentApproved", msg => {
+    new event(msg).event
+        .save()
+        .then(() => msg.ack())
+        .catch(err => msg.nack());
 });
 
 module.exports = rabbit;
