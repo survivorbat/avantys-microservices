@@ -1,5 +1,4 @@
 const rabbit = require("rabbot");
-const student = require("../model/student").Student;
 
 rabbit
   .configure({
@@ -31,16 +30,7 @@ rabbit
   })
   .then(() => {
     console.log("Rabbot succesfully connected.");
-    rabbit.startSubscription("recruiting_queue");
-    console.log("Rabbot subscribed.");
   })
   .catch(error => console.log("Rabbot connect error: " + error));
-
-rabbit.handle("studentRegistered", msg => {
-  new student(msg).student
-    .save()
-    .then(() => msg.ack())
-    .catch(err => msg.nack());
-});
 
 module.exports = rabbit;

@@ -36,7 +36,7 @@ rabbit
   })
   .catch(error => console.log("Rabbot connect error: " + error));
 
-rabbit.handle("studentRegistered", msg => {
+rabbit.handle("studentApproved", msg => {
   new student(msg).student
     .save()
     .then(() => msg.ack())

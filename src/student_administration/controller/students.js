@@ -1,7 +1,5 @@
 const Student = require("../model/student").Student;
-const sendToQueue = require("../config/rabbitmq").connectAndSend;
-const StudentRegistered = require("../events/StudentRegistered");
-const StudentUnregistered = require("../events/StudentUnregistered");
+const rabbit = require("../rabbit/rabbot");
 
 /**
  * @param {Object} req
@@ -37,7 +35,11 @@ const registerStudent = async ({ body }, res, next) =>
   await new Student(body, {})
     .save()
     .then(result => {
-      sendToQueue(StudentRegistered({ ...body, _id: result.id }));
+      rabbit.publish("ex.1", {
+        routingKey: "studentRegistered",
+        type: "studentRegistered",
+        body: result
+      });
       return res.redirect(303, "students");
     })
     .catch(next);
@@ -53,7 +55,11 @@ const registerStudent = async ({ body }, res, next) =>
 const unregisterStudent = async ({ params: { id } }, res, next) =>
   await Student.findOneAndDelete(id)
     .then(result => {
-      sendToQueue(StudentUnregistered(result));
+      rabbit.publish("ex.1", {
+        routingKey: "studentUnregistered",
+        type: "studentUnregistered",
+        body: result
+      });
       return res.redirect(303, "/api/v1/student_administration/students");
     })
     .catch(next);
@@ -71,11 +77,11 @@ const coupleStudentToClass = async (
   next
 ) => {
   Student.findOneAndUpdate({ _id: id }, { class: className })
-    .then(e =>
+    .then(e => {
       e
         ? res.redirect(303, "/api/v1/student_administration/students")
-        : res.status(500).end()
-    )
+        : res.status(500).end();
+    })
     .catch(next);
 };
 
