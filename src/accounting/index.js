@@ -10,7 +10,8 @@ const swaggerOptions = {
     info: {
       title: "Accounting",
       description: "The API of accounting"
-    }
+    },
+    host: process.env.SWAGGER_BASE_URL
   },
   apis: ["/app/router.js"]
 };
