@@ -3,7 +3,7 @@ version: '3.5'
 networks:
   nginx: ~
   broker: ~
-  axon: ~
+  event_store: ~
   evaluating_students_db: ~
   guiding_students_db: ~
   recruiting_db: ~
@@ -23,7 +23,7 @@ volumes:
   student_portal_data: ~
   accounting_data: ~
   rabbit_data: ~
-  axon_data: ~
+  event_store_data: ~
 
 services:
   nginx:
@@ -47,20 +47,16 @@ services:
     expose:
      - 8080
 
-  axon:
-    image: axoniq/axonserver:4.1.2
+  event_store:
+    image: redis:5.0.5
     restart: always
     networks:
       - nginx
-      - axon
-    hostname: axon
+      - event_store
     volumes:
-      - axon_data:/opt/axonserver/data
-    environment:
-      - AXONSERVER_HOSTNAME=axon
+      - event_store_data:/data
     expose:
-      - 8024
-      - 8124
+      - 6379
 
   main-broker:
     networks:
@@ -290,7 +286,7 @@ services:
       - RABBITMQ_HOST=main-broker
       - MONGODB_USERNAME=avantys
       - PORT=3000
-      - AXON_HOST=axon
+      - EVENTSTORE_HOST=event_store
       - RABBITMQ_USER=avantys
       - MONGODB_HOST=accounting_db
     restart: always
@@ -299,7 +295,7 @@ services:
       - main-broker
     networks:
       - broker
-      - axon
+      - event_store
       - nginx
       - accounting_db
 
