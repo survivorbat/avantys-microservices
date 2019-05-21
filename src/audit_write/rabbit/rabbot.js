@@ -51,38 +51,44 @@ rabbit.handle("studentRegistered", msg => {
 });
 
 rabbit.handle("studentExamined", msg => {
-    new event(msg).event
+    console.log('Message received', msg.body);
+    new event(msg.body)
         .save()
         .then(() => msg.ack())
         .catch(err => msg.nack());
 });
 rabbit.handle("studentGraded", msg => {
-    new event(msg).event
+    console.log('Message received', msg.body);
+    new event(msg.body)
         .save()
         .then(() => msg.ack())
         .catch(err => msg.nack());
 });
 rabbit.handle("moduleCreated", msg => {
-    new event(msg).event
+    console.log('Message received', msg.body);
+    new event(msg.body)
         .save()
         .then(() => msg.ack())
         .catch(err => msg.nack());
 });
 rabbit.handle("teacherRegistered", msg => {
     console.log("test");
-    new event(msg).event
+    console.log('Message received', msg.body);
+    new event(msg.body)
         .save()
         .then(() => msg.ack())
         .catch(err => msg.nack());
 });
 rabbit.handle("testCreated", msg => {
-    new event(msg).event
+    console.log('Message received', msg.body);
+    new event(msg.body)
         .save()
         .then(() => msg.ack())
         .catch(err => msg.nack());
 });
 rabbit.handle("studentApproved", msg => {
-    new event(msg).event
+    console.log('Message received', msg.body);
+    new event(msg.body)
         .save()
         .then(() => msg.ack())
         .catch(err => msg.nack());
