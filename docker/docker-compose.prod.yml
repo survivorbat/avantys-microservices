@@ -25,6 +25,7 @@ services:
     environment:
       - MONGODB_PASSWORD=<<DOCKER-SECRET:GUIDING_STUDENTS_DB_PASSWORD>>
       - RABBITMQ_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
+      - SWAGGER_BASE_URL=${server_name}/api/v1/guiding_students
     secrets:
       - RABBIT_MQ_PASSWORD
       - GUIDING_STUDENTS_DB_PASSWORD
@@ -40,6 +41,7 @@ services:
     environment:
       - MONGODB_PASSWORD=<<DOCKER-SECRET:RECRUITING_DB_PASSWORD>>
       - RABBITMQ_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
+      - SWAGGER_BASE_URL=${server_name}/api/v1/recruiting
     secrets:
       - RABBIT_MQ_PASSWORD
       - RECRUITING_DB_PASSWORD
@@ -55,6 +57,7 @@ services:
     environment:
       - MONGODB_PASSWORD=<<DOCKER-SECRET:SCHEDULING_DB_PASSWORD>>
       - RABBITMQ_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
+      - SWAGGER_BASE_URL=${server_name}/api/v1/scheduling
     secrets:
       - RABBIT_MQ_PASSWORD
       - SCHEDULING_DB_PASSWORD
@@ -70,6 +73,7 @@ services:
     environment:
       - MONGODB_PASSWORD=<<DOCKER-SECRET:STUDENT_ADMINISTRATION_DB_PASSWORD>>
       - RABBITMQ_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
+      - SWAGGER_BASE_URL=${server_name}/api/v1/student_administration
     secrets:
       - RABBIT_MQ_PASSWORD
       - STUDENT_ADMINISTRATION_DB_PASSWORD
@@ -85,6 +89,7 @@ services:
     environment:
       - MONGODB_PASSWORD=<<DOCKER-SECRET:STUDENT_PORTAL_DB_PASSWORD>>
       - RABBITMQ_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
+      - SWAGGER_BASE_URL=${server_name}/api/v1/student_portal
     secrets:
       - RABBIT_MQ_PASSWORD
       - STUDENT_PORTAL_DB_PASSWORD
