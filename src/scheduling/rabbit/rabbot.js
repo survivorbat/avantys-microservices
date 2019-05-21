@@ -44,7 +44,6 @@ rabbit.handle("moduleRegistered", msg => {
     .save()
     .then(() => msg.ack())
     .catch(err => msg.nack());
-  console.log(body);
 });
 rabbit.handle("teacherRegistered", msg => {
   new Teacher(msg.body)

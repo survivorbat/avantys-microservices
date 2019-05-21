@@ -40,8 +40,7 @@ const registerModule = async ({ body }, res, next) =>
         type: "moduleRegistered",
         body: result
       });
-      // return res.redirect(303, "modules");
-      return res.status(200).end();
+      return res.redirect(303, "modules");
     })
     .catch(next);
 
