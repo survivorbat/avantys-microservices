@@ -6,6 +6,11 @@ const router = require("./router");
 const app = express();
 const axon = require("axon");
 const sock = axon.socket("push");
+const es = require('eventstore')({
+  type: 'redis',
+  host: process.env.EVENTSTORE_HOST,
+  port: 6379
+});
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -18,10 +23,18 @@ const swaggerOptions = {
   apis: ["/app/router.js"]
 };
 
-let axonserver = sock.bind(`tcp://${process.env.AXON_HOST}:8024`);
-sock.send("hello");
+es.getEventStream('streamId', function(err, stream) {
+  stream.addEvent({ my: 'event' });
+  stream.addEvents([{ my: 'event2' }]);
 
-console.log(axonserver);
+  stream.commit();
+
+  // or
+
+  stream.commit(function(err, stream) {
+    console.log(stream.eventsToDispatch); // this is an array containing all added events in this commit.
+  });
+});
 
 app.use(logger("dev"));
 app.use(bodyparser.json());
