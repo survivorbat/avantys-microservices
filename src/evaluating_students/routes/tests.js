@@ -72,7 +72,11 @@ router
     test
       .save()
       .then(savedtest => {
-        rabbit.publish("ex.1", { type: "MyMessage", body: "hello!" });
+        rabbit.publish("ex.1", {
+          routingKey: "studentExamined",
+          type: "studentExamined",
+          body: savedtest
+        });
         res.status(201).json(savedtest);
       })
       .catch(err => res.sendStatus(500));
@@ -136,7 +140,14 @@ router
         });
         test
           .save()
-          .then(savedtest => res.json(201, savedtest))
+          .then(savedtest => {
+            rabbit.publish("ex.1", {
+              routingKey: "studentGraded",
+              type: "studentGraded",
+              body: savedtest
+            });
+            res.status(201).json(savedtest);
+          })
           .catch(err => res.sendStatus(500));
       });
     }
