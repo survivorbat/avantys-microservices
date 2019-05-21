@@ -25,7 +25,7 @@ rabbit
       {
         exchange: "ex.1",
         target: "teacher_administration_queue",
-        keys: ["studentRegistered"]
+        keys: ["teacherRegistered"]
       }
     ]
   })
@@ -37,7 +37,9 @@ rabbit
   .catch(error => console.log("Rabbot connect error: " + error));
 
 rabbit.handle("teacherRegistered", msg => {
-  new Teacher(msg).teacher
+  console.log(msg.body)
+
+  new Teacher(msg.body)
     .save()
     .then(() => msg.ack())
     .catch(err => msg.nack());
