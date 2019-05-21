@@ -37,7 +37,7 @@ rabbit
   .catch(error => console.log("Rabbot connect error: " + error));
 
 rabbit.handle("teacherRegistered", msg => {
-  console.log(msg.body)
+  console.log(msg.body);
 
   new Teacher(msg.body)
     .save()
