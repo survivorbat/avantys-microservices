@@ -48,15 +48,15 @@ services:
      - 8080
 
   event_store:
-    image: redis:5.0.5
+    image: mongo:4.0.9
     restart: always
     networks:
       - nginx
       - event_store
     volumes:
-      - event_store_data:/data
+      - event_store_data:/data/db
     expose:
-      - 6379
+      - 27017
 
   main-broker:
     networks:

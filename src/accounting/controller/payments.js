@@ -1,5 +1,4 @@
 const Payment = require("../model/payment").Payment;
-const sendToQueue = require("../config/rabbitmq").connectAndSend;
 const PaymentDetailsCreated = require("../events/PaymentDetailsCreated");
 
 /**
