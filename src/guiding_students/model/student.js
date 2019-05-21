@@ -1,8 +1,6 @@
 const mongoose = require("../config/db");
-const Module = require("./module").moduleSchema;
-const Study = require("./study").studySchema;
-
 const Schema = mongoose.Schema;
+
 const studentSchema = new Schema({
   firstName: {
     type: String,
@@ -11,20 +9,6 @@ const studentSchema = new Schema({
   lastName: {
     type: String,
     required: true
-  },
-  class: {
-    type: String,
-    required: false,
-    default: ""
-  },
-  modules: {
-    type: [Module],
-    required: false,
-    default: []
-  },
-  study: {
-    type: Study,
-    required: false
   }
 });
 

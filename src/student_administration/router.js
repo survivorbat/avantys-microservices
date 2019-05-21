@@ -4,7 +4,8 @@ const {
   getStudent,
   getStudents,
   registerStudent,
-  unregisterStudent
+  unregisterStudent,
+  coupleStudentToClass
 } = require("./controller/students");
 const { notFound, catchError } = require("./controller/_error");
 
@@ -104,6 +105,36 @@ router.post("/students", registerStudent);
  *          description: Method has not yet been implemented yet
  */
 router.delete("/students/:id", unregisterStudent);
+
+/**
+ * @swagger
+ * /students/{id}/class:
+ *    put:
+ *      description: Couple student with class
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *      - name: id
+ *        type: string
+ *        description: The Student ID
+ *        required: true
+ *        in: path
+ *      - name: className
+ *        description: Class name
+ *        required: true
+ *        in: formData
+ *        type: string
+ *      responses:
+ *        302:
+ *          description: Redirect to GET classes
+ *        500:
+ *          description: Something unexpected went wrong
+ *        502:
+ *          description: Service seems to be unavailable at this time
+ *        503:
+ *          description: Method has not yet been implemented yet
+ */
+router.put("/students/:id/class", coupleStudentToClass);
 
 router.use(catchError);
 router.get("*", notFound);
