@@ -35,8 +35,8 @@ const createNotes = async ({ body }, res, next) =>
     .save()
     .then(result => {
       rabbit.publish("ex.1", {
-        routingKey: "NotesCreated",
-        type: "NotesCreated",
+        routingKey: "notesCreated",
+        type: "notesCreated",
         body: result
       });
       return res.redirect(303, "notes");
