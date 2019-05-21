@@ -1,6 +1,9 @@
 const mongoose = require("../config/db");
-const Schema = mongoose.Schema;
+const Class = require("./class").classSchema;
+const Module = require("./module").moduleSchema;
+const Study = require("./study").studySchema;
 
+const Schema = mongoose.Schema;
 const studentSchema = new Schema({
   firstName: {
     type: String,
@@ -9,6 +12,19 @@ const studentSchema = new Schema({
   lastName: {
     type: String,
     required: true
+  },
+  class: {
+    type: String,
+    required: false
+  },
+  modules: {
+    type: [Module],
+    required: false,
+    default: []
+  },
+  study: {
+    type: Study,
+    required: false
   }
 });
 

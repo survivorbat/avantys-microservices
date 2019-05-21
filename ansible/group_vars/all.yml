@@ -32,6 +32,9 @@ docker_images:
   - dockerfile: docker/accounting/Dockerfile
     path: ../
     name: avantys/accounting
+  - dockerfile: docker/audit/Dockerfile
+    path: ../
+    name: avantys/audit
 
 default_groups:
   # First group is the default group

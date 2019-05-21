@@ -10,6 +10,8 @@ const es = require("eventstore")({
   port: 27017
 });
 
+const rabbit = require("./rabbit/rabbot");
+
 const swaggerOptions = {
   swaggerDefinition: {
     info: {

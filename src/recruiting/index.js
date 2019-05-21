@@ -5,15 +5,17 @@ const swaggerJsdoc = require("swagger-jsdoc");
 const router = require("./router");
 const app = express();
 
+const rabbit = require("./rabbit/rabbot");
+
 const swaggerOptions = {
   swaggerDefinition: {
     info: {
       title: "Recruiting",
       description: "The API of recruiting",
-      basePath: "/api/v1/recruiting",
       produces: ["application/json"],
       schemes: ["https"]
-    }
+    },
+    host: process.env.SWAGGER_BASE_URL
   },
   apis: ["/app/router.js"]
 };
