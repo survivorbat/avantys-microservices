@@ -21,8 +21,8 @@ let Meeting = require("./models/meeting").Meeting;
 router.get("/students", (req, res) => {
   Student.find()
     .then(students => {
-      if(students == null || students == []) {
-        res.status(200).json({"message" : "no students found"})
+      if (students == null || students == []) {
+        res.status(200).json({ message: "no students found" });
       }
       res.status(200).json(students);
     })
@@ -53,8 +53,13 @@ router.get("/student/:_id", ({ params: { _id } }, res) => {
   res.contentType("application/json");
   Student.findOne({ _id })
     .then(student => {
+<<<<<<< HEAD
       if(student == null) {
         res.status(200).json({"message" : "student not found"})
+=======
+      if (student == null) {
+        res.status(200).json({ message: "student not found" });
+>>>>>>> a6df186d41ea5acc78cad184bf8ceea17e9a7695
       }
       res.status(200).json(student);
     })
@@ -168,7 +173,11 @@ router.delete("/student/:_id", ({ params: { _id } }, res) => {
 
   Student.findOneAndRemove({ _id })
     .then(student => {
+<<<<<<< HEAD
       res.status(200).json({"Album Deleted" : student});
+=======
+      res.status(200).json({ "Album Deleted": student });
+>>>>>>> a6df186d41ea5acc78cad184bf8ceea17e9a7695
     })
     .catch(function(error) {
       res.status(400).json(error);
@@ -192,8 +201,13 @@ router.delete("/student/:_id", ({ params: { _id } }, res) => {
 router.get("/teachers", (req, res) => {
   Teacher.find()
     .then(teachers => {
+<<<<<<< HEAD
       if(teachers == null || teachers == []) {
         res.status(200).json({"message" : "no teachers found"})
+=======
+      if (teachers == null || teachers == []) {
+        res.status(200).json({ message: "no teachers found" });
+>>>>>>> a6df186d41ea5acc78cad184bf8ceea17e9a7695
       }
       res.status(200).json(teachers);
     })
@@ -223,8 +237,13 @@ router.get("/teachers", (req, res) => {
 router.get("/teacher/:_id", ({ params: { _id } }, res) => {
   Teacher.findOne({ _id })
     .then(teacher => {
+<<<<<<< HEAD
       if(teacher == null) {
         res.status(200).json({"message" : "teacher not found"})
+=======
+      if (teacher == null) {
+        res.status(200).json({ message: "teacher not found" });
+>>>>>>> a6df186d41ea5acc78cad184bf8ceea17e9a7695
       }
       res.status(200).json(teacher);
     })
@@ -335,8 +354,13 @@ router.put("/teacher/:_id", ({ body }, { params: { _id } }, res) => {
 
 router.delete("/teacher/:_id", ({ params: { _id } }, res) => {
   Teacher.findOneAndRemove({ _id })
+<<<<<<< HEAD
     .then(teacher => {
       res.status(200).json({"Album Deleted" : teacher});
+=======
+    .then(function(teacher) {
+      res.status(200).json({ "Album Deleted": teacher });
+>>>>>>> a6df186d41ea5acc78cad184bf8ceea17e9a7695
     })
     .catch(function(error) {
       res.status(400).json(error);
@@ -411,8 +435,13 @@ router.post("/meeting", async ({ body }, res) => {
 router.get("/meetings", (req, res) => {
   Meeting.find({})
     .then(meetings => {
+<<<<<<< HEAD
       if(meetings == null || meetings == []) {
         res.status(200).json({"message" : "no meetings found"})
+=======
+      if (meetings == null || meetings == []) {
+        res.status(200).json({ message: "no meetings found" });
+>>>>>>> a6df186d41ea5acc78cad184bf8ceea17e9a7695
       }
       res.status(200).json(meetings);
     })
@@ -442,12 +471,18 @@ router.get("/meetings", (req, res) => {
 router.get("/meeting/:_id", ({ params: { _id } }, res) => {
   Meeting.findOne({ _id })
     .then(meeting => {
+<<<<<<< HEAD
       if(meeting == null) {
         res.status(200).json({"message":"meeting not found"})
+=======
+      if (meeting == null) {
+        res.status(200).json({ message: "meeting not found" });
+>>>>>>> a6df186d41ea5acc78cad184bf8ceea17e9a7695
       }
       res.status(200).json(meeting);
     })
     .catch(error => res.status(401).json(error));
+<<<<<<< HEAD
 });
 
 /**
@@ -509,6 +544,8 @@ router.delete("/approve/:_id", ({ params: { _id } }, res) => {
     .catch(function(error) {
       res.status(400).json(error);
     });
+=======
+>>>>>>> a6df186d41ea5acc78cad184bf8ceea17e9a7695
 });
 
 module.exports = router;

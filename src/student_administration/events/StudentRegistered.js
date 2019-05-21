@@ -1,6 +1,7 @@
-const StudentRegistered = student => ({
+const StudentRegistered = (student, meta = null) => ({
   event: "StudentRegistered",
-  data: student
+  data: student,
+  meta
 });
 
 module.exports = StudentRegistered;

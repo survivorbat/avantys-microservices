@@ -5,12 +5,17 @@ const swaggerJsdoc = require("swagger-jsdoc");
 const router = require("./router");
 const app = express();
 
+const rabbit = require("./rabbit/rabbot");
+
 const swaggerOptions = {
   swaggerDefinition: {
     info: {
       title: "Scheduling",
       description: "The API of scheduling"
-    }
+    },
+    basePath: "/api/v1/scheduling",
+    produces: ["application/json"],
+    schemes: ["https"]
   },
   apis: ["/app/router.js"]
 };
