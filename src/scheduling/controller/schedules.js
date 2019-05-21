@@ -31,6 +31,7 @@ const createSchedule = async ({ body }, res, next) => {
     );
     body.testId = null;
   }
+  console.log(body);
   await new Schedules(body, {})
     .save()
     .then(result => {

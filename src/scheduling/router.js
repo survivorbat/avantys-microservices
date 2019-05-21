@@ -34,11 +34,11 @@ router.get("/schedules", scheduleController.getSchedules);
  *                -   endDatetime
  *              properties:
  *                teacherId:
- *                  type: number
+ *                  type: string
  *                testId:
- *                  type: number
+ *                  type: string
  *                moduleId:
- *                  type: number
+ *                  type: string
  *                class:
  *                  type: string
  *                startDatetime:
