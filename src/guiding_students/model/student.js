@@ -13,10 +13,9 @@ const studentSchema = new Schema({
     type: String,
     required: true
   },
-  classes: {
-    type: [Class],
-    required: false,
-    default: []
+  class: {
+    type: String,
+    required: false
   },
   modules: {
     type: [Module],
