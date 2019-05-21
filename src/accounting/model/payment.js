@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const paymentSchema = new Schema({
   student: {
     type: Schema.Types.ObjectId,
-    ref: 'Student'
+    ref: "Student"
   },
   payment: {
     type: Number,
@@ -30,9 +30,9 @@ const paymentSchema = new Schema({
   }
 });
 
-paymentSchema.pre('save', function (next) {
+paymentSchema.pre("save", function(next) {
   if (!this.isNew) {
-      this.issued = Date.now();
+    this.issued = Date.now();
   }
 
   next();

@@ -34,11 +34,11 @@ const getPayment = async ({ params: { id } }, res, next) =>
  */
 const createPaymentDetails = async ({ body }, res, next) => {
   body.bank = {
-    name: body['bank name'],
-    IBAN: body['bank IBAN'],
-    number: body['bank number']
-  }
-  
+    name: body["bank name"],
+    IBAN: body["bank IBAN"],
+    number: body["bank number"]
+  };
+
   await new Payment(body, {})
     .save()
     .then(result => {
@@ -46,7 +46,7 @@ const createPaymentDetails = async ({ body }, res, next) => {
       return res.redirect(303, "payments");
     })
     .catch(next => console.log(next));
-  }
+};
 
 module.exports = {
   createPaymentDetails,
