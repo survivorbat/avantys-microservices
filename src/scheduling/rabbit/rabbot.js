@@ -1,5 +1,4 @@
 const rabbit = require("rabbot");
-const module = require("../model/module").Module;
 
 rabbit
   .configure({
