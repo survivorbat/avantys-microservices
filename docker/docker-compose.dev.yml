@@ -19,17 +19,25 @@ services:
     volumes:
       - ../src/webapi:/srv/html
 
+  audit:
+    build:
+      context: ../
+      dockerfile: docker/audit/Dockerfile
+    volumes:
+      - ../src/audit:/app
+    user: "1000"
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"]
+    working_dir: /app
+    environment:
+      - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
+      - SWAGGER_BASE_URL=localhost/api/v1/audit
+
   main-broker:
     build:
       context: ../
       dockerfile: docker/rabbitmq/Dockerfile
     environment:
       - RABBITMQ_DEFAULT_PASS=c8ggRaQUwtBBiC6nW
-
-  axon:
-    ports:
-      - 8024:8024
-      - 8124:8124
 
   ssl:
     build:
