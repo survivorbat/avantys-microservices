@@ -25,7 +25,7 @@ rabbit
       {
         exchange: "ex.1",
         target: "scheduling_queue",
-        keys: ["studentRegistered"]
+        keys: ["moduleCreated", "teacherRegistered", "testCreated"]
       }
     ]
   })
