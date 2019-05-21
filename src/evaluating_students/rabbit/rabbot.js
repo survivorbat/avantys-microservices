@@ -37,7 +37,27 @@ rabbit
   .catch(error => console.log("Rabbot connect error: " + error));
 
 rabbit.handle("studentRegistered", msg => {
-  new student(msg).student
+  console.log(msg.body)
+
+  new student(msg.body)
+    .save()
+    .then(() => msg.ack())
+    .catch(err => msg.nack());
+});
+
+rabbit.handle("studentExamined", msg => {
+  console.log(msg.body)
+  
+  new student(msg.body)
+    .save()
+    .then(() => msg.ack())
+    .catch(err => msg.nack());
+});
+
+rabbit.handle("studentGraded", msg => {
+  console.log(msg.body)
+  
+  new student(msg.body)
     .save()
     .then(() => msg.ack())
     .catch(err => msg.nack());
