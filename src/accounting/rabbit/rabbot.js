@@ -37,7 +37,7 @@ rabbit
   .catch(error => console.log("Rabbot connect error: " + error));
 
 rabbit.handle("studentRegistered", msg => {
-  new student(msg).student
+  new student(msg.body)
     .save()
     .then(() => msg.ack())
     .catch(err => msg.nack());
