@@ -8,11 +8,8 @@ const app = express();
 const swaggerOptions = {
   swaggerDefinition: {
     info: {
-      title: "Recruiting",
-      description: "The API of recruiting",
-      basePath: "/api/v1/recruiting",
-      produces: ["application/json"],
-      schemes: ["https"]
+      title: "Accounting",
+      description: "The API of accounting"
     }
   },
   apis: ["/app/router.js"]
@@ -25,8 +22,8 @@ app.use(bodyparser.urlencoded({ extended: true }));
 const specs = swaggerJsdoc(swaggerOptions);
 const swaggerUi = require("swagger-ui-express");
 
-app.use("/api/v1/recruiting/swagger", swaggerUi.serve, swaggerUi.setup(specs));
+app.use("/api/v1/accounting/swagger", swaggerUi.serve, swaggerUi.setup(specs));
 
-app.use("/api/v1/recruiting", router);
+app.use("/api/v1/accounting", router);
 
 app.listen(process.env.PORT || 3000);
