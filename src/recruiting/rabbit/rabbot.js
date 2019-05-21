@@ -1,5 +1,5 @@
 const rabbit = require("rabbot");
-const student = require("../model/student").Student;
+const student = require("../models/potential-student").PotentialStudent;
 
 rabbit
   .configure({

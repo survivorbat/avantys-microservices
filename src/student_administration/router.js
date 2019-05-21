@@ -7,6 +7,13 @@ const {
   unregisterStudent,
   coupleStudentToClass
 } = require("./controller/students");
+const {
+  getModule,
+  getModules,
+  registerModule,
+  unregisterModule
+} = require("./controller/modules");
+
 const { notFound, catchError } = require("./controller/_error");
 
 /**
@@ -135,6 +142,98 @@ router.delete("/students/:id", unregisterStudent);
  *          description: Method has not yet been implemented yet
  */
 router.put("/students/:id/class", coupleStudentToClass);
+
+/**
+ * @swagger
+ * /modules:
+ *    get:
+ *      description: Return list of modules
+ *      produces:
+ *        - application/json
+ *      responses:
+ *        200:
+ *          description: List of modules
+ *        500:
+ *          description: Something unexpected went wrong
+ *        502:
+ *          description: Service seems to be unavailable at this time
+ */
+router.get("/modules", getModules);
+
+/**
+ * @swagger
+ * /modules/{id}:
+ *    get:
+ *      description: Return module
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *       - name: id
+ *         description: The module id
+ *         required: true
+ *         in: path
+ *         type: string
+ *      responses:
+ *        302:
+ *          description: Redirect to GET modules
+ *        500:
+ *          description: Something unexpected went wrong
+ *        502:
+ *          description: Service seems to be unavailable at this time
+ *        404:
+ *          description: No module found by that ID
+ */
+router.get("/modules/:id", getModule);
+
+/**
+ * @swagger
+ * /modules:
+ *    post:
+ *      description: Register module
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *      - name: name
+ *        description: The module's ame
+ *        required: true
+ *        in: formData
+ *        type: string
+ *      responses:
+ *        302:
+ *          description: Redirect to GET modules
+ *        500:
+ *          description: Something unexpected went wrong
+ *        502:
+ *          description: Service seems to be unavailable at this time
+ *        503:
+ *          description: Method has not yet been implemented yet
+ */
+router.post("/modules", registerModule);
+
+/**
+ * @swagger
+ * /modules/{id}:
+ *    delete:
+ *      description: Unregister module
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *       - name: id
+ *         description: The ID of the student
+ *         required: true
+ *         in: path
+ *         type: string
+ *      responses:
+ *        302:
+ *          description: Redirect to GET modules
+ *        500:
+ *          description: Something unexpected went wrong
+ *        502:
+ *          description: Service seems to be unavailable at this time
+ *        503:
+ *          description: Method has not yet been implemented yet
+ */
+router.delete("/modules/:id", unregisterModule);
 
 router.use(catchError);
 router.get("*", notFound);
