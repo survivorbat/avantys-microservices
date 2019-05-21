@@ -4,6 +4,8 @@ const bodyparser = require("body-parser");
 const swaggerJsdoc = require("swagger-jsdoc");
 const router = require("./router");
 const app = express();
+const axon = require('axon');
+const sock = axon.socket('push');
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -15,6 +17,11 @@ const swaggerOptions = {
   },
   apis: ["/app/router.js"]
 };
+
+let axonserver = sock.bind(`tcp://${process.env.AXON_HOST}:8024`)
+sock.send('hello');
+
+console.log(axonserver)
 
 app.use(logger("dev"));
 app.use(bodyparser.json());
