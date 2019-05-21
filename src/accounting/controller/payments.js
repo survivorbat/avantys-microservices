@@ -1,5 +1,4 @@
 const Payment = require("../model/payment").Payment;
-const PaymentDetailsCreated = require("../events/PaymentDetailsCreated");
 
 /**
  * @param {Object} req
@@ -41,7 +40,11 @@ const createPaymentDetails = async ({ body }, res, next) => {
   await new Payment(body, {})
     .save()
     .then(result => {
-      sendToQueue(PaymentDetailsCreated({ ...body, _id: result.id }));
+      rabbit.publish("ex.1", {
+        routingKey: "PaymentDetailsCreated",
+        type: "PaymentDetailsCreated",
+        body: result
+      });
       return res.redirect(303, "payments");
     })
     .catch(next => console.log(next));

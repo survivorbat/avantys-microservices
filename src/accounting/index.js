@@ -4,11 +4,11 @@ const bodyparser = require("body-parser");
 const swaggerJsdoc = require("swagger-jsdoc");
 const router = require("./router");
 const app = express();
-const es = require("eventstore")({
-  type: "mongodb",
-  host: process.env.EVENTSTORE_HOST,
-  port: 27017
-});
+// const es = require("eventstore")({
+//   type: "mongodb",
+//   host: process.env.EVENTSTORE_HOST,
+//   port: 27017
+// });
 
 const rabbit = require("./rabbit/rabbot");
 
@@ -23,18 +23,18 @@ const swaggerOptions = {
   apis: ["/app/router.js"]
 };
 
-es.getEventStream("streamId", (err, stream) => {
-  stream.addEvent({ my: "event" });
-  stream.addEvents([{ my: "event2" }]);
+// es.getEventStream("streamId", (err, stream) => {
+//   stream.addEvent({ my: "event" });
+//   stream.addEvents([{ my: "event2" }]);
 
-  stream.commit();
+//   stream.commit();
 
-  // or
+//   // or
 
-  stream.commit((err, stream) => {
-    console.log(stream.eventsToDispatch); // this is an array containing all added events in this commit.
-  });
-});
+//   stream.commit((err, stream) => {
+//     console.log(stream.eventsToDispatch); // this is an array containing all added events in this commit.
+//   });
+// });
 
 app.use(logger("dev"));
 app.use(bodyparser.json());
