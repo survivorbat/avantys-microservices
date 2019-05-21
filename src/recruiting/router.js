@@ -362,10 +362,12 @@ router.delete("/teacher/:_id", ({ params: { _id } }, res) => {
  *        description: The Id of an existing student
  *        required: true
  *        type: string
+ *        in: formData
  *      - name: teacher
  *        description: The Id of an existing teacher
  *        required: true
  *        type: string
+ *        in: formData
  *      responses:
  *        201:
  *          description: Return created students
@@ -483,13 +485,13 @@ router.delete("/meeting/:_id", ({ params: { _id } }, res) => {
 
 /**
  * @swagger
- * /approve/{id}:
+ * /approve/{_id}:
  *    post:
  *      description: Approve student
  *      produces:
  *        - application/json
  *      parameters:
- *       - name: id
+ *       - name: _id
  *         description: The Student Number of the Student
  *         required: true
  *         in: path
