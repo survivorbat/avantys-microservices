@@ -37,7 +37,7 @@ rabbit
     ]
   })
   .then(() => {
-    console.log("Rabbot succesfully connected.");
+    console.log("Rabbot succesfully connected...");
     rabbit.startSubscription("audit_write_queue");
     console.log("Rabbot subscribed.");
   })
@@ -69,6 +69,7 @@ rabbit.handle("moduleCreated", msg => {
         .catch(err => msg.nack());
 });
 rabbit.handle("teacherRegistered", msg => {
+    console.log("test");
     new event(msg).event
         .save()
         .then(() => msg.ack())
