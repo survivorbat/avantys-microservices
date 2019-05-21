@@ -486,7 +486,7 @@ router.delete("/meeting/:_id", ({ params: { _id } }, res) => {
 /**
  * @swagger
  * /approve/{_id}:
- *    post:
+ *    delete:
  *      description: Approve student
  *      produces:
  *        - application/json
@@ -502,18 +502,17 @@ router.delete("/meeting/:_id", ({ params: { _id } }, res) => {
  *        400:
  *          description: Something unexpected went wrong
  */
-
 router.delete("/approve/:_id", ({ params: { _id } }, res) => {
-  Meeting.findOneAndRemove({ _id })
+  Student.findOneAndRemove({ _id })
     .then(student => {
       rabbit.publish("ex.1", {
         routingKey: "studentApproved",
         type: "studentApproved",
         body: student
       });
-      res.status(200).json({"Student Deleted" : student});
+      res.status(200).json({ "Student Deleted": student });
     })
-    .catch(function(error) {
+    .catch(error => {
       res.status(400).json(error);
     });
 });
