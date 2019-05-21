@@ -248,7 +248,7 @@ services:
       - RABBITMQ_HOST=main-broker
       - MONGODB_USERNAME=avantys
       - PORT=3000
-      - MONGODB_HO=student_portal_db
+      - MONGODB_HOST=student_portal_db
       - RABBITMQ_USER=avantys
     restart: always
     depends_on:
