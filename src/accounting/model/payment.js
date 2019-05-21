@@ -1,10 +1,13 @@
+const Student = require("./student").studentSchema;
+
 const mongoose = require("../config/db");
 const Schema = mongoose.Schema;
 
 const paymentSchema = new Schema({
   student: {
-    type: Schema.Types.ObjectId,
-    ref: "Student"
+    type: Student,
+    required: false,
+    default: null
   },
   payment: {
     type: Number,

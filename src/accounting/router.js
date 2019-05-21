@@ -66,7 +66,7 @@ router.get("/payments/:id", getPayment);
  *          description: The amount of college money that was paid
  *          required: true
  *          in: formData
- *          type: string
+ *          type: number
  *        - name: bank name
  *          description: The name of the bank
  *          required: true

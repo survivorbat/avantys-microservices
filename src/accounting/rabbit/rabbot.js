@@ -25,7 +25,7 @@ rabbit
       {
         exchange: "ex.1",
         target: "accounting_queue",
-        keys: ["paymentDetailsCreated"]
+        keys: ["studentRegistered"]
       }
     ]
   })
@@ -36,8 +36,9 @@ rabbit
   })
   .catch(error => console.log("Rabbot connect error: " + error));
 
-rabbit.handle("paymentDetailsCreated", msg => {
-  new student(msg).student
+rabbit.handle("studentRegistered", msg => {
+  console.log("Received student!", msg.body);
+  new student(msg.body)
     .save()
     .then(() => msg.ack())
     .catch(err => msg.nack());
