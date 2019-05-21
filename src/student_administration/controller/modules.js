@@ -40,7 +40,8 @@ const registerModule = async ({ body }, res, next) =>
         type: "moduleRegistered",
         body: result
       });
-      return res.redirect(303, "modules");
+      // return res.redirect(303, "modules");
+      return res.status(200).end();
     })
     .catch(next);
 
@@ -55,11 +56,6 @@ const registerModule = async ({ body }, res, next) =>
 const unregisterModule = async ({ params: { id } }, res, next) =>
   await Module.findOneAndDelete(id)
     .then(result => {
-      rabbit.publish("ex.1", {
-        routingKey: "moduleUnregistered",
-        type: "moduleUnregistered",
-        body: result
-      });
       return res.redirect(303, "/api/v1/module_administration/modules");
     })
     .catch(next);
