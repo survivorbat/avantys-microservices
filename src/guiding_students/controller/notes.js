@@ -32,11 +32,10 @@ const getNotes = async ({ params: { id } }, res, next) =>
  * @param {Function} next
  * @returns {Promise<*>}
  */
-const createNotes = async ({ body }, res, next) => 
+const createNotes = async ({ body }, res, next) =>
   await new Notes(body, {})
     .save()
     .then(result => {
-
       sendToQueue(NotesCreated({ ...body, _id: result.id }));
       return res.redirect(303, "notes");
     })

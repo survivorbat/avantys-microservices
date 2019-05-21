@@ -34,5 +34,4 @@ mongoose.connection.on("disconnected", () => {
 
 connect();
 
-
 module.exports = mongoose;

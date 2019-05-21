@@ -38,7 +38,6 @@ app.use(
   swaggerUi.setup(specs)
 );
 
-
 app.use("/api/v1/evaluating_students/tests", testsRoute);
 // app.use("/api/v1/evaluating_students/teachers", teachersRoute);
 // app.use("/api/v1/evaluating_students/students", studentsRoute);

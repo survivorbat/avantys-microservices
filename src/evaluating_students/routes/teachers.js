@@ -55,31 +55,31 @@ const rabbit = require("../rabbit/rabbot");
  *                  description: "Failed to delete document"
  */
 router
-    .route("/")
-    .get((req, res) => {
-        TeacherModel.find()
-            .then(allTeachers => res.json(200, allTeachers))
-            .catch(() => res.sendStatus(500));
-    })
+  .route("/")
+  .get((req, res) => {
+    TeacherModel.find()
+      .then(allTeachers => res.json(200, allTeachers))
+      .catch(() => res.sendStatus(500));
+  })
 
-    .put((req, res) => res.sendStatus(501))
+  .put((req, res) => res.sendStatus(501))
 
-    .post(({body: {firstName, lastName}}, res) => {
-        if (!firstName || !lastName) {
-            return res.sendStatus(400);
-        }
+  .post(({ body: { firstName, lastName } }, res) => {
+    if (!firstName || !lastName) {
+      return res.sendStatus(400);
+    }
 
-        const teacher = new TeacherModel({firstName, lastName}, {});
-        teacher
-            .save()
-            .then(savedTeacher => res.json(201, savedTeacher))
-            .catch(err => res.sendStatus(500));
-    })
+    const teacher = new TeacherModel({ firstName, lastName }, {});
+    teacher
+      .save()
+      .then(savedTeacher => res.json(201, savedTeacher))
+      .catch(err => res.sendStatus(500));
+  })
 
-    .delete((req, res) =>
-        TeacherModel.remove({})
-            .then(deleted => res.json(200, deleted))
-            .catch(() => res.sendStatus(500))
-    );
+  .delete((req, res) =>
+    TeacherModel.remove({})
+      .then(deleted => res.json(200, deleted))
+      .catch(() => res.sendStatus(500))
+  );
 
 module.exports = router;

@@ -5,7 +5,6 @@ const StudentModel = require("../model/student").StudentModel;
 const TeacherModel = require("../model/teacher").TeacherModel;
 const TestModel = require("../model/test").TestModel;
 
-
 /**
  * @swagger
  *  paths:
@@ -54,32 +53,32 @@ const TestModel = require("../model/test").TestModel;
  *                  description: "Failed to delete document"
  */
 router
-    .route("/")
-    .get((req, res) => {
-        StudentModel.find()
-            .then(allStudents => res.json(200, allStudents))
-            .catch(() => res.sendStatus(500));
-    })
+  .route("/")
+  .get((req, res) => {
+    StudentModel.find()
+      .then(allStudents => res.json(200, allStudents))
+      .catch(() => res.sendStatus(500));
+  })
 
-    .put((req, res) => res.sendStatus(501))
+  .put((req, res) => res.sendStatus(501))
 
-    .post(({body: {firstName, lastName}}, res) => {
-        if (!firstName || !lastName) {
-            return res.sendStatus(400);
-        }
+  .post(({ body: { firstName, lastName } }, res) => {
+    if (!firstName || !lastName) {
+      return res.sendStatus(400);
+    }
 
-        const student = new StudentModel({firstName, lastName}, {});
+    const student = new StudentModel({ firstName, lastName }, {});
 
-        student
-            .save()
-            .then(savedStudent => res.json(201, savedStudent))
-            .catch(err => res.sendStatus(500));
-    })
+    student
+      .save()
+      .then(savedStudent => res.json(201, savedStudent))
+      .catch(err => res.sendStatus(500));
+  })
 
-    .delete((req, res) =>
-        StudentModel.remove({})
-            .then(deleted => res.json(200, deleted))
-            .catch(() => res.sendStatus(500))
-    );
+  .delete((req, res) =>
+    StudentModel.remove({})
+      .then(deleted => res.json(200, deleted))
+      .catch(() => res.sendStatus(500))
+  );
 
 module.exports = router;
