@@ -58,7 +58,11 @@ const registerTeacher = async ({ body }, res, next) =>
 const unregisterTeacher = async ({ params: { id } }, res, next) =>
   await Teacher.findOneAndDelete(id)
     .then(result => {
-      sendToQueue(TeacherUnregistered(result));
+      rabbit.publish("ex.1", {
+        routingKey: "teacherUnregistered",
+        type: "teacherUnregistered",
+        body: result
+      });
       return res.redirect(303, "/api/v1/teacher_administration/teachers");
     })
     .catch(next);
