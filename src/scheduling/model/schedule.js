@@ -1,7 +1,7 @@
 const mongoose = require("../config/db");
 
 const Schema = mongoose.Schema;
-const lessonSchema = new Schema({
+const scheduleSchema = new Schema({
   studentId: {
     type: Number,
     required: true
@@ -24,9 +24,9 @@ const lessonSchema = new Schema({
   }
 });
 
-const Lesson = mongoose.model("Lesson", lessonSchema);
+const Schedule = mongoose.model("Lesson", scheduleSchema);
 
 module.exports = {
-  Lesson,
-  lessonSchema
+  Schedule,
+  scheduleSchema
 };
