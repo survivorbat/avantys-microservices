@@ -15,17 +15,14 @@ const potentialStudentSchema = new Schema({
     maxLength: 128
   },
   email: {
-    type: String,
-    required: true
+      type: String,
+      required: true
   }
 });
 
-const PotentialStudent = mongoose.model(
-  "PotentialStudent",
-  potentialStudentSchema
-);
+const PotentialStudent = mongoose.model("PotentialStudent", potentialStudentSchema);
 
 module.exports = {
-  PotentialStudent,
-  potentialStudentSchema
+    PotentialStudent,
+    potentialStudentSchema
 };
