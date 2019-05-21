@@ -502,14 +502,14 @@ router.delete("/meeting/:_id", ({ params: { _id } }, res) => {
  */
 
 router.delete("/approve/:_id", ({ params: { _id } }, res) => {
-  Student.findOneAndRemove({ _id })
+  Meeting.findOneAndRemove({ _id })
     .then(student => {
       rabbit.publish("ex.1", {
         routingKey: "studentApproved",
         type: "studentApproved",
         body: student
       });
-      res.status(200).json({"Student Deleted" : meeting});
+      res.status(200).json({"Student Deleted" : student});
     })
     .catch(function(error) {
       res.status(400).json(error);
