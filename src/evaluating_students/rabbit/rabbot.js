@@ -1,10 +1,26 @@
 const rabbit = require('rabbot');
 
-rabbit.handle('MyMessage', (msg) => {
-    console.log('received msg', msg.body);
-    msg.ack();
-});
 
+rabbit.handle('studentRegistered', (msg) => {
+    const firstName = msg.body.firstName;
+    const lastName = msg.body.lastName;
+
+    if (!firstName || !lastName) {
+        msg.nack();
+    }
+
+    const student = new StudentModel({firstName, lastName}, {});
+    msg.ack();
+    // student
+    //     .save()
+    //     .then(savedStudent => {
+    //         msg.ack();
+    //     })
+    //     .catch(err => {
+    //         msg.nack();
+    //     });
+    console.log('received msg', msg.body);
+});
 
 
 rabbit.configure({
@@ -15,31 +31,29 @@ rabbit.configure({
         host: process.env.RABBITMQ_HOST,
         port: 5672,
         vhost: '%2f',
-
+        replyQueue: false
     },
     exchanges: [
-        { name: 'ex.1', type: 'direct', autoDelete: true }
+        { name: 'ex.1', type: 'direct', autoDelete: false }
     ],
     queues: [
-        { name: 'evaluating_student_queue', autoDelete: true, subscribe: true },
+        { name: 'evaluating_students_queue', autoDelete: false, durable: true, subscribe: true },
     ],
     bindings: [
         { exchange: 'ex.1', target: 'evaluating_students_queue', keys: ["studentRegistered"] }
     ]
 }).then(
-    () => console.log('connected!')
+    () => {
+        console.log('Rabbot succesfully connected.');
+        rabbit.startSubscription("evaluating_students_queue");
+        console.log('Rabbot subscribed.');
+    }
+).catch(
+    error => console.log('Rabbot connect error: ' + error)
 );
 
-// rabbit.request('ex.1', { type: 'MyRequest' })
-//     .then(
-//         reply => {
-//             console.log('got response:', reply.body);
-//             reply.ack();
-//         }
-//     );
-
-rabbit.publish('ex.1', { type: 'MyMessage', body: 'hello!' });
-
+// rabbit.publish('ex.1', { routingKey: "studentRegistered", type: 'studentRegistered', body: "savedStudent" });
+// rabbit.startSubscription("evaluating_students_queue", false,"default");
 
 // setTimeout(() => {
 //     rabbit.shutdown(true)
