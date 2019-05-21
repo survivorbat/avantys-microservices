@@ -1,7 +1,7 @@
 const rabbit = require("rabbot");
-const module = require("../model/module").Module;
-const test = require("../model/test").TestModel;
-const teacher = require("../model/teacher").Teacher;
+// const module = require("../model/module").Module;
+// const test = require("../model/test").TestModel;
+// const teacher = require("../model/teacher").Teacher;
 
 rabbit
   .configure({
