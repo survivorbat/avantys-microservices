@@ -11,8 +11,11 @@ const swaggerOptions = {
   swaggerDefinition: {
     info: {
       title: "Student Portal",
-      description: "The API of student portal"
-    }
+      description: "The API of student portal",
+      produces: ["application/json"],
+      schemes: ["https"]
+    },
+    host: process.env.SWAGGER_BASE_URL
   },
   apis: ["/app/router.js"]
 };

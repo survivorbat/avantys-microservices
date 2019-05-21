@@ -25,7 +25,7 @@ rabbit
       {
         exchange: "ex.1",
         target: "student_portal_queue",
-        keys: ["studentRegistered"]
+        keys: ["studentRegistered", "studentGraded"]
       }
     ]
   })
@@ -37,7 +37,14 @@ rabbit
   .catch(error => console.log("Rabbot connect error: " + error));
 
 rabbit.handle("studentRegistered", msg => {
-  console.log(msg.body);
+  new student(msg.body)
+    .save()
+    .then(() => msg.ack())
+    .catch(err => msg.nack());
+});
+
+rabbit.handle("studentGraded", msg => {
+  console.log(msg.body)
   new student(msg.body)
     .save()
     .then(() => msg.ack())
