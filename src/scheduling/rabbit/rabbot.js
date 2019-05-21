@@ -45,13 +45,13 @@ rabbit.handle("moduleCreated", msg => {
     .catch(err => msg.nack());
 });
 rabbit.handle("teacherRegistered", msg => {
-  new Test(msg)
+  new Teacher(msg)
     .save()
     .then(() => msg.ack())
     .catch(err => msg.nack());
 });
 rabbit.handle("testCreated", msg => {
-  new Teacher(msg)
+  new Test(msg)
     .save()
     .then(() => msg.ack())
     .catch(err => msg.nack());
