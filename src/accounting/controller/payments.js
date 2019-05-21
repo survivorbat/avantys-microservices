@@ -1,4 +1,5 @@
 const Payment = require("../model/payment").Payment;
+const rabbit = require("rabbot");
 
 /**
  * @param {Object} req
