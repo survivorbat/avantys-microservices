@@ -3,7 +3,7 @@ version: '3.5'
 networks:
   nginx: ~
   broker: ~
-  axon: ~
+  event_store: ~
   evaluating_students_db: ~
   guiding_students_db: ~
   recruiting_db: ~
@@ -25,7 +25,7 @@ volumes:
   accounting_data: ~
   audit_data: ~
   rabbit_data: ~
-  axon_data: ~
+  event_store_data: ~
 
 services:
   nginx:
@@ -265,7 +265,7 @@ services:
       - RABBITMQ_HOST=main-broker
       - MONGODB_USERNAME=avantys
       - PORT=3000
-      - MONGODB_HO=student_portal_db
+      - MONGODB_HOST=student_portal_db
       - RABBITMQ_USER=avantys
     restart: always
     depends_on:
@@ -323,7 +323,7 @@ services:
       - RABBITMQ_HOST=main-broker
       - MONGODB_USERNAME=avantys
       - PORT=3000
-      - AXON_HOST=axon
+      - EVENTSTORE_HOST=event_store
       - RABBITMQ_USER=avantys
       - MONGODB_HOST=accounting_db
     restart: always
@@ -332,7 +332,7 @@ services:
       - main-broker
     networks:
       - broker
-      - axon
+      - event_store
       - nginx
       - accounting_db
 
