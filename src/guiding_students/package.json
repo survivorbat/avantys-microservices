@@ -1,5 +1,5 @@
 {
-  "name": "student_administration",
+  "name": "guiding_students",
   "version": "1.0.0",
   "description": "Avantys Microservice",
   "repository": "https://github.com/avantys-solutionarchitecture/avantys",
@@ -10,10 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "amqplib": "^0.5.3",
     "express": "^4.16.4",
     "mongoose": "^5.5.7",
     "morgan": "^1.9.1",
     "prettier": "^1.17.0",
+    "rabbot": "^2.1.0",
     "swagger-jsdoc": "^3.2.9",
     "swagger-ui-express": "^4.0.2"
   },

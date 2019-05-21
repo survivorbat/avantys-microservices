@@ -3,7 +3,8 @@ const logger = require("morgan");
 const bodyparser = require("body-parser");
 const swaggerJsdoc = require("swagger-jsdoc");
 const router = require("./router");
-const rabbitMQ = require("./config/rabbitmq");
+const rabbit = require("./rabbit/rabbot");
+
 const app = express();
 
 const swaggerOptions = {

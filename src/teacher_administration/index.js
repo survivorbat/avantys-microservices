@@ -6,15 +6,15 @@ const router = require("./router");
 const rabbitMQ = require("./config/rabbitmq");
 const app = express();
 
+const rabbit = require("./rabbit/rabbot");
+
 const swaggerOptions = {
   swaggerDefinition: {
     info: {
       title: "Teacher Administration",
       description: "The API of the teacher administration"
     },
-    basePath: "/api/v1/teacher_administration",
-    produces: ["application/json"],
-    schemes: ["https"]
+    host: process.env.SWAGGER_BASE_URL
   },
   apis: ["/app/router.js"]
 };

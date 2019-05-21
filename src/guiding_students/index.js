@@ -3,14 +3,20 @@ const logger = require("morgan");
 const bodyparser = require("body-parser");
 const swaggerJsdoc = require("swagger-jsdoc");
 const router = require("./router");
+const rabbitMQ = require("./config/rabbitmq");
 const app = express();
+
+const rabbit = require("./rabbit/rabbot");
 
 const swaggerOptions = {
   swaggerDefinition: {
     info: {
       title: "Guiding students",
-      description: "The API of guiding students"
-    }
+      description: "The API of the Guiding students"
+    },
+    basePath: "/api/v1/guiding_students",
+    produces: ["application/json"],
+    schemes: ["https"]
   },
   apis: ["/app/router.js"]
 };

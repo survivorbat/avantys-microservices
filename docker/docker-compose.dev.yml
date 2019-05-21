@@ -19,17 +19,25 @@ services:
     volumes:
       - ../src/webapi:/srv/html
 
+  audit:
+    build:
+      context: ../
+      dockerfile: docker/audit/Dockerfile
+    volumes:
+      - ../src/audit:/app
+    user: "1000"
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"]
+    working_dir: /app
+    environment:
+      - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
+      - SWAGGER_BASE_URL=localhost/api/v1/audit
+
   main-broker:
     build:
       context: ../
       dockerfile: docker/rabbitmq/Dockerfile
     environment:
       - RABBITMQ_DEFAULT_PASS=c8ggRaQUwtBBiC6nW
-
-  axon:
-    ports:
-      - 8024:8024
-      - 8124:8124
 
   ssl:
     build:
@@ -46,6 +54,7 @@ services:
     environment:
       - MONGODB_PASSWORD=avantys123
       - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
+      - SWAGGER_BASE_URL=localhost/api/v1/guiding_students
     build:
       context: ../
       dockerfile: docker/guiding_students/Dockerfile
@@ -68,6 +77,7 @@ services:
     environment:
       - MONGODB_PASSWORD=avantys123
       - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
+      - SWAGGER_BASE_URL=localhost/api/v1/recruiting
     build:
       context: ../
       dockerfile: docker/recruiting/Dockerfile
@@ -90,6 +100,7 @@ services:
     environment:
       - MONGODB_PASSWORD=avantys123
       - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
+      - SWAGGER_BASE_URL=localhost/api/v1/scheduling
     build:
       context: ../
       dockerfile: docker/scheduling/Dockerfile
@@ -112,6 +123,7 @@ services:
     environment:
       - MONGODB_PASSWORD=avantys123
       - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
+      - SWAGGER_BASE_URL=localhost/api/v1/student_administration
     build:
       context: ../
       dockerfile: docker/student_administration/Dockerfile
@@ -134,6 +146,7 @@ services:
     environment:
       - MONGODB_PASSWORD=avantys123
       - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
+      - SWAGGER_BASE_URL=localhost/api/v1/student_portal
     build:
       context: ../
       dockerfile: docker/student_portal/Dockerfile

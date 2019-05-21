@@ -1,4 +1,4 @@
-const mongoose = require('../db');
+const mongoose = require("../db");
 const Schema = mongoose.Schema;
 
 const teacherSchema = new Schema({
@@ -19,6 +19,6 @@ const teacherSchema = new Schema({
 const Teacher = mongoose.model("Teacher", teacherSchema);
 
 module.exports = {
-    Teacher,
-    teacherSchema
+  Teacher,
+  teacherSchema
 };

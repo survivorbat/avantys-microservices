@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const rabbit = require("./rabbit/rabbot");
 
 let Student = require("./models/potential-student").PotentialStudent;
 let Teacher = require("./models/teacher").Teacher;
@@ -21,8 +22,8 @@ let Meeting = require("./models/meeting").Meeting;
 router.get("/students", (req, res) => {
   Student.find()
     .then(students => {
-      if(students == null || students == []) {
-        res.status(200).json({"message" : "no students found"})
+      if (students == null || students == []) {
+        res.status(200).json({ message: "no students found" });
       }
       res.status(200).json(students);
     })
@@ -53,8 +54,8 @@ router.get("/student/:_id", ({ params: { _id } }, res) => {
   res.contentType("application/json");
   Student.findOne({ _id })
     .then(student => {
-      if(student == null) {
-        res.status(200).json({"message" : "student not found"})
+      if (student == null) {
+        res.status(200).json({ message: "student not found" });
       }
       res.status(200).json(student);
     })
@@ -168,7 +169,7 @@ router.delete("/student/:_id", ({ params: { _id } }, res) => {
 
   Student.findOneAndRemove({ _id })
     .then(student => {
-      res.status(200).json({"Album Deleted" : student});
+      res.status(200).json({ "Album Deleted": student });
     })
     .catch(function(error) {
       res.status(400).json(error);
@@ -192,8 +193,8 @@ router.delete("/student/:_id", ({ params: { _id } }, res) => {
 router.get("/teachers", (req, res) => {
   Teacher.find()
     .then(teachers => {
-      if(teachers == null || teachers == []) {
-        res.status(200).json({"message" : "no teachers found"})
+      if (teachers == null || teachers == []) {
+        res.status(200).json({ message: "no teachers found" });
       }
       res.status(200).json(teachers);
     })
@@ -223,8 +224,8 @@ router.get("/teachers", (req, res) => {
 router.get("/teacher/:_id", ({ params: { _id } }, res) => {
   Teacher.findOne({ _id })
     .then(teacher => {
-      if(teacher == null) {
-        res.status(200).json({"message" : "teacher not found"})
+      if (teacher == null) {
+        res.status(200).json({ message: "teacher not found" });
       }
       res.status(200).json(teacher);
     })
@@ -336,7 +337,7 @@ router.put("/teacher/:_id", ({ body }, { params: { _id } }, res) => {
 router.delete("/teacher/:_id", ({ params: { _id } }, res) => {
   Teacher.findOneAndRemove({ _id })
     .then(function(teacher) {
-      res.status(200).json({"Album Deleted" : teacher});
+      res.status(200).json({ "Album Deleted": teacher });
     })
     .catch(function(error) {
       res.status(400).json(error);
@@ -361,10 +362,12 @@ router.delete("/teacher/:_id", ({ params: { _id } }, res) => {
  *        description: The Id of an existing student
  *        required: true
  *        type: string
+ *        in: formData
  *      - name: teacher
  *        description: The Id of an existing teacher
  *        required: true
  *        type: string
+ *        in: formData
  *      responses:
  *        201:
  *          description: Return created students
@@ -411,8 +414,8 @@ router.post("/meeting", async ({ body }, res) => {
 router.get("/meetings", (req, res) => {
   Meeting.find({})
     .then(meetings => {
-      if(meetings == null || meetings == []) {
-        res.status(200).json({"message" : "no meetings found"})
+      if (meetings == null || meetings == []) {
+        res.status(200).json({ message: "no meetings found" });
       }
       res.status(200).json(meetings);
     })
@@ -442,12 +445,76 @@ router.get("/meetings", (req, res) => {
 router.get("/meeting/:_id", ({ params: { _id } }, res) => {
   Meeting.findOne({ _id })
     .then(meeting => {
-      if(meeting == null) {
-        res.status(200).json({"message":"meeting not found"})
+      if (meeting == null) {
+        res.status(200).json({ message: "meeting not found" });
       }
       res.status(200).json(meeting);
     })
     .catch(error => res.status(401).json(error));
+});
+
+/**
+ * @swagger
+ * /meeting/{id}:
+ *    delete:
+ *      description: Unregister meeting
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *       - name: id
+ *         description: The id of the meeting
+ *         required: true
+ *         in: path
+ *         type: string
+ *      responses:
+ *        201:
+ *          description: Return deleted meeting
+ *        400:
+ *          description: Something unexpected went wrong
+ */
+
+router.delete("/meeting/:_id", ({ params: { _id } }, res) => {
+  Meeting.findOneAndRemove({ _id })
+    .then(meeting => {
+      res.status(200).json({ "Meeting Deleted": meeting });
+    })
+    .catch(function(error) {
+      res.status(400).json(error);
+    });
+});
+
+/**
+ * @swagger
+ * /approve/{_id}:
+ *    delete:
+ *      description: Approve student
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *       - name: _id
+ *         description: The Student Number of the Student
+ *         required: true
+ *         in: path
+ *         type: string
+ *      responses:
+ *        201:
+ *          description: Return approved student
+ *        400:
+ *          description: Something unexpected went wrong
+ */
+router.delete("/approve/:_id", ({ params: { _id } }, res) => {
+  Student.findOneAndRemove({ _id })
+    .then(student => {
+      rabbit.publish("ex.1", {
+        routingKey: "studentApproved",
+        type: "studentApproved",
+        body: student
+      });
+      res.status(200).json({ "Student Deleted": student });
+    })
+    .catch(error => {
+      res.status(400).json(error);
+    });
 });
 
 module.exports = router;

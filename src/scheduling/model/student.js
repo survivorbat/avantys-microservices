@@ -1,39 +1,20 @@
 const mongoose = require("../config/db");
-const Class = require("./class").classSchema;
 const Module = require("./module").moduleSchema;
 const Study = require("./study").studySchema;
 
 const Schema = mongoose.Schema;
-const studentSchema = new Schema({
+const StudentSchema = new Schema({
   firstName: {
-    type: String,
-    required: true,
-    minlength: 2,
-    maxLength: 128
-  },
-  insertion: {
-    type: String,
-    required: false
-  },
-  lastName: {
-    type: String,
-    required: true,
-    minlength: 2,
-    maxLength: 128
-  },
-  studentNumber: {
     type: String,
     required: true
   },
-  age: {
-    type: Number,
-    required: true,
-    default: 0
+  lastName: {
+    type: String,
+    required: true
   },
-  classes: {
-    type: [Class],
-    required: false,
-    default: []
+  class: {
+    type: String,
+    required: false
   },
   modules: {
     type: [Module],
@@ -42,13 +23,13 @@ const studentSchema = new Schema({
   },
   study: {
     type: Study,
-    required: true
+    required: false
   }
 });
 
-const Student = mongoose.model("Student", studentSchema);
+const Student = mongoose.model("Student", StudentSchema);
 
 module.exports = {
   Student,
-  studentSchema
+  StudentSchema
 };
