@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const rabbit = require("../rabbit/rabbot");
+const rabbit = require("./rabbit/rabbot");
 
 let Student = require("./models/potential-student").PotentialStudent;
 let Teacher = require("./models/teacher").Teacher;
