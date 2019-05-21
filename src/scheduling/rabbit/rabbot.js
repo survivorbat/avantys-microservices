@@ -15,7 +15,7 @@ rabbit
     exchanges: [{ name: "ex.1", type: "direct", autoDelete: false }],
     queues: [
       {
-        name: "scheduling_queue",
+        name: "student_administration_queue",
         autoDelete: false,
         durable: true,
         subscribe: true
@@ -25,7 +25,7 @@ rabbit
       {
         exchange: "ex.1",
         target: "scheduling_queue",
-        keys: ["moduleCreated", "teacherRegistered", "testCreated"]
+        keys: ["potentialStudentCreated"]
       }
     ]
   })
@@ -36,7 +36,7 @@ rabbit
   })
   .catch(error => console.log("Rabbot connect error: " + error));
 
-rabbit.handle("studentRegistered", msg => {
+rabbit.handle("potentialStudentCreated", msg => {
   new student(msg).student
     .save()
     .then(() => msg.ack())
