@@ -509,7 +509,7 @@ router.delete("/approve/:_id", ({ params: { _id } }, res) => {
         type: "studentApproved",
         body: student
       });
-      res.status(200).json({"Student Deleted" : student});
+      res.status(200).json({ "Student Deleted": student });
     })
     .catch(function(error) {
       res.status(400).json(error);
