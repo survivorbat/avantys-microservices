@@ -17,7 +17,7 @@ const swaggerOptions = {
     },
     host: process.env.SWAGGER_BASE_URL
   },
-  apis: ["/app/router.js"]
+  apis: ["/app/routes/events.js"]
 };
 
 app.use(logger("dev"));
@@ -28,12 +28,12 @@ const specs = swaggerJsdoc(swaggerOptions);
 const swaggerUi = require("swagger-ui-express");
 
 app.use(
-  "/api/v1/evaluating_students/swagger",
+  "/api/v1/audit_write/swagger",
   swaggerUi.serve,
   swaggerUi.setup(specs)
 );
 
-app.use("/api/v1/evaluating_students/tests", eventsRoute);
+app.use("/api/v1/audit_write/events", eventsRoute);
 
 
 app.listen(port, () =>

@@ -60,6 +60,6 @@ router
 
   .post((req, res) => res.sendStatus(501))
 
-  .delete((req, res) => res.sendStatus(501))
+  .delete((req, res) => res.sendStatus(501));
 
 module.exports = router;
