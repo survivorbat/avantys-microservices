@@ -1,5 +1,7 @@
 const rabbit = require("rabbot");
-const student = require("../model/student").Student;
+const module = require("../model/module").Module;
+const test = require("../model/test").TestModel;
+const teacher = require("../model/teacher").Teacher;
 
 rabbit
   .configure({
@@ -36,8 +38,20 @@ rabbit
   })
   .catch(error => console.log("Rabbot connect error: " + error));
 
-rabbit.handle("studentRegistered", msg => {
-  new student(msg).student
+rabbit.handle("moduleCreated", msg => {
+  new module(msg)
+    .save()
+    .then(() => msg.ack())
+    .catch(err => msg.nack());
+});
+rabbit.handle("teacherRegistered", msg => {
+  new test(msg)
+    .save()
+    .then(() => msg.ack())
+    .catch(err => msg.nack());
+});
+rabbit.handle("testCreated", msg => {
+  new teacher(msg)
     .save()
     .then(() => msg.ack())
     .catch(err => msg.nack());
