@@ -41,8 +41,8 @@ const createPaymentDetails = async ({ body }, res, next) => {
     .save()
     .then(result => {
       rabbit.publish("ex.1", {
-        routingKey: "PaymentDetailsCreated",
-        type: "PaymentDetailsCreated",
+        routingKey: "paymentDetailsCreated",
+        type: "paymentDetailsCreated",
         body: result
       });
       return res.redirect(303, "payments");
