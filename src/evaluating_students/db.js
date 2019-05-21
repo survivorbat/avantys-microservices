@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 mongoose.Promise = global.Promise;
 
 const options = {
@@ -34,5 +33,6 @@ mongoose.connection.on("disconnected", () => {
 });
 
 connect();
+
 
 module.exports = mongoose;

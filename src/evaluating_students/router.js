@@ -4,6 +4,8 @@ const GradeModel = require("./model/grade").GradeModel;
 const StudentModel = require("./model/student").StudentModel;
 const TeacherModel = require("./model/teacher").TeacherModel;
 const TestModel = require("./model/test").TestModel;
+const rabbit = require("./rabbit/rabbot");
+// const handler = require("./rabbit/messageHandler");
 
 /**
  * @swagger
@@ -53,32 +55,32 @@ const TestModel = require("./model/test").TestModel;
  *                  description: "Failed to delete document"
  */
 router
-  .route("/teachers")
-  .get((req, res) => {
-    TeacherModel.find()
-      .then(allTeachers => res.json(200, allTeachers))
-      .catch(() => res.sendStatus(500));
-  })
+    .route("/teachers")
+    .get((req, res) => {
+        TeacherModel.find()
+            .then(allTeachers => res.json(200, allTeachers))
+            .catch(() => res.sendStatus(500));
+    })
 
-  .put((req, res) => res.sendStatus(501))
+    .put((req, res) => res.sendStatus(501))
 
-  .post(({ body: { firstName, lastName } }, res) => {
-    if (!firstName || !lastName) {
-      return res.sendStatus(400);
-    }
+    .post(({body: {firstName, lastName}}, res) => {
+        if (!firstName || !lastName) {
+            return res.sendStatus(400);
+        }
 
-    const teacher = new TeacherModel({ firstName, lastName }, {});
-    teacher
-      .save()
-      .then(savedTeacher => res.json(201, savedTeacher))
-      .catch(err => res.sendStatus(500));
-  })
+        const teacher = new TeacherModel({firstName, lastName}, {});
+        teacher
+            .save()
+            .then(savedTeacher => res.json(201, savedTeacher))
+            .catch(err => res.sendStatus(500));
+    })
 
-  .delete((req, res) =>
-    TeacherModel.remove({})
-      .then(deleted => res.json(200, deleted))
-      .catch(() => res.sendStatus(500))
-  );
+    .delete((req, res) =>
+        TeacherModel.remove({})
+            .then(deleted => res.json(200, deleted))
+            .catch(() => res.sendStatus(500))
+    );
 
 /**
  * @swagger
@@ -128,33 +130,33 @@ router
  *                  description: "Failed to delete document"
  */
 router
-  .route("/students")
-  .get((req, res) => {
-    StudentModel.find()
-      .then(allStudents => res.json(200, allStudents))
-      .catch(() => res.sendStatus(500));
-  })
+    .route("/students")
+    .get((req, res) => {
+        StudentModel.find()
+            .then(allStudents => res.json(200, allStudents))
+            .catch(() => res.sendStatus(500));
+    })
 
-  .put((req, res) => res.sendStatus(501))
+    .put((req, res) => res.sendStatus(501))
 
-  .post(({ body: { firstName, lastName } }, res) => {
-    if (!firstName || !lastName) {
-      return res.sendStatus(400);
-    }
+    .post(({body: {firstName, lastName}}, res) => {
+        if (!firstName || !lastName) {
+            return res.sendStatus(400);
+        }
 
-    const student = new StudentModel({ firstName, lastName }, {});
+        const student = new StudentModel({firstName, lastName}, {});
 
-    student
-      .save()
-      .then(savedStudent => res.json(201, savedStudent))
-      .catch(err => res.sendStatus(500));
-  })
+        student
+            .save()
+            .then(savedStudent => res.json(201, savedStudent))
+            .catch(err => res.sendStatus(500));
+    })
 
-  .delete((req, res) =>
-    StudentModel.remove({})
-      .then(deleted => res.json(200, deleted))
-      .catch(() => res.sendStatus(500))
-  );
+    .delete((req, res) =>
+        StudentModel.remove({})
+            .then(deleted => res.json(200, deleted))
+            .catch(() => res.sendStatus(500))
+    );
 
 /**
  * @swagger
@@ -204,90 +206,90 @@ router
  *                  description: "Failed to delete document"
  */
 router
-  .route("/tests")
-  .get((req, res) => {
-    TestModel.find({})
-      .then(alltests => res.json(200, alltests))
-      .catch(() => res.sendStatus(500));
-  })
+    .route("/tests")
+    .get((req, res) => {
+        TestModel.find({})
+            .then(alltests => res.json(200, alltests))
+            .catch(() => res.sendStatus(500));
+    })
 
-  .put((req, res) => res.sendStatus(501))
+    .put((req, res) => res.sendStatus(501))
 
-  .post(({ body: { course, date } }, res) => {
-    if (!course || !date) {
-      return res.sendStatus(400);
-    }
+    .post(({body: {course, date}}, res) => {
+        if (!course || !date) {
+            return res.sendStatus(400);
+        }
 
-    const test = new TestModel({ course, date }, {});
-    test
-      .save()
-      .then(savedtest => res.json(201, savedtest))
-      .catch(err => res.sendStatus(500));
-  })
-
-  .delete((req, res) =>
-    TestModel.remove({})
-      .then(deleted => res.json(200, deleted))
-      .catch(() => res.sendStatus(500))
-  );
-
-router
-  .route("/tests/:id/enroll-student")
-  .post(({ body: { firstName, lastName }, params: { id } }, res) => {
-    if (!id || !firstName || !lastName) {
-      return res.sendStatus(400);
-    }
-
-    TestModel.findById(id).then(test => {
-      test.enrolledStudents.push({ firstName, lastName });
-      test
-        .save()
-        .then(savedtest => res.json(201, savedtest))
-        .catch(err => res.sendStatus(500));
-    });
-  });
-
-router
-  .route("/tests/:testId/student/:studentId")
-  .post(
-    (
-      {
-        params: { testId, studentId },
-        body: { grade, teacherFirstName, teacherLastName }
-      },
-      res
-    ) => {
-      if (
-        !testId ||
-        !studentId ||
-        !grade ||
-        !teacherFirstName ||
-        !teacherLastName
-      ) {
-        return res.sendStatus(400);
-      }
-
-      TestModel.findById(testId).then(test => {
-        const { firstName, lastName } = test.enrolledStudents.id(studentId);
-        test.grades.push({
-          student: {
-            firstName,
-            lastName
-          },
-          teacher: {
-            firstName: teacherFirstName,
-            lastName: teacherLastName
-          },
-          grade,
-          date: Date.now()
-        });
+        const test = new TestModel({course, date}, {});
         test
-          .save()
-          .then(savedtest => res.json(201, savedtest))
-          .catch(err => res.sendStatus(500));
-      });
-    }
-  );
+            .save()
+            .then(savedtest => res.json(201, savedtest))
+            .catch(err => res.sendStatus(500));
+    })
+
+    .delete((req, res) =>
+        TestModel.remove({})
+            .then(deleted => res.json(200, deleted))
+            .catch(() => res.sendStatus(500))
+    );
+
+router
+    .route("/tests/:id/enroll-student")
+    .post(({body: {firstName, lastName}, params: {id}}, res) => {
+        if (!id || !firstName || !lastName) {
+            return res.sendStatus(400);
+        }
+
+        TestModel.findById(id).then(test => {
+            test.enrolledStudents.push({firstName, lastName});
+            test
+                .save()
+                .then(savedtest => res.json(201, savedtest))
+                .catch(err => res.sendStatus(500));
+        });
+    });
+
+router
+    .route("/tests/:testId/student/:studentId")
+    .post(
+        (
+            {
+                params: {testId, studentId},
+                body: {grade, teacherFirstName, teacherLastName}
+            },
+            res
+        ) => {
+            if (
+                !testId ||
+                !studentId ||
+                !grade ||
+                !teacherFirstName ||
+                !teacherLastName
+            ) {
+                return res.sendStatus(400);
+            }
+
+            TestModel.findById(testId).then(test => {
+                const {firstName, lastName} = test.enrolledStudents.id(studentId);
+                test.grades.push({
+                    student: {
+                        firstName,
+                        lastName
+                    },
+                    teacher: {
+                        firstName: teacherFirstName,
+                        lastName: teacherLastName
+                    },
+                    grade,
+                    date: Date.now()
+                });
+                test
+                    .save()
+                    .then(savedtest => res.json(201, savedtest))
+                    .catch(err => res.sendStatus(500));
+            });
+        }
+    );
 
 /**
  * @swagger
@@ -303,10 +305,32 @@ router
  *              description: test 3
  */
 router
-  .route("/tests/:id")
-  .get((req, res) => res.send("Hello World GET!"))
-  .put((req, res) => res.send("Hello World GET!"))
-  .post((req, res) => res.send("Hello World GET!"))
-  .delete((req, res) => res.send("Hello World GET!"));
+    .route("/tests/:id")
+    .get((req, res) => res.send("Hello World GET!"))
+    .put((req, res) => res.send("Hello World GET!"))
+    .post((req, res) => res.send("Hello World GET!"))
+    .delete((req, res) => res.send("Hello World GET!"));
+
+router
+    .route("/rabbit")
+    .get((req, res) => {
+        rabbit.request('ex.1', {type: 'MyRequest'})
+            .then(
+                reply => {
+                    console.log('got response:', reply.body);
+                    reply.ack();
+                }
+            ).catch(
+                error => {
+                    console.log(error)
+                }
+        );
+        // rabbit.publish('ex.1', { type: 'MyMessage', body: 'hello!' });
+        res.sendStatus(200);
+    })
+
+    .put((req, res) => res.send("Hello World GET!"))
+    .post((req, res) => res.send("Hello World GET!"))
+    .delete((req, res) => res.send("Hello World GET!"));
 
 module.exports = router;
