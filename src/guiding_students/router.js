@@ -1,10 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {
-  getAllNotes,
-  getNotes,
-  createNotes
-} = require("./controller/notes");
+const { getAllNotes, getNotes, createNotes } = require("./controller/notes");
 const { notFound, catchError } = require("./controller/_error");
 
 /**

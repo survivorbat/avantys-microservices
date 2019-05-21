@@ -5,6 +5,8 @@ const swaggerJsdoc = require("swagger-jsdoc");
 const router = require("./router");
 const app = express();
 
+const rabbit = require("./rabbit/rabbot");
+
 const swaggerOptions = {
   swaggerDefinition: {
     info: {

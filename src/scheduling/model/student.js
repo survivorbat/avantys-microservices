@@ -7,28 +7,11 @@ const Schema = mongoose.Schema;
 const studentSchema = new Schema({
   firstName: {
     type: String,
-    required: true,
-    minlength: 2,
-    maxLength: 128
-  },
-  insertion: {
-    type: String,
-    required: false
+    required: true
   },
   lastName: {
     type: String,
-    required: true,
-    minlength: 2,
-    maxLength: 128
-  },
-  studentNumber: {
-    type: String,
     required: true
-  },
-  age: {
-    type: Number,
-    required: true,
-    default: 0
   },
   classes: {
     type: [Class],
@@ -42,7 +25,7 @@ const studentSchema = new Schema({
   },
   study: {
     type: Study,
-    required: true
+    required: false
   }
 });
 
