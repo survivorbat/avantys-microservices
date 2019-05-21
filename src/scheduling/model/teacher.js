@@ -1,7 +1,7 @@
 const mongoose = require("../config/db");
 
 const Schema = mongoose.Schema;
-const teacherSchema = new Schema({
+const TeacherSchema = new Schema({
   firstName: {
     type: String,
     required: true
@@ -12,9 +12,9 @@ const teacherSchema = new Schema({
   }
 });
 
-const Teacher = mongoose.model("Teacher", teacherSchema);
+const Teacher = mongoose.model("Teacher", TeacherSchema);
 
 module.exports = {
   Teacher,
-  teacherSchema
+  TeacherSchema
 };

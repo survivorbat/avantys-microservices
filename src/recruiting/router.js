@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const rabbit = require("../rabbit/rabbot");
+const rabbit = require("./rabbit/rabbot");
 
 let Student = require("./models/potential-student").PotentialStudent;
 let Teacher = require("./models/teacher").Teacher;
@@ -474,7 +474,7 @@ router.get("/meeting/:_id", ({ params: { _id } }, res) => {
 router.delete("/meeting/:_id", ({ params: { _id } }, res) => {
   Meeting.findOneAndRemove({ _id })
     .then(meeting => {
-      res.status(200).json({"Meeting Deleted" : meeting});
+      res.status(200).json({ "Meeting Deleted": meeting });
     })
     .catch(function(error) {
       res.status(400).json(error);
