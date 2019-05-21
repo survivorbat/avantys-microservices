@@ -33,5 +33,4 @@ rabbit
   })
   .catch(error => console.log("Rabbot connect error: " + error));
 
-
 module.exports = rabbit;
