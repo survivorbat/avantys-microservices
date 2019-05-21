@@ -152,7 +152,24 @@ services:
     volumes:
       - recruiting_data:/data/db
 
-  audit:
+  audit_read:
+    expose:
+      - 3000
+    environment:
+      - RABBITMQ_HOST=main-broker
+      - PORT=3000
+      - MONGODB_HOST=audit_db
+      - RABBITMQ_USER=avantys
+    restart: always
+    depends_on:
+      - audit_db
+      - main-broker
+    networks:
+      - broker
+      - nginx
+      - audit_db
+
+  audit_write:
     expose:
       - 3000
     environment:
