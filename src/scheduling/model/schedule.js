@@ -2,16 +2,18 @@ const mongoose = require("../config/db");
 
 const Schema = mongoose.Schema;
 const scheduleSchema = new Schema({
-  studentId: {
-    type: Number,
-    required: true
+  teacherId: {
+    type: Number
   },
-  classId: {
-    type: Number,
-    required: true
+  testId: {
+    type: Number
   },
   moduleId: {
     type: Number,
+    required: true
+  },
+  class: {
+    type: String,
     required: true
   },
   startDatetime: {

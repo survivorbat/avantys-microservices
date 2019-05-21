@@ -26,18 +26,21 @@ router.get("/schedules", scheduleController.getSchedules);
  *            schema:
  *              type: object
  *              required:
- *                -   studentId
- *                -   classId
+ *                -   teacherId
+ *                -   testId
  *                -   moduleId
+ *                -   class
  *                -   startDatetime
  *                -   endDatetime
  *              properties:
- *                studentId:
+ *                teacherId:
  *                  type: number
- *                classId:
+ *                testId:
  *                  type: number
  *                moduleId:
  *                  type: number
+ *                class:
+ *                  type: string
  *                startDatetime:
  *                  type: string
  *                  format: date-time
