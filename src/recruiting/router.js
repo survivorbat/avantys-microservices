@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const rabbit = require("../rabbit/rabbot");
 
 let Student = require("./models/potential-student").PotentialStudent;
 let Teacher = require("./models/teacher").Teacher;
@@ -502,8 +503,12 @@ router.delete("/meeting/:_id", ({ params: { _id } }, res) => {
 
 router.delete("/approve/:_id", ({ params: { _id } }, res) => {
   Student.findOneAndRemove({ _id })
-    .then(meeting => {
-      //TODO: Send student to administration via RabbitMQ
+    .then(student => {
+      rabbit.publish("ex.1", {
+        routingKey: "studentApproved",
+        type: "studentApproved",
+        body: student
+      });
       res.status(200).json({"Student Deleted" : meeting});
     })
     .catch(function(error) {
