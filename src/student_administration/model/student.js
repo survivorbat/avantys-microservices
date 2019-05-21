@@ -1,5 +1,4 @@
 const mongoose = require("../config/db");
-const Class = require("./class").classSchema;
 const Module = require("./module").moduleSchema;
 const Study = require("./study").studySchema;
 
@@ -13,10 +12,10 @@ const studentSchema = new Schema({
     type: String,
     required: true
   },
-  classes: {
-    type: [Class],
+  class: {
+    type: String,
     required: false,
-    default: []
+    default: ""
   },
   modules: {
     type: [Module],

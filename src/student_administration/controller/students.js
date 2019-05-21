@@ -58,9 +58,31 @@ const unregisterStudent = async ({ params: { id } }, res, next) =>
     })
     .catch(next);
 
+/**
+ * @param {string} className
+ * @param {string} id
+ * @param {Object} res
+ * @param {Function} next
+ * @returns {Promise<void>}
+ */
+const coupleStudentToClass = async (
+  { body: { className }, params: { id } },
+  res,
+  next
+) => {
+  Student.findOneAndUpdate({ _id: id }, { class: className })
+    .then(e =>
+      e
+        ? res.redirect(303, "/api/v1/student_administration/students")
+        : res.status(500).end()
+    )
+    .catch(next);
+};
+
 module.exports = {
   getStudents,
   registerStudent,
   unregisterStudent,
-  getStudent
+  getStudent,
+  coupleStudentToClass
 };
