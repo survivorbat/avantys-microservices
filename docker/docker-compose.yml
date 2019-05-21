@@ -233,6 +233,7 @@ services:
       - MONGODB_USERNAME=avantys
       - PORT=3000
       - MONGODB_HO=student_portal_db
+      - RABBITMQ_USER=avantys
     restart: always
     depends_on:
       - student_portal_db
@@ -260,6 +261,7 @@ services:
       - RABBITMQ_HOST=main-broker
       - MONGODB_USERNAME=avantys
       - PORT=3000
+      - RABBITMQ_USER=avantys
       - MONGODB_HOST=teacher_administration_db
     restart: always
     depends_on:
@@ -289,6 +291,7 @@ services:
       - MONGODB_USERNAME=avantys
       - PORT=3000
       - AXON_HOST=axon
+      - RABBITMQ_USER=avantys
       - MONGODB_HOST=accounting_db
     restart: always
     depends_on:

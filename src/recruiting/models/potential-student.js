@@ -1,4 +1,4 @@
-const mongoose = require('../db');
+const mongoose = require("../db");
 const Schema = mongoose.Schema;
 
 const potentialStudentSchema = new Schema({
@@ -15,14 +15,17 @@ const potentialStudentSchema = new Schema({
     maxLength: 128
   },
   email: {
-      type: String,
-      required: true
+    type: String,
+    required: true
   }
 });
 
-const PotentialStudent = mongoose.model("PotentialStudent", potentialStudentSchema);
+const PotentialStudent = mongoose.model(
+  "PotentialStudent",
+  potentialStudentSchema
+);
 
 module.exports = {
-    PotentialStudent,
-    potentialStudentSchema
+  PotentialStudent,
+  potentialStudentSchema
 };
