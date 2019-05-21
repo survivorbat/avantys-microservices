@@ -2,6 +2,7 @@ const Teacher = require("../model/teacher").Teacher;
 const sendToQueue = require("../config/rabbitmq").connectAndSend;
 const TeacherRegistered = require("../events/TeacherRegistered");
 const TeacherUnregistered = require("../events/TeacherUnregistered");
+const rabbit = require("../rabbit/rabbot");
 
 /**
  * @param {Object} req
@@ -37,7 +38,11 @@ const registerTeacher = async ({ body }, res, next) =>
   await new Teacher(body, {})
     .save()
     .then(result => {
-      sendToQueue(TeacherRegistered({ ...body, _id: result.id }));
+      rabbit.publish("ex.1", {
+        routingKey: "teacherRegistered",
+        type: "teacherRegistered",
+        body: result
+      });
       return res.redirect(303, "teachers");
     })
     .catch(next);
@@ -53,7 +58,6 @@ const registerTeacher = async ({ body }, res, next) =>
 const unregisterTeacher = async ({ params: { id } }, res, next) =>
   await Teacher.findOneAndDelete(id)
     .then(result => {
-      sendToQueue(TeacherUnregistered(result));
       return res.redirect(303, "/api/v1/teacher_administration/teachers");
     })
     .catch(next);

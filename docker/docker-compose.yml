@@ -12,6 +12,7 @@ networks:
   teacher_administration_db: ~
   student_portal_db: ~
   accounting_db: ~
+  audit_db: ~
 
 volumes:
   evaluating_students_data: ~
@@ -22,6 +23,7 @@ volumes:
   teacher_administration_data: ~
   student_portal_data: ~
   accounting_data: ~
+  audit_data: ~
   rabbit_data: ~
   axon_data: ~
 
@@ -46,21 +48,6 @@ services:
      - nginx
     expose:
      - 8080
-
-  axon:
-    image: axoniq/axonserver:4.1.2
-    restart: always
-    networks:
-      - nginx
-      - axon
-    hostname: axon
-    volumes:
-      - axon_data:/opt/axonserver/data
-    environment:
-      - AXONSERVER_HOSTNAME=axon
-    expose:
-      - 8024
-      - 8124
 
   main-broker:
     networks:
@@ -163,7 +150,36 @@ services:
     networks:
       - recruiting_db
     volumes:
-      - recruiting_data:/data/db 
+      - recruiting_data:/data/db
+
+  audit:
+    expose:
+      - 3000
+    environment:
+      - RABBITMQ_HOST=main-broker
+      - PORT=3000
+      - MONGODB_HOST=audit_db
+      - RABBITMQ_USER=avantys
+    restart: always
+    depends_on:
+      - audit_db
+      - main-broker
+    networks:
+      - broker
+      - nginx
+      - audit_db
+
+  audit_db:
+    image: mongo:4.0.9
+    environment:
+      - MONGO_INITDB_DATABASE=avantys
+    expose:
+      - 27017
+    restart: always
+    networks:
+      - audit_db
+    volumes:
+      - audit_data:/data/db
 
   scheduling:
     expose:

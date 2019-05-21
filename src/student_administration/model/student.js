@@ -1,5 +1,4 @@
 const mongoose = require("../config/db");
-const Class = require("./class").classSchema;
 const Module = require("./module").moduleSchema;
 const Study = require("./study").studySchema;
 

@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const rabbit = require("./rabbit/rabbot");
 
 let Student = require("./models/potential-student").PotentialStudent;
 let Teacher = require("./models/teacher").Teacher;
@@ -361,10 +362,12 @@ router.delete("/teacher/:_id", ({ params: { _id } }, res) => {
  *        description: The Id of an existing student
  *        required: true
  *        type: string
+ *        in: formData
  *      - name: teacher
  *        description: The Id of an existing teacher
  *        required: true
  *        type: string
+ *        in: formData
  *      responses:
  *        201:
  *          description: Return created students
@@ -448,6 +451,70 @@ router.get("/meeting/:_id", ({ params: { _id } }, res) => {
       res.status(200).json(meeting);
     })
     .catch(error => res.status(401).json(error));
+});
+
+/**
+ * @swagger
+ * /meeting/{id}:
+ *    delete:
+ *      description: Unregister meeting
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *       - name: id
+ *         description: The id of the meeting
+ *         required: true
+ *         in: path
+ *         type: string
+ *      responses:
+ *        201:
+ *          description: Return deleted meeting
+ *        400:
+ *          description: Something unexpected went wrong
+ */
+
+router.delete("/meeting/:_id", ({ params: { _id } }, res) => {
+  Meeting.findOneAndRemove({ _id })
+    .then(meeting => {
+      res.status(200).json({ "Meeting Deleted": meeting });
+    })
+    .catch(function(error) {
+      res.status(400).json(error);
+    });
+});
+
+/**
+ * @swagger
+ * /approve/{_id}:
+ *    delete:
+ *      description: Approve student
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *       - name: _id
+ *         description: The Student Number of the Student
+ *         required: true
+ *         in: path
+ *         type: string
+ *      responses:
+ *        201:
+ *          description: Return approved student
+ *        400:
+ *          description: Something unexpected went wrong
+ */
+router.delete("/approve/:_id", ({ params: { _id } }, res) => {
+  Student.findOneAndRemove({ _id })
+    .then(student => {
+      rabbit.publish("ex.1", {
+        routingKey: "studentApproved",
+        type: "studentApproved",
+        body: student
+      });
+      res.status(200).json({ "Student Deleted": student });
+    })
+    .catch(error => {
+      res.status(400).json(error);
+    });
 });
 
 module.exports = router;

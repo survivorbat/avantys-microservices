@@ -1,7 +1,5 @@
 const rabbit = require("rabbot");
-const Module = require("../model/module").Module;
-const Test = require("../model/test").TestModel;
-const Teacher = require("../model/teacher").Teacher;
+const student = require("../model/student").Student;
 
 rabbit
   .configure({
@@ -17,7 +15,7 @@ rabbit
     exchanges: [{ name: "ex.1", type: "direct", autoDelete: false }],
     queues: [
       {
-        name: "scheduling_queue",
+        name: "evaluating_students_queue",
         autoDelete: false,
         durable: true,
         subscribe: true
@@ -26,32 +24,20 @@ rabbit
     bindings: [
       {
         exchange: "ex.1",
-        target: "scheduling_queue",
-        keys: ["moduleCreated", "teacherRegistered", "testCreated"]
+        target: "evaluating_students_queue",
+        keys: ["studentRegistered"]
       }
     ]
   })
   .then(() => {
     console.log("Rabbot succesfully connected.");
-    rabbit.startSubscription("scheduling_queue");
+    rabbit.startSubscription("evaluating_students_queue");
     console.log("Rabbot subscribed.");
   })
   .catch(error => console.log("Rabbot connect error: " + error));
 
-rabbit.handle("moduleCreated", msg => {
-  new Module(msg.body)
-    .save()
-    .then(() => msg.ack())
-    .catch(err => msg.nack());
-});
-rabbit.handle("teacherRegistered", msg => {
-  new Teacher(msg.body)
-    .save()
-    .then(() => msg.ack())
-    .catch(err => msg.nack());
-});
-rabbit.handle("testCreated", msg => {
-  new Test(msg.body)
+rabbit.handle("studentRegistered", msg => {
+  new student(msg).student
     .save()
     .then(() => msg.ack())
     .catch(err => msg.nack());
