@@ -15,15 +15,15 @@ rabbit.configure({
         { name: 'ex.1', type: 'direct', autoDelete: false }
     ],
     queues: [
-        { name: 'evaluating_students_queue', autoDelete: false, durable: true, subscribe: true },
+        { name: 'student_administration_queue', autoDelete: false, durable: true, subscribe: true },
     ],
     bindings: [
-        { exchange: 'ex.1', target: 'evaluating_students_queue', keys: ["studentRegistered"] }
+        { exchange: 'ex.1', target: 'student_administration_queue', keys: ["studentRegistered"] }
     ]
 }).then(
     () => {
         console.log('Rabbot succesfully connected.');
-        rabbit.startSubscription("evaluating_students_queue");
+        rabbit.startSubscription("student_administration_queue");
         console.log('Rabbot subscribed.');
     }
 ).catch(

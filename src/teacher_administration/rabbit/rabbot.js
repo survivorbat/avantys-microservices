@@ -1,5 +1,4 @@
 const rabbit = require('rabbot');
-const student = require('../model/student').Student;
 
 rabbit.configure({
     connection: {
@@ -15,15 +14,15 @@ rabbit.configure({
         { name: 'ex.1', type: 'direct', autoDelete: false }
     ],
     queues: [
-        { name: 'evaluating_students_queue', autoDelete: false, durable: true, subscribe: true },
+        { name: 'teacher_administration_queue', autoDelete: false, durable: true, subscribe: true },
     ],
     bindings: [
-        { exchange: 'ex.1', target: 'evaluating_students_queue', keys: ["studentRegistered"] }
+        { exchange: 'ex.1', target: 'teacher_administration_queue', keys: ["studentRegistered"] }
     ]
 }).then(
     () => {
         console.log('Rabbot succesfully connected.');
-        rabbit.startSubscription("evaluating_students_queue");
+        rabbit.startSubscription("teacher_administration_queue");
         console.log('Rabbot subscribed.');
     }
 ).catch(
@@ -31,7 +30,7 @@ rabbit.configure({
 );
 
 rabbit.handle('studentRegistered', (msg) => {
-    new student(msg)
+    new StudentModel(msg)
     .student
         .save()
         .then(() => msg.ack())
