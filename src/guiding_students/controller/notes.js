@@ -1,6 +1,4 @@
 const Notes = require("../model/notes").Notes;
-const sendToQueue = require("../config/rabbitmq").connectAndSend;
-const NotesCreated = require("../events/NotesCreated");
 
 /**
  * @param {Object} req
@@ -36,7 +34,11 @@ const createNotes = async ({ body }, res, next) =>
   await new Notes(body, {})
     .save()
     .then(result => {
-      sendToQueue(NotesCreated({ ...body, _id: result.id }));
+      rabbit.publish("ex.1", {
+        routingKey: "NotesCreated",
+        type: "NotesCreated",
+        body: result
+      });
       return res.redirect(303, "notes");
     })
     .catch(next => console.log(next));
