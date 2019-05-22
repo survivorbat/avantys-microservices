@@ -2,14 +2,9 @@ const express = require("express");
 const logger = require("morgan");
 const bodyparser = require("body-parser");
 const swaggerJsdoc = require("swagger-jsdoc");
-
-const studentsRoute = require("./routes/students");
-const teachersRoute = require("./routes/teachers");
-const rabbitRoute = require("./routes/rabbit");
-const testsRoute = require("./routes/tests");
-
 const rabbit = require("./rabbit/rabbot");
-// const rabbitHandler = require("./rabbit/messageHandler");
+
+const eventsRoute = require("./routes/events");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,7 +17,7 @@ const swaggerOptions = {
     },
     host: process.env.SWAGGER_BASE_URL
   },
-  apis: ["/app/router.js"]
+  apis: ["/app/routes/events.js"]
 };
 
 app.use(logger("dev"));
@@ -32,16 +27,9 @@ app.use(bodyparser.urlencoded({ extended: true }));
 const specs = swaggerJsdoc(swaggerOptions);
 const swaggerUi = require("swagger-ui-express");
 
-app.use(
-  "/api/v1/evaluating_students/swagger",
-  swaggerUi.serve,
-  swaggerUi.setup(specs)
-);
+app.use("/api/v1/audit_write/swagger", swaggerUi.serve, swaggerUi.setup(specs));
 
-app.use("/api/v1/evaluating_students/tests", testsRoute);
-// app.use("/api/v1/evaluating_students/teachers", teachersRoute);
-// app.use("/api/v1/evaluating_students/students", studentsRoute);
-app.use("/api/v1/evaluating_students/rabbit", rabbitRoute);
+app.use("/api/v1/audit_write/events", eventsRoute);
 
 app.listen(port, () =>
   console.log(`Evaluating students container listening on port ${port}!`)

@@ -26,7 +26,11 @@ rabbit
       {
         exchange: "ex.1",
         target: "evaluating_students_queue",
+<<<<<<< HEAD
         keys: ["studentRegistered", "teacherRegistered"]
+=======
+        keys: ["studentRegistered", "studentExamined", "studentGraded"]
+>>>>>>> c075984630a459bbad8bf4b922e89e3d384f6c24
       }
     ]
   })
