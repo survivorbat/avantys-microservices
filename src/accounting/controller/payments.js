@@ -1,4 +1,6 @@
 const Payment = require("../model/payment").Payment;
+const Student = require("../model/student").Student;
+const rabbit = require("../rabbit/rabbot");
 
 /**
  * @param {Object} req
@@ -31,6 +33,12 @@ const getPayment = async ({ params: { id } }, res, next) =>
  * @returns {Promise<*>}
  */
 const createPaymentDetails = async ({ body }, res, next) => {
+  if (body.student !== null) {
+    body.student = await Student.findOne({ _id: body.student }).catch(error =>
+      res.status(404).json(error)
+    );
+  }
+  console.log(body.student);
   body.bank = {
     name: body["bank name"],
     IBAN: body["bank IBAN"],

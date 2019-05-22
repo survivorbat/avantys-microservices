@@ -1,4 +1,5 @@
 const Notes = require("../model/notes").Notes;
+const rabbit = require("../rabbit/rabbot");
 
 /**
  * @param {Object} req
