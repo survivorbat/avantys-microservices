@@ -27,14 +27,9 @@ app.use(bodyparser.urlencoded({ extended: true }));
 const specs = swaggerJsdoc(swaggerOptions);
 const swaggerUi = require("swagger-ui-express");
 
-app.use(
-  "/api/v1/audit_write/swagger",
-  swaggerUi.serve,
-  swaggerUi.setup(specs)
-);
+app.use("/api/v1/audit_write/swagger", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use("/api/v1/audit_write/events", eventsRoute);
-
 
 app.listen(port, () =>
   console.log(`Evaluating students container listening on port ${port}!`)

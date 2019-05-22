@@ -44,7 +44,7 @@ rabbit.handle("studentRegistered", msg => {
 });
 
 rabbit.handle("studentGraded", msg => {
-  console.log(msg.body)
+  console.log(msg.body);
   new student(msg.body)
     .save()
     .then(() => msg.ack())

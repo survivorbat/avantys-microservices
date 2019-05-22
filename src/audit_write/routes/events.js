@@ -53,7 +53,7 @@ const rabbit = require("../rabbit/rabbot");
 router
   .route("/")
   .get((req, res) => {
-      res.redirect(303, "/api/v1/audit_read/events");
+    res.redirect(303, "/api/v1/audit_read/events");
   })
 
   .put((req, res) => res.sendStatus(501))

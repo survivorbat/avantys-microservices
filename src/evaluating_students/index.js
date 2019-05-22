@@ -24,7 +24,11 @@ const swaggerOptions = {
     },
     host: process.env.SWAGGER_BASE_URL
   },
-  apis: ["/app/routes/students.js", "/app/routes/teachers.js", "/app/routes/tests.js"]
+  apis: [
+    "/app/routes/students.js",
+    "/app/routes/teachers.js",
+    "/app/routes/tests.js"
+  ]
 };
 
 app.use(logger("dev"));

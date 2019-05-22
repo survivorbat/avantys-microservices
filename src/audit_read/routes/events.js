@@ -14,13 +14,10 @@ const Event = require("../model/event");
  *              '500':
  *                  description: "Database query failed"
  */
-router
-  .route("/events")
-  .get((req, res) => {
-    Event.find()
-      .then(allevents => res.status(200).json(allevents))
-      .catch(() => res.sendStatus(500));
-  });
-
+router.route("/events").get((req, res) => {
+  Event.find()
+    .then(allevents => res.status(200).json(allevents))
+    .catch(() => res.sendStatus(500));
+});
 
 module.exports = router;
