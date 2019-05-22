@@ -51,11 +51,18 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=<<DOCKER-SECRET:RECRUITING_DB_PASSWORD>>
     secrets:
       - RECRUITING_DB_PASSWORD
-  audit:
-    image: avantys/audit:${docker_tag}
+  audit_read:
+    image: avantys/audit_read:${docker_tag}
     environment:
       - RABBITMQ_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
-      - SWAGGER_BASE_URL=${server_name}/api/v1/audit
+      - SWAGGER_BASE_URL=${server_name}/api/v1/audit_read
+    secrets:
+      - RABBIT_MQ_PASSWORD
+  audit_write:
+    image: avantys/audit_write:${docker_tag}
+    environment:
+      - RABBITMQ_PASS=<<DOCKER-SECRET:RABBIT_MQ_PASSWORD>>
+      - SWAGGER_BASE_URL=${server_name}/api/v1/audit_write
     secrets:
       - RABBIT_MQ_PASSWORD
 

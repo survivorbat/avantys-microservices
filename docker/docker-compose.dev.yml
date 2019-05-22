@@ -19,18 +19,31 @@ services:
     volumes:
       - ../src/webapi:/srv/html
 
-  audit:
+  audit_read:
     build:
       context: ../
-      dockerfile: docker/audit/Dockerfile
+      dockerfile: docker/audit_read/Dockerfile
     volumes:
-      - ../src/audit:/app
+      - ../src/audit_read:/app
     user: "1000"
     command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"]
     working_dir: /app
     environment:
       - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
-      - SWAGGER_BASE_URL=localhost/api/v1/audit
+      - SWAGGER_BASE_URL=localhost/api/v1/audit_read
+
+  audit_write:
+    build:
+      context: ../
+      dockerfile: docker/audit_write/Dockerfile
+    volumes:
+      - ../src/audit_write:/app
+    user: "1000"
+    command: ["/bin/sh", "-c", "npm install && node /app/node_modules/nodemon/bin/nodemon.js --legacy-watch index.js"]
+    working_dir: /app
+    environment:
+      - RABBITMQ_PASS=c8ggRaQUwtBBiC6nW
+      - SWAGGER_BASE_URL=localhost/api/v1/audit_write
 
   main-broker:
     build:
