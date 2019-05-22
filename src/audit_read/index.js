@@ -5,21 +5,18 @@ const swaggerJsdoc = require("swagger-jsdoc");
 
 const eventsRoute = require("./routes/events");
 
-const rabbit = require("./rabbit/rabbot");
-// const rabbitHandler = require("./rabbit/messageHandler");
-
 const app = express();
 const port = process.env.PORT || 3000;
 
 const swaggerOptions = {
   swaggerDefinition: {
     info: {
-      title: "Student Evaluation",
-      description: "The API of the student evaluation"
+      title: "Audit read",
+      description: "The API of the audit read"
     },
     host: process.env.SWAGGER_BASE_URL
   },
-  apis: ["/app/router.js"]
+  apis: ["/app/routes/events.js"]
 };
 
 app.use(logger("dev"));
@@ -30,14 +27,13 @@ const specs = swaggerJsdoc(swaggerOptions);
 const swaggerUi = require("swagger-ui-express");
 
 app.use(
-  "/api/v1/evaluating_students/swagger",
+  "/api/v1/audit_read/swagger",
   swaggerUi.serve,
   swaggerUi.setup(specs)
 );
 
-app.use("/api/v1/evaluating_students/events", eventsRoute);
-
+app.use("/api/v1/audit_read", eventsRoute);
 
 app.listen(port, () =>
-  console.log(`Evaluating students container listening on port ${port}!`)
+  console.log(`Audit read container listening on port ${port}!`)
 );

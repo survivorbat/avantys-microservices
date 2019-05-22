@@ -25,6 +25,7 @@ rabbit
       {
         exchange: "ex.1",
         target: "audit_write_queue",
+        // TODO: Make this a dynamic list
         keys: ["studentRegistered",
             "studentExamined",
             "studentGraded",
@@ -44,7 +45,7 @@ rabbit
   .catch(error => console.log("Rabbot connect error: " + error));
 
 rabbit.handle("studentRegistered", msg => {
-  new event(msg)
+  new event({type: msg.type, queue: msg.queue, body: JSON.stringify(msg.body) })
     .save()
     .then(() => msg.ack())
     .catch(err => msg.nack());
@@ -52,43 +53,42 @@ rabbit.handle("studentRegistered", msg => {
 
 rabbit.handle("studentExamined", msg => {
     console.log('Message received', msg.body);
-    new event(msg.body)
+    new event({type: msg.type, queue: msg.queue, body: JSON.stringify(msg.body) })
         .save()
         .then(() => msg.ack())
         .catch(err => msg.nack());
 });
 rabbit.handle("studentGraded", msg => {
     console.log('Message received', msg.body);
-    new event(msg.body)
+    new event({type: msg.type, queue: msg.queue, body: JSON.stringify(msg.body) })
         .save()
         .then(() => msg.ack())
         .catch(err => msg.nack());
 });
 rabbit.handle("moduleCreated", msg => {
     console.log('Message received', msg.body);
-    new event(msg.body)
+    new event({type: msg.type, queue: msg.queue, body: JSON.stringify(msg.body) })
         .save()
         .then(() => msg.ack())
         .catch(err => msg.nack());
 });
 rabbit.handle("teacherRegistered", msg => {
-    console.log("test");
     console.log('Message received', msg.body);
-    new event(msg.body)
+    new event({type: msg.type, queue: msg.queue, body: JSON.stringify(msg.body) })
         .save()
         .then(() => msg.ack())
         .catch(err => msg.nack());
 });
 rabbit.handle("testCreated", msg => {
     console.log('Message received', msg.body);
-    new event(msg.body)
+    new event({type: msg.type, queue: msg.queue, body: JSON.stringify(msg.body) })
         .save()
         .then(() => msg.ack())
         .catch(err => msg.nack());
 });
 rabbit.handle("studentApproved", msg => {
     console.log('Message received', msg.body);
-    new event(msg.body)
+    new event({type: msg.type, queue: msg.queue, body: JSON.stringify(msg.body) })
         .save()
         .then(() => msg.ack())
         .catch(err => msg.nack());

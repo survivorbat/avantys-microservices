@@ -9,9 +9,7 @@ const options = {
   bufferMaxEntries: 0
 };
 
-const url = `mongodb://${process.env.MONGODB_USERNAME}:${
-  process.env.MONGODB_PASSWORD
-}@${process.env.MONGODB_HOST}`;
+const url = `mongodb://${process.env.MONGODB_HOST}`;
 
 const connect = () =>
   mongoose.connect(url, options, error => {

@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
 const Event = require("../model/event");
-const rabbit = require("../rabbit/rabbot");
 
 /**
  * @swagger
@@ -16,12 +14,11 @@ const rabbit = require("../rabbit/rabbot");
  *              '500':
  *                  description: "Database query failed"
  */
-
 router
-  .route("/")
+  .route("/events")
   .get((req, res) => {
-    Event.find({})
-      .then(allevents => res.json(200, allevents))
+    Event.find()
+      .then(allevents => res.status(200).json(allevents))
       .catch(() => res.sendStatus(500));
   });
 
