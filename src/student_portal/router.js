@@ -3,12 +3,13 @@ const router = express.Router();
 
 let Study_Material = require("./models/study_material").Study_Material;
 let Student = require("./model/student").Student;
+const Test = require("./model/test").TestModel;
 
 /**
  * @swagger
  * /studymaterial:
  *    get:
- *      description: Return list of study material
+ *      summary: Return list of study material
  *      produces:
  *        - application/json
  *      responses:
@@ -33,7 +34,7 @@ router.get("/studymaterial", (req, res) => {
  * @swagger
  * /studymaterial/{id}:
  *    get:
- *      description: Return study material
+ *      summary: Return study material
  *      produces:
  *        - application/json
  *      parameters:
@@ -65,7 +66,7 @@ router.get("/studymaterial/:_id", ({ params: { _id } }, res) => {
  * @swagger
  * /studymaterial:
  *    post:
- *      description: Add study material
+ *      summary: Add study material
  *      produces:
  *        - application/json
  *      parameters:
@@ -102,7 +103,7 @@ router.post("/studymaterial", ({ body }, res) => {
  * @swagger
  * /studymaterial:
  *    post:
- *      description: Update student
+ *      summary: Update student
  *      produces:
  *        - application/json
  *      parameters:
@@ -137,7 +138,7 @@ router.put("/studymaterial/:_id", ({ body }, { params: { _id } }, res) => {
  * @swagger
  * /studymaterial/{id}:
  *    delete:
- *      description: delete study material
+ *      summary: delete study material
  *      produces:
  *        - application/json
  *      parameters:
@@ -169,7 +170,7 @@ router.delete("/studymaterial/:_id", ({ params: { _id } }, res) => {
  * @swagger
  * /students:
  *    get:
- *      description: Return list of students
+ *      summary: Return list of students
  *      produces:
  *        - application/json
  *      responses:
@@ -194,11 +195,11 @@ router.get("/students", (req, res) => {
  * @swagger
  * /student/{_id}:
  *    get:
- *      description: Return student
+ *      summary: Return student
  *      produces:
  *        - application/json
  *      parameters:
- *       - name: id
+ *       - name: _id
  *         description: The Student Number of the Student
  *         required: true
  *         in: path
@@ -211,6 +212,7 @@ router.get("/students", (req, res) => {
  */
 
 router.get("/student/:_id", ({ params: { _id } }, res) => {
+  console.log(_id)
   res.contentType("application/json");
   Student.findOne({ _id })
     .then(student => {
@@ -218,6 +220,50 @@ router.get("/student/:_id", ({ params: { _id } }, res) => {
         res.status(200).json({ message: "student not found" });
       }
       res.status(200).json(student);
+    })
+    .catch(error => res.status(401).json(error));
+});
+
+/**
+ * @swagger
+ * /grades/{_id}:
+ *    get:
+ *      summary: Return list of grades
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *       - name: _id
+ *         description: The Student Number of the Student
+ *         required: true
+ *         in: path
+ *         type: string
+ *      responses:
+ *        201:
+ *          description: Return grades of student
+ *        400:
+ *          description: Something unexpected went wrong
+ */
+
+router.get("/grades/:_id", ({ params: { _id } }, res) => {
+  let result = [];
+  console.log(_id)
+  Test.find()
+    .then(tests => {
+      if (tests == null || tests == []) {
+        res.status(200).json({ message: "no tests found" });
+      }
+      tests.forEach((test, index) => {
+        // console.log(test.grades[0].student)
+        test.grades.forEach((grade, index) => {
+          console.log(grade.student.id)
+          console.log(_id)
+          if(grade.student.id == _id) {
+            console.log(_id)
+            result.push(grade)
+          }
+        })
+      })
+      res.status(200).json(result);
     })
     .catch(error => res.status(401).json(error));
 });
