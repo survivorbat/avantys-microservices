@@ -192,7 +192,7 @@ router.get("/students", (req, res) => {
 
 /**
  * @swagger
- * /student/{id}:
+ * /student/{_id}:
  *    get:
  *      description: Return student
  *      produces:

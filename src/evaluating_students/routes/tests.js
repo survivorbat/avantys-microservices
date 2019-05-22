@@ -88,14 +88,43 @@ router
       .catch(() => res.sendStatus(500))
   );
 
+/**
+ * @swagger
+ * /{_id}/enroll-student:
+ *    post:
+ *      description: add student to test
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *      - name: _id
+ *        description: The id of the test
+ *        required: true
+ *        in: path
+ *        type: string
+ *      - name: firstName
+ *        description: The student's first name
+ *        required: true
+ *        in: formData
+ *        type: string
+ *      - name: lastName
+ *        description: The student's last adress
+ *        required: true
+ *        in: formData
+ *        type: string
+ *      responses:
+ *        201:
+ *          description: Return test
+ *        400:
+ *          description: Something unexpected went wrong
+ */
 router
-  .route("/:id/enroll-student")
-  .post(({ body: { firstName, lastName }, params: { id } }, res) => {
-    if (!id || !firstName || !lastName) {
+  .route("/:_id/enroll-student")
+  .post(({ body: { firstName, lastName }, params: { _id } }, res) => {
+    if (!_id || !firstName || !lastName) {
       return res.sendStatus(400);
     }
 
-    TestModel.findById(id).then(test => {
+    TestModel.findById(_id).then(test => {
       test.enrolledStudents.push({ firstName, lastName });
       test
         .save()
