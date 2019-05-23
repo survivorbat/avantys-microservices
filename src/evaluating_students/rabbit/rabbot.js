@@ -26,7 +26,7 @@ rabbit
       {
         exchange: "ex.1",
         target: "evaluating_students_queue",
-        keys: ["studentApproved", "studentExamined", "studentGraded"]
+        keys: ["studentApproved", "studentExamined", "studentGraded", "teacherRegistered"]
       }
     ]
   })
