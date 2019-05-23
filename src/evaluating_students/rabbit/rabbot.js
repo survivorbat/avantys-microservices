@@ -64,7 +64,6 @@ rabbit.handle("studentGraded", msg => {
     .catch(err => msg.nack());
 });
 
-
 rabbit.handle("teacherRegistered", msg => {
   console.log(msg.body);
 

@@ -45,15 +45,17 @@ rabbit.handle("studentApproved", msg => {
 });
 
 rabbit.handle("studentGraded", msg => {
-  console.log(msg.body)
-  console.log(msg.body._id)
-  test.findByIdAndDelete(msg.body._id).catch(err => {console.log(err)})
+  console.log(msg.body);
+  console.log(msg.body._id);
+  test.findByIdAndDelete(msg.body._id).catch(err => {
+    console.log(err);
+  });
   new test(msg.body)
     .save()
     .then(() => msg.ack())
     .catch(err => {
       console.log(err);
-      msg.nack()
+      msg.nack();
     });
 });
 

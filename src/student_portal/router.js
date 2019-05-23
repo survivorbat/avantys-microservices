@@ -212,7 +212,7 @@ router.get("/students", (req, res) => {
  */
 
 router.get("/student/:_id", ({ params: { _id } }, res) => {
-  console.log(_id)
+  console.log(_id);
   res.contentType("application/json");
   Student.findOne({ _id })
     .then(student => {
@@ -246,7 +246,7 @@ router.get("/student/:_id", ({ params: { _id } }, res) => {
 
 router.get("/grades/:_id", ({ params: { _id } }, res) => {
   let result = [];
-  console.log(_id)
+  console.log(_id);
   Test.find()
     .then(tests => {
       if (tests == null || tests == []) {
@@ -255,18 +255,18 @@ router.get("/grades/:_id", ({ params: { _id } }, res) => {
       tests.forEach((test, index) => {
         // console.log(test.grades[0].student)
         test.grades.forEach((grade, index) => {
-          console.log("foreach")
-          console.log(grade.student.id)
-          console.log(_id)
+          console.log("foreach");
+          console.log(grade.student.id);
+          console.log(_id);
           if (grade.student.id != null) {
-          if(grade.student.id == _id) {
-            console.log("if")
-            console.log(_id)
-            result.push(grade)
+            if (grade.student.id == _id) {
+              console.log("if");
+              console.log(_id);
+              result.push(grade);
+            }
           }
-        }
-        })
-      })
+        });
+      });
       res.status(200).json(result);
     })
     .catch(error => res.status(401).json(error));
