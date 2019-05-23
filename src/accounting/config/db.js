@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 mongoose.Promise = global.Promise;
 
 const options = {
@@ -9,18 +10,20 @@ const options = {
   bufferMaxEntries: 0
 };
 
-const url = `mongodb://${process.env.MONGODB_USERNAME}:${
-  process.env.MONGODB_PASSWORD
-}@${process.env.MONGODB_HOST}`;
-
 const connect = () =>
-  mongoose.connect(url, options, error => {
-    if (error) {
-      console.log("Error connecting to ", process.env.MONGODB_HOST, error);
-    } else {
-      console.log("Succesfully connected to ", process.env.MONGODB_HOST);
+  mongoose.connect(
+    `mongodb://${process.env.MONGODB_USERNAME}:${
+      process.env.MONGODB_PASSWORD
+    }@${process.env.MONGODB_HOST}`,
+    options,
+    error => {
+      if (error) {
+        console.log("Error connecting to ", process.env.MONGODB_HOST, error);
+      } else {
+        console.log("Succesfully connected to ", process.env.MONGODB_HOST);
+      }
     }
-  });
+  );
 
 mongoose.connection.on("error", error => {
   console.log(error.toString());

@@ -1,5 +1,5 @@
 {
-  "name": "student_administration",
+  "name": "accounting",
   "version": "1.0.0",
   "description": "Avantys Microservice",
   "repository": "https://github.com/avantys-solutionarchitecture/avantys",
@@ -10,8 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "eventstore": "^1.14.4",
     "express": "^4.16.4",
-    "helmet": "^3.18.0",
     "mongoose": "^5.5.7",
     "morgan": "^1.9.1",
     "prettier": "^1.17.0",

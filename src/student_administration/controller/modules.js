@@ -55,11 +55,6 @@ const registerModule = async ({ body }, res, next) =>
 const unregisterModule = async ({ params: { id } }, res, next) =>
   await Module.findOneAndDelete(id)
     .then(result => {
-      rabbit.publish("ex.1", {
-        routingKey: "moduleUnregistered",
-        type: "moduleUnregistered",
-        body: result
-      });
       return res.redirect(303, "/api/v1/module_administration/modules");
     })
     .catch(next);
