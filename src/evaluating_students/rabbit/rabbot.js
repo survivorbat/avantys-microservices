@@ -1,5 +1,6 @@
 const rabbit = require("rabbot");
 const student = require("../model/student").Student;
+const teacher = require("../model/teacher").TeacherModel;
 
 rabbit
   .configure({
@@ -63,4 +64,13 @@ rabbit.handle("studentGraded", msg => {
     .catch(err => msg.nack());
 });
 
+
+rabbit.handle("teacherRegistered", msg => {
+  console.log(msg.body);
+
+  new teacher(msg.body)
+    .save()
+    .then(() => msg.ack())
+    .catch(err => msg.nack());
+});
 module.exports = rabbit;

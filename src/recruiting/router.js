@@ -9,7 +9,7 @@ let Meeting = require("./models/meeting").Meeting;
  * @swagger
  * /students:
  *    get:
- *      description: Return list of students
+ *      summary: Return list of students
  *      produces:
  *        - application/json
  *      responses:
@@ -34,7 +34,7 @@ router.get("/students", (req, res) => {
  * @swagger
  * /student/{id}:
  *    get:
- *      description: Return student
+ *      summary: Return student
  *      produces:
  *        - application/json
  *      parameters:
@@ -66,7 +66,7 @@ router.get("/student/:_id", ({ params: { _id } }, res) => {
  * @swagger
  * /student:
  *    post:
- *      description: Register student
+ *      summary: Register student
  *      produces:
  *        - application/json
  *      parameters:
@@ -109,7 +109,7 @@ router.post("/student", ({ body }, res) => {
  * /student:
  *    post:
  *      description: Update student
- *      produces:
+ *      summary:
  *        - application/json
  *      parameters:
  *      - name: firstName
@@ -148,7 +148,7 @@ router.put("/student/:_id", ({ body }, { params: { _id } }, res) => {
  * @swagger
  * /student/{id}:
  *    delete:
- *      description: Unregister student
+ *      summary: Unregister student
  *      produces:
  *        - application/json
  *      parameters:
@@ -180,7 +180,7 @@ router.delete("/student/:_id", ({ params: { _id } }, res) => {
  * @swagger
  * /teachers:
  *    get:
- *      description: Return list of teachers
+ *      summary: Return list of teachers
  *      produces:
  *        - application/json
  *      responses:
@@ -205,7 +205,7 @@ router.get("/teachers", (req, res) => {
  * @swagger
  * /teacher/{id}:
  *    get:
- *      description: Return teacher
+ *      summary: Return teacher
  *      produces:
  *        - application/json
  *      parameters:
@@ -236,7 +236,7 @@ router.get("/teacher/:_id", ({ params: { _id } }, res) => {
  * @swagger
  * /teacher:
  *    post:
- *      description: Register teacher
+ *      summary: Register teacher
  *      produces:
  *        - application/json
  *      parameters:
@@ -278,7 +278,7 @@ router.post("/teacher", ({ body }, res) => {
  * @swagger
  * /teacher:
  *    post:
- *      description: Update teacher
+ *      summary: Update teacher
  *      produces:
  *        - application/json
  *      parameters:
@@ -318,7 +318,7 @@ router.put("/teacher/:_id", ({ body }, { params: { _id } }, res) => {
  * @swagger
  * /teacher/{id}:
  *    delete:
- *      description: Unregister teacher
+ *      summary: Unregister teacher
  *      produces:
  *        - application/json
  *      parameters:
@@ -348,7 +348,7 @@ router.delete("/teacher/:_id", ({ params: { _id } }, res) => {
  * @swagger
  * /meeting:
  *    post:
- *      description: Create meeting
+ *      summary: Create meeting
  *      produces:
  *        - application/json
  *      parameters:
@@ -401,7 +401,7 @@ router.post("/meeting", async ({ body }, res) => {
  * @swagger
  * /meetings:
  *    get:
- *      description: Return list of meetings
+ *      summary: Return list of meetings
  *      produces:
  *        - application/json
  *      responses:

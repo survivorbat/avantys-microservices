@@ -45,8 +45,8 @@ app.use(
 );
 
 app.use("/api/v1/evaluating_students/tests", testsRoute);
-// app.use("/api/v1/evaluating_students/teachers", teachersRoute);
-// app.use("/api/v1/evaluating_students/students", studentsRoute);
+app.use("/api/v1/evaluating_students/teachers", teachersRoute);
+app.use("/api/v1/evaluating_students/students", studentsRoute);
 app.use("/api/v1/evaluating_students/rabbit", rabbitRoute);
 
 app.listen(port, () =>
