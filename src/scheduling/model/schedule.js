@@ -14,7 +14,7 @@ const scheduleSchema = new Schema({
   },
   moduleId: {
     type: Number,
-    required: true
+    required: false
   },
   teacher: {
     type: Teacher,
