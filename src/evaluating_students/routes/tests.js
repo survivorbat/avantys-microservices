@@ -115,12 +115,12 @@ router
  */
 router
   .route("/:_id/enroll-student")
-  .post(async ({ body: { studentId}, params: { _id } }, res) => {
+  .post(async ({ body: { studentId }, params: { _id } }, res) => {
     if (!_id || !studentId) {
       return res.sendStatus(400);
     }
-    const student = await StudentModel.findOne({ _id: studentId }).catch(error =>
-      res.status(401).json(error)
+    const student = await StudentModel.findOne({ _id: studentId }).catch(
+      error => res.status(401).json(error)
     );
     TestModel.findById(_id).then(test => {
       test.enrolledStudents.push(student);
@@ -131,7 +131,7 @@ router
     });
   });
 
-    /**
+/**
  * @swagger
  * /tests/{_id}:
  *    post:
@@ -156,42 +156,32 @@ router
  *          description: Something unexpected went wrong
  */
 
-  router
+router
   .route("/:testId")
-  .post(async (
-      {
-        params: { testId },
-        body: { studentId }
-      },
-      res
-    ) => {
-      if (
-        !testId ||
-        !studentId
-      ) {
-        return res.sendStatus(400);
-      }
-      const student = await StudentModel.findOne({ _id: studentId }).catch(error =>
-        res.status(401).json(error)
-      );
-      TestModel.findById(testId).then(test => {
-        test.participatedStudents.push(student);
-        test
-          .save()
-          .then(savedtest => {
-            rabbit.publish("ex.1", {
-              routingKey: "studentExamined",
-              type: "studentExamined",
-              body: savedtest
-            });
-            res.status(201).json(savedtest);
-          })
-          .catch(err => res.status(500).send(err));
-      });
+  .post(async ({ params: { testId }, body: { studentId } }, res) => {
+    if (!testId || !studentId) {
+      return res.sendStatus(400);
     }
-  );
+    const student = await StudentModel.findOne({ _id: studentId }).catch(
+      error => res.status(401).json(error)
+    );
+    TestModel.findById(testId).then(test => {
+      test.participatedStudents.push(student);
+      test
+        .save()
+        .then(savedtest => {
+          rabbit.publish("ex.1", {
+            routingKey: "studentExamined",
+            type: "studentExamined",
+            body: savedtest
+          });
+          res.status(201).json(savedtest);
+        })
+        .catch(err => res.status(500).send(err));
+    });
+  });
 
-  /**
+/**
  * @swagger
  * /tests/{_id}/student/{studentId}:
  *    post:
@@ -214,7 +204,7 @@ router
  *        required: true
  *        in: formData
  *        type: number
-  *      - name: teacherId
+ *      - name: teacherId
  *        description: The teacher that graded the student
  *        required: true
  *        in: formData
@@ -228,30 +218,23 @@ router
 
 router
   .route("/:testId/student/:studentId")
-  .post(async (
-      {
-        params: { testId, studentId },
-        body: { grade, teacherId }
-      },
+  .post(
+    async (
+      { params: { testId, studentId }, body: { grade, teacherId } },
       res
     ) => {
-      if (
-        !testId ||
-        !studentId ||
-        !grade ||
-        !teacherId
-      ) {
+      if (!testId || !studentId || !grade || !teacherId) {
         return res.sendStatus(400);
       }
-      const student = await StudentModel.findOne({ _id: studentId }).catch(error =>
-        res.status(401).json(error)
+      const student = await StudentModel.findOne({ _id: studentId }).catch(
+        error => res.status(401).json(error)
       );
-      const teacher = await TeacherModel.findOne({ _id: teacherId }).catch(error =>
-        res.status(401).json(error)
+      const teacher = await TeacherModel.findOne({ _id: teacherId }).catch(
+        error => res.status(401).json(error)
       );
       TestModel.findById(testId).then(test => {
         test.grades.push({
-         student,
+          student,
           teacher,
           grade,
           date: Date.now()

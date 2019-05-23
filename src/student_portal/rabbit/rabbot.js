@@ -26,7 +26,7 @@ rabbit
       {
         exchange: "ex.1",
         target: "student_portal_queue",
-        keys: ["studentRegistered", "studentGraded"]
+        keys: ["studentApproved", "studentGraded"]
       }
     ]
   })
@@ -37,7 +37,7 @@ rabbit
   })
   .catch(error => console.log("Rabbot connect error: " + error));
 
-rabbit.handle("studentRegistered", msg => {
+rabbit.handle("studentApproved", msg => {
   new student(msg.body)
     .save()
     .then(() => msg.ack())
@@ -45,10 +45,18 @@ rabbit.handle("studentRegistered", msg => {
 });
 
 rabbit.handle("studentGraded", msg => {
+  console.log(msg.body);
+  console.log(msg.body._id);
+  test.findByIdAndDelete(msg.body._id).catch(err => {
+    console.log(err);
+  });
   new test(msg.body)
     .save()
     .then(() => msg.ack())
-    .catch(err => msg.nack());
+    .catch(err => {
+      console.log(err);
+      msg.nack();
+    });
 });
 
 module.exports = rabbit;
