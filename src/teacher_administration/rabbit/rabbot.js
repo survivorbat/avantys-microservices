@@ -1,5 +1,4 @@
 const rabbit = require("rabbot");
-const Teacher = require("../model/teacher").Teacher;
 
 rabbit
   .configure({
@@ -25,7 +24,7 @@ rabbit
       {
         exchange: "ex.1",
         target: "teacher_administration_queue",
-        keys: ["teacherRegistered"]
+        keys: []
       }
     ]
   })
@@ -35,14 +34,5 @@ rabbit
     console.log("Rabbot subscribed.");
   })
   .catch(error => console.log("Rabbot connect error: " + error));
-
-rabbit.handle("teacherRegistered", msg => {
-  console.log(msg.body);
-
-  new Teacher(msg.body)
-    .save()
-    .then(() => msg.ack())
-    .catch(err => msg.nack());
-});
 
 module.exports = rabbit;
