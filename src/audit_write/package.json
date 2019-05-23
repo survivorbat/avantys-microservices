@@ -11,14 +11,14 @@
   "license": "ISC",
   "dependencies": {
     "amqplib": "^0.5.3",
-    "express": "^4.17.0",
-    "mongoose": "^5.5.10",
+    "express": "^4.16.4",
+    "mongoose": "^5.5.7",
     "mongoose-amqp-plugin": "^0.1.2",
     "morgan": "^1.9.1",
-    "prettier": "^1.17.1",
+    "prettier": "^1.17.0",
     "rabbot": "^2.1.0",
     "swagger-jsdoc": "^3.2.9",
-    "swagger-ui-express": "^4.0.4"
+    "swagger-ui-express": "^4.0.2"
   },
   "devDependencies": {
     "nodemon": "^1.19.0"

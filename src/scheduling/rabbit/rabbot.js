@@ -27,7 +27,7 @@ rabbit
       {
         exchange: "ex.1",
         target: "scheduling_queue",
-        keys: ["moduleCreated", "teacherRegistered", "testCreated"]
+        keys: ["moduleRegistered", "teacherRegistered", "testCreated"]
       }
     ]
   })
@@ -38,7 +38,8 @@ rabbit
   })
   .catch(error => console.log("Rabbot connect error: " + error));
 
-rabbit.handle("moduleCreated", msg => {
+rabbit.handle("moduleRegistered", msg => {
+  console.log(msg.body);
   new Module(msg.body)
     .save()
     .then(() => msg.ack())

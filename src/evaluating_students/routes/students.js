@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const GradeModel = require("../model/grade").GradeModel;
-const StudentModel = require("../model/student").StudentModel;
-const TeacherModel = require("../model/teacher").TeacherModel;
+const StudentModel = require("../model/student").Student;
+const TeacherModel = require("../model/teacher").Teacher;
 const TestModel = require("../model/test").TestModel;
 
 /**
@@ -67,7 +67,7 @@ router
       return res.sendStatus(400);
     }
 
-    const student = new StudentModel({ firstName, lastName }, {});
+    const student = new Student({ firstName, lastName }, {});
 
     student
       .save()

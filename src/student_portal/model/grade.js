@@ -1,4 +1,4 @@
-const mongoose = require("../db");
+const mongoose = require("../config/db");
 const Schema = mongoose.Schema;
 const StudentSchema = require("./student").studentSchema;
 const TeacherSchema = require("./teacher").TeacherSchema;

@@ -18,11 +18,17 @@ const swaggerOptions = {
   swaggerDefinition: {
     info: {
       title: "Student Evaluation",
-      description: "The API of the student evaluation"
+      description: "The API of the student evaluation",
+      produces: ["application/json"],
+      schemes: ["https"]
     },
     host: process.env.SWAGGER_BASE_URL
   },
-  apis: ["/app/router.js"]
+  apis: [
+    "/app/routes/students.js",
+    "/app/routes/teachers.js",
+    "/app/routes/tests.js"
+  ]
 };
 
 app.use(logger("dev"));
@@ -39,8 +45,8 @@ app.use(
 );
 
 app.use("/api/v1/evaluating_students/tests", testsRoute);
-// app.use("/api/v1/evaluating_students/teachers", teachersRoute);
-// app.use("/api/v1/evaluating_students/students", studentsRoute);
+app.use("/api/v1/evaluating_students/teachers", teachersRoute);
+app.use("/api/v1/evaluating_students/students", studentsRoute);
 app.use("/api/v1/evaluating_students/rabbit", rabbitRoute);
 
 app.listen(port, () =>

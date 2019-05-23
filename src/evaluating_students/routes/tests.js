@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const GradeModel = require("../model/grade").GradeModel;
-const StudentModel = require("../model/student").StudentModel;
+const StudentModel = require("../model/student").Student;
 const TeacherModel = require("../model/teacher").TeacherModel;
 const TestModel = require("../model/test").TestModel;
 const rabbit = require("../rabbit/rabbot");
@@ -88,29 +88,150 @@ router
       .catch(() => res.sendStatus(500))
   );
 
+/**
+ * @swagger
+ * /tests/{_id}/enroll-student:
+ *    post:
+ *      summary: Add student to test
+ *      description: add student to test
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *      - name: _id
+ *        description: The id of the test
+ *        required: true
+ *        in: path
+ *        type: string
+ *      - name: studentId
+ *        description: The student's id
+ *        required: true
+ *        in: formData
+ *        type: string
+ *      responses:
+ *        201:
+ *          description: Return test
+ *        400:
+ *          description: Something unexpected went wrong
+ */
 router
-  .route("/:id/enroll-student")
-  .post(({ body: { firstName, lastName }, params: { id } }, res) => {
-    if (!id || !firstName || !lastName) {
+  .route("/:_id/enroll-student")
+  .post(async ({ body: { studentId}, params: { _id } }, res) => {
+    if (!_id || !studentId) {
       return res.sendStatus(400);
     }
-
-    TestModel.findById(id).then(test => {
-      test.enrolledStudents.push({ firstName, lastName });
+    const student = await StudentModel.findOne({ _id: studentId }).catch(error =>
+      res.status(401).json(error)
+    );
+    TestModel.findById(_id).then(test => {
+      test.enrolledStudents.push(student);
       test
         .save()
-        .then(savedtest => res.json(201, savedtest))
+        .then(savedtest => res.status(201).json(savedtest))
         .catch(err => res.sendStatus(500));
     });
   });
 
+    /**
+ * @swagger
+ * /tests/{_id}:
+ *    post:
+ *      summary: Add student to participated list
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *      - name: _id
+ *        description: The id of the test
+ *        required: true
+ *        in: path
+ *        type: string
+ *      - name: studentId
+ *        description: The student's id
+ *        required: true
+ *        in: formData
+ *        type: string
+ *      responses:
+ *        201:
+ *          description: Return test
+ *        400:
+ *          description: Something unexpected went wrong
+ */
+
+  router
+  .route("/:testId")
+  .post(async (
+      {
+        params: { testId },
+        body: { studentId }
+      },
+      res
+    ) => {
+      if (
+        !testId ||
+        !studentId
+      ) {
+        return res.sendStatus(400);
+      }
+      const student = await StudentModel.findOne({ _id: studentId }).catch(error =>
+        res.status(401).json(error)
+      );
+      TestModel.findById(testId).then(test => {
+        test.participatedStudents.push(student);
+        test
+          .save()
+          .then(savedtest => {
+            rabbit.publish("ex.1", {
+              routingKey: "studentExamined",
+              type: "studentExamined",
+              body: savedtest
+            });
+            res.status(201).json(savedtest);
+          })
+          .catch(err => res.status(500).send(err));
+      });
+    }
+  );
+
+  /**
+ * @swagger
+ * /tests/{_id}/student/{studentId}:
+ *    post:
+ *      summary: Grade student
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *      - name: _id
+ *        description: The id of the test
+ *        required: true
+ *        in: path
+ *        type: string
+ *      - name: studentId
+ *        description: The student's id
+ *        required: true
+ *        in: path
+ *        type: string
+ *      - name: grade
+ *        description: The grade of the student
+ *        required: true
+ *        in: formData
+ *        type: number
+  *      - name: teacherId
+ *        description: The teacher that graded the student
+ *        required: true
+ *        in: formData
+ *        type: string
+ *      responses:
+ *        201:
+ *          description: Return graded test
+ *        400:
+ *          description: Something unexpected went wrong
+ */
+
 router
   .route("/:testId/student/:studentId")
-  .post(
-    (
+  .post(async (
       {
         params: { testId, studentId },
-        body: { grade, teacherFirstName, teacherLastName }
+        body: { grade, teacherId }
       },
       res
     ) => {
@@ -118,23 +239,20 @@ router
         !testId ||
         !studentId ||
         !grade ||
-        !teacherFirstName ||
-        !teacherLastName
+        !teacherId
       ) {
         return res.sendStatus(400);
       }
-
+      const student = await StudentModel.findOne({ _id: studentId }).catch(error =>
+        res.status(401).json(error)
+      );
+      const teacher = await TeacherModel.findOne({ _id: teacherId }).catch(error =>
+        res.status(401).json(error)
+      );
       TestModel.findById(testId).then(test => {
-        const { firstName, lastName } = test.enrolledStudents.id(studentId);
         test.grades.push({
-          student: {
-            firstName,
-            lastName
-          },
-          teacher: {
-            firstName: teacherFirstName,
-            lastName: teacherLastName
-          },
+         student,
+          teacher,
           grade,
           date: Date.now()
         });
