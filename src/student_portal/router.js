@@ -255,15 +255,44 @@ router.get("/grades/:_id", ({ params: { _id } }, res) => {
       tests.forEach((test, index) => {
         // console.log(test.grades[0].student)
         test.grades.forEach((grade, index) => {
+          console.log("foreach")
           console.log(grade.student.id)
           console.log(_id)
+          if (grade.student.id != null) {
           if(grade.student.id == _id) {
+            console.log("if")
             console.log(_id)
             result.push(grade)
           }
+        }
         })
       })
       res.status(200).json(result);
+    })
+    .catch(error => res.status(401).json(error));
+});
+
+/**
+ * @swagger
+ * /grades:
+ *    get:
+ *      summary: Return list of students
+ *      produces:
+ *        - application/json
+ *      responses:
+ *        201:
+ *          description: Return created students
+ *        400:
+ *          description: Something unexpected went wrong
+ */
+
+router.get("/grades", (req, res) => {
+  Test.find()
+    .then(students => {
+      if (students == null || students == []) {
+        res.status(200).json({ message: "no students found" });
+      }
+      res.status(200).json(students);
     })
     .catch(error => res.status(401).json(error));
 });

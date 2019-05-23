@@ -26,7 +26,7 @@ rabbit
       {
         exchange: "ex.1",
         target: "evaluating_students_queue",
-        keys: ["studentRegistered", "studentExamined", "studentGraded"]
+        keys: ["studentApproved", "studentExamined", "studentGraded"]
       }
     ]
   })
@@ -37,7 +37,7 @@ rabbit
   })
   .catch(error => console.log("Rabbot connect error: " + error));
 
-rabbit.handle("studentRegistered", msg => {
+rabbit.handle("studentApproved", msg => {
   console.log(msg.body);
 
   new student(msg.body)
